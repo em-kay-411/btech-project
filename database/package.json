@@ -18,6 +18,7 @@
   "homepage": "https://github.com/em-kay-411/btech-project#readme",
   "dependencies": {
     "axios": "^1.6.7",
-    "cheerio": "^1.0.0-rc.12"
+    "cheerio": "^1.0.0-rc.12",
+    "mongoose": "^8.2.0"
   }
 }
