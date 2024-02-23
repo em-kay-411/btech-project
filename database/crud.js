@@ -1,5 +1,6 @@
 const Station = require('./models/station');
 const Bus = require('./models/bus');
+const fs = require('fs');
 
 const checkRoute = async (route) => {
     if (route.length == 0) {
@@ -168,7 +169,39 @@ const deleteStationById = async(id) => {
     await stationObj.deleteOne();
 }
 
+const breadthFirstSearch = async (source, destination) => {
+    const json = await fs.promises.readFile('./prep/stationConnections.json', 'utf8');
+    const data = JSON.parse(json);
+
+    const queue = [];
+    queue.push([source, [source]]);
+
+    while(queue.length > 0){
+        const [current, path] = queue.shift();
+        
+        if(current === destination){
+            return path;
+        }
+
+        const neighbours = data[current];
+        for(const neighbour of neighbours){
+            if(!path.includes(neighbour)){
+                queue.push([neighbour, [...path, neighbour]]);
+            }
+        }
+    }
+
+    return null;
+}
+
+const findRoute = async (source, destination) => {
+    const route = await breadthFirstSearch(source, destination);
+    console.log(route);
+    return route;
+}
+
 module.exports = {
+    findRoute,
     insertNewStationByIdOfRoutes,
     insertNewStationByNameOfRoutes,
     insertNewBusOnExistingRouteByName,
