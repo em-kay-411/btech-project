@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const { findRoute,
+const { findOptions,
     insertNewStationByIdOfRoutes,
     insertNewStationByNameOfRoutes,
     insertNewBusOnExistingRouteByName,
@@ -15,7 +15,9 @@ const main = async() => {
     });
 
     const route = ["Shivajinagar", "C.O.E.P.Hostel (Towards Shivaji Maharaj Road)", "Chhatrapati Shivaji Maharaj Putala Ma.Na.Pa.", "Manapa Bhavan - Dengle Pul"];
-    findRoute('Shivajinagar', 'Manapa Bhavan - Dengle Pul');
+    // insertNewBusOnExistingRouteByName('6540', ["Shivajinagar", "C.O.E.P.Hostel (Towards Shivaji Maharaj Road)"]);
+    findOptions('Shivajinagar', 'Manapa Bhavan - Dengle Pul');
+    // deleteBus('6541');
 }
 
 main();

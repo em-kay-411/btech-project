@@ -97,16 +97,16 @@ const getStationIdsByName = async (stationNames) => {
     return stations;
 }
 
-const getStationIdByName = async(stationName) => {
-    const stationObj = await Station.findOne({name : stationName});
+const getStationIdByName = async (stationName) => {
+    const stationObj = await Station.findOne({ name: stationName });
     return stationObj._id;
 }
 
 const getBusIdsByNo = async (busesByNo) => {
     const buses = [];
-    for(let i=0; i<busesByNo.length; i++){
-        try{
-            const busObj = await Bus.findOne({ id : busesByNo[i] });
+    for (let i = 0; i < busesByNo.length; i++) {
+        try {
+            const busObj = await Bus.findOne({ id: busesByNo[i] });
             buses.push(busObj._id);
         } catch (err) {
             console.log(err);
@@ -114,57 +114,57 @@ const getBusIdsByNo = async (busesByNo) => {
     }
 }
 
-const insertNewStationByNameOfRoutes = async(name, neighbouringStations) => {
+const insertNewStationByNameOfRoutes = async (name, neighbouringStations) => {
     const neighbouring_stations = await getStationIdsByName(neighbouringStations);
-    const stationObj = new Station({ name : name, neighbouring_stations : neighbouring_stations});
+    const stationObj = new Station({ name: name, neighbouring_stations: neighbouring_stations });
     await stationObj.save();
 
-    for(let i=0; i<neighbouring_stations.length; i++){
-        try{
-            await Station.findByIdAndUpdate(neighbouring_stations[i], {$push : { neighbouring_stations : stationObj._id }});
-        } catch(err){
-            console.log(err);
-        } 
-    }
-}
-
-const insertNewStationByIdOfRoutes = async(name, neighbouring_stations) => {
-    const stationObj = new Station({ name : name, neighbouring_stations : neighbouring_stations});
-    stationObj.save();
-
-    for(let i=0; i<neighbouring_stations.length; i++){
-        try{
-            await Station.findByIdAndUpdate(neighbouring_stations[i], {$push : { neighbouring_stations : stationObj._id }});
-        } catch(err){
-            console.log(err);
-        }        
-    }
-}
-
-const deleteStationByName = async(stationName) => {
-    const stationObj = await Station.findOne({name : stationName});
-    const neighbours = stationObj.neighbouring_stations;
-
-    for(let i = 0; i<neighbours.length; i++){
-        try{
-            await Station.findByIdAndUpdate(neighbours[i], {$pull : {neighbouring_stations : stationObj._id}});
+    for (let i = 0; i < neighbouring_stations.length; i++) {
+        try {
+            await Station.findByIdAndUpdate(neighbouring_stations[i], { $push: { neighbouring_stations: stationObj._id } });
         } catch (err) {
             console.log(err);
-        }        
+        }
+    }
+}
+
+const insertNewStationByIdOfRoutes = async (name, neighbouring_stations) => {
+    const stationObj = new Station({ name: name, neighbouring_stations: neighbouring_stations });
+    stationObj.save();
+
+    for (let i = 0; i < neighbouring_stations.length; i++) {
+        try {
+            await Station.findByIdAndUpdate(neighbouring_stations[i], { $push: { neighbouring_stations: stationObj._id } });
+        } catch (err) {
+            console.log(err);
+        }
+    }
+}
+
+const deleteStationByName = async (stationName) => {
+    const stationObj = await Station.findOne({ name: stationName });
+    const neighbours = stationObj.neighbouring_stations;
+
+    for (let i = 0; i < neighbours.length; i++) {
+        try {
+            await Station.findByIdAndUpdate(neighbours[i], { $pull: { neighbouring_stations: stationObj._id } });
+        } catch (err) {
+            console.log(err);
+        }
     }
     await stationObj.deleteOne();
 }
 
-const deleteStationById = async(id) => {
+const deleteStationById = async (id) => {
     const stationObj = await Station.findById(id);
     const neighbours = stationObj.neighbouring_stations;
 
-    for(let i = 0; i<neighbours.length; i++){
-        try{
-            await Station.findByIdAndUpdate(neighbours[i], {$pull : {neighbouring_stations : stationObj._id}});
+    for (let i = 0; i < neighbours.length; i++) {
+        try {
+            await Station.findByIdAndUpdate(neighbours[i], { $pull: { neighbouring_stations: stationObj._id } });
         } catch (err) {
             console.log(err);
-        }        
+        }
     }
     await stationObj.deleteOne();
 }
@@ -173,35 +173,89 @@ const breadthFirstSearch = async (source, destination) => {
     const json = await fs.promises.readFile('./prep/stationConnections.json', 'utf8');
     const data = JSON.parse(json);
 
+    const paths = [];
+
     const queue = [];
+    const visited = new Set();
     queue.push([source, [source]]);
 
-    while(queue.length > 0){
+    while (queue.length > 0) {
         const [current, path] = queue.shift();
-        
-        if(current === destination){
-            return path;
-        }
 
+        if (current === destination) {
+            if (!paths.includes(path)) {
+                paths.push(path);
+            }
+        }
+        visited.add(current);
         const neighbours = data[current];
-        for(const neighbour of neighbours){
-            if(!path.includes(neighbour)){
+        for (const neighbour of neighbours) {
+            if (!visited.has(neighbour)) {
                 queue.push([neighbour, [...path, neighbour]]);
             }
         }
     }
 
-    return null;
+    // console.log(paths);
+
+    return paths;
 }
 
 const findRoute = async (source, destination) => {
-    const route = await breadthFirstSearch(source, destination);
-    console.log(route);
-    return route;
+    const possibleRoutes = await breadthFirstSearch(source, destination);
+    return possibleRoutes;
+}
+
+function intersection(arr1, arr2) {
+    return arr1.filter(value => arr2.includes(value));
+}
+
+const getCommonBuses = async (source, destination) => {
+    const sourceObj = await Station.findOne({ name: source });
+    const destinationObj = await Station.findOne({ name: destination });
+    const buses = intersection(sourceObj.buses, destinationObj.buses);
+    return buses;
+}
+
+const getPathGuide = async (route) => {
+    let source = 0;
+    let destination = route.length - 1;
+    let currentDestination = destination;
+    const pathGuide = [];
+
+    while (source != destination && source != currentDestination) {
+        const buses = await getCommonBuses(route[source], route[currentDestination]);
+        if (buses.length > 0) {
+            pathGuide.push({source : route[source], destination : route[currentDestination], buses: buses});
+            source = currentDestination;
+            currentDestination = destination;
+        }
+        else{
+            currentDestination = currentDestination - 1;
+        }
+    }
+
+    return pathGuide;
+}
+
+const findOptions = async (source, destination) => {
+    const possibleRoutes = await findRoute(source, destination);
+    const options = [];             // Will contain [[source, destination, [buses]]]
+    const set = new Set();
+    for (let i = 0; i < possibleRoutes.length; i++) {
+        const pathGuide = await getPathGuide(possibleRoutes[i]);
+        if(pathGuide.length > 0 && !set.has(pathGuide.length)){
+            options.push(pathGuide);
+            set.add(pathGuide.length);
+        }        
+    }
+
+    console.log(options);
+    return options;
 }
 
 module.exports = {
-    findRoute,
+    findOptions,
     insertNewStationByIdOfRoutes,
     insertNewStationByNameOfRoutes,
     insertNewBusOnExistingRouteByName,
