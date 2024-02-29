@@ -56,6 +56,7 @@ const insertNewBusOnExistingRouteByName = async (id, routeByName) => {
         await busObj.save();
 
         for (let i = 0; i < route.length; i++) {
+            console.log(`Adding bus ${id} to ${route[i]}`);
             await Station.findByIdAndUpdate(route[i], { $push: { buses: busObj._id } });
         }
 
@@ -64,6 +65,11 @@ const insertNewBusOnExistingRouteByName = async (id, routeByName) => {
 
         console.log(err);
     }
+}
+
+const updateExistingBusRoute = async(id, routeByName) => {
+    deleteBus(id);
+    insertNewBusOnExistingRouteByName(id, routeByName);
 }
 
 const deleteBus = async (id) => {
@@ -240,13 +246,11 @@ const getPathGuide = async (route) => {
 
 const findOptions = async (source, destination) => {
     const possibleRoutes = await findRoute(source, destination);
-    const options = [];             // Will contain [[source, destination, [buses]]]
-    const set = new Set();
+    const options = [];             // Will contain [{source, destination, [buses]}]
     for (let i = 0; i < possibleRoutes.length; i++) {
         const pathGuide = await getPathGuide(possibleRoutes[i]);
-        if(pathGuide.length > 0 && !set.has(pathGuide.length)){
+        if(pathGuide.length > 0 && !options.some(opt => JSON.stringify(opt) === JSON.stringify(pathGuide))){ // Check if pathGuide is not present in the options array
             options.push(pathGuide);
-            set.add(pathGuide.length);
         }        
     }
 
@@ -260,6 +264,7 @@ module.exports = {
     insertNewStationByNameOfRoutes,
     insertNewBusOnExistingRouteByName,
     insertNewBusOnExistingRouteById,
+    updateExistingBusRoute,
     deleteBus,
     deleteStationByName,
     deleteStationById
