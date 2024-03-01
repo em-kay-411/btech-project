@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dummy Bus Tracking Device using Phone</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 20px;
+        }
+
+        #map {
+            height: 400px;
+            width: 100%;
+        }
+
+        button{
+            position: relative;
+            left: 50%;
+            transform: translate(-50%, 0);
+            display: flex;
+            margin: 20px;
+            flex-direction: row;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>Live Location Tracker</h1>
+    <p>Click below to use this as a dummy bus tracking NodeMCU device</p>
+
+    <input type="text" name="busID" id="busID" placeholder="Enter the dummy bus ID">
+
+    <button onclick="getLocation()">Enable Location Tracking</button>
+    <button id="subscribe" onclick="subscribeTo()">Get Dummy Bus Location</button>
+
+    <div>
+        <h3>
+            Location of the Dummy Bus
+        </h3>
+        <div id="location"></div>
+    </div>
+    
+
+    <div>
+        <h3>This device's location</h3>
+        <div id="map">
+            
+        </div>
+    </div>
+    
+
+    <script src="https://unpkg.com/mqtt/dist/mqtt.min.js"></script>
+    <script src="index.js"></script>
+</body>
+
+</html>

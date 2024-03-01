@@ -216,11 +216,17 @@ function intersection(arr1, arr2) {
     return arr1.filter(value => arr2.includes(value));
 }
 
+const populateBusesData = async(buses) =>{
+    const docs = await Bus.find({ _id : { $in : buses}});
+    return docs.map(bus => bus.toJSON());
+}
+
 const getCommonBuses = async (source, destination) => {
     const sourceObj = await Station.findOne({ name: source });
     const destinationObj = await Station.findOne({ name: destination });
     const buses = intersection(sourceObj.buses, destinationObj.buses);
-    return buses;
+    const busObjects = populateBusesData(buses);
+    return busObjects;
 }
 
 const getPathGuide = async (route) => {
