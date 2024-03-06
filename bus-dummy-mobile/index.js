@@ -1,6 +1,6 @@
 const options = { enableHighAccuracy: true, timeout: 5000, maximumAge: 0 };
 const busIDElement = document.getElementById('busID');
-const brokerURL = 'ws://localhost:9001/';
+const brokerURL = 'ws://10.1.150.196:9001/';
 const mapDiv = document.getElementById("map");
 const subscribeButton = document.getElementById('subscribe');
 let prevLatitude;

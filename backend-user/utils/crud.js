@@ -1,5 +1,5 @@
-const Station = require('./models/station');
-const Bus = require('./models/bus');
+const Station = require('../models/station');
+const Bus = require('../models/bus');
 const fs = require('fs');
 
 const checkRoute = async (route) => {
@@ -176,7 +176,7 @@ const deleteStationById = async (id) => {
 }
 
 const breadthFirstSearch = async (source, destination) => {
-    const json = await fs.promises.readFile((__dirname + '/prep/stationConnections.json'), 'utf8');
+    const json = await fs.promises.readFile('stationConnections.json', 'utf8');
     const data = JSON.parse(json);
 
     const paths = [];
