@@ -1,5 +1,41 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&family=The+Girl+Next+Door&display=swap');
 .App {
   height: 100vh;
-  text-align: center;
-  background-color: rgb(255, 210, 128);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgb(255, 208, 121);
+}
+
+#form{
+  border-radius: 30px;
+  width: 50vw;
+  height: 50vh;
+  background-color: rgb(255, 247, 231);
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.12), 0 1px 4px rgba(0, 0, 0, 0.24);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.text{
+  width: 50%;
+  margin-bottom : 20px;
+}
+
+#findButton{
+  color: white;
+  background: orange;
+  font-family: "Nunito Sans", sans-serif;
+}
+
+@media only screen and (max-width: 767px){
+  #form{
+    width: 80vw;
+  }
+
+  .text{
+    width: 70%;
+  }
 }

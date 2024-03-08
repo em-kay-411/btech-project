@@ -31,27 +31,42 @@ const addToDatabase = async () => {
 
 }
 
+const getArray = async () => {
+    const data = await fs.promises.readFile('stations.txt', 'utf8');
+    const stationNames = data.split('\n');
+    
+    console.log('[');
+
+    for(let i=0; i<stationNames.length; i++){
+        console.log(`'` + stationNames[i] + `'` + ',');
+    }
+
+    console.log(']');
+}
+
 const main = async () => {
-    await mongoose.connect('mongodb://localhost:27017/btech-project', {
-        useNewUrlParser: true,
-        useUnifiedTopology: true,
-    });
+    // await mongoose.connect('mongodb://localhost:27017/btech-project', {
+    //     useNewUrlParser: true,
+    //     useUnifiedTopology: true,
+    // });
 
-    fs.readFile('stationConnections.json', 'utf8', (err, data) => {
-        if (err) {
-            console.log('error reading json');
-            return;
-        }
+    // fs.readFile('stationConnections.json', 'utf8', (err, data) => {
+    //     if (err) {
+    //         console.log('error reading json');
+    //         return;
+    //     }
 
-        try {
-            json = JSON.parse(data);
-            addToDatabase(json).then(console.log('Connections added to database successfully'));
-        } catch (error) {
-            console.log(error);
-        }
-    })
+    //     try {
+    //         json = JSON.parse(data);
+    //         addToDatabase(json).then(console.log('Connections added to database successfully'));
+    //     } catch (error) {
+    //         console.log(error);
+    //     }
+    // })
 
     // console.log(json);
+
+    getArray();
 
 
 }
