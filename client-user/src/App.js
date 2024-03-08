@@ -1,26 +1,50 @@
 import './App.css';
-import { Autocomplete, TextField, Button } from '@mui/material';
 import { useEffect, useRef, useState } from 'react';
-import allStations from './stations'
 import Form from './components/Form';
+import Map from './components/Map';
 
 function App() {
-  const [page, setPage] = useState('form');
   const [isVisible, setIsVisible] = useState(true);
-  const [positionX, setPositionX] = useState(0);
-  const [positionY, setPositionY] = useState(0);
+  const [swipeDirection, setSwipeDirection] = useState(true);
+  const [formPosition, setFormPosition] = useState(0);
+  const [mapPosition, setMapPosition] = useState(0);
   const app = useRef(null);
 
   const handleMouseMove = (event) => {
     event.preventDefault();
     const deltaX = event.deltaX;
-    const deltaY = event.deltaY;
     // console.log(deltaX);
-    if(Math.abs(deltaX) > Math.abs(deltaY)){
-      setPositionX(positionX - (deltaX * 0.08));
+
+    if(swipeDirection && deltaX > 0){
+      setFormPosition(formPosition - (deltaX * 0.08));
+      
+      if(Math.abs(formPosition) > 5){
+        setIsVisible(false);
+        setTimeout(() => {
+          setSwipeDirection(false);
+        }, 1000)
+      }
+      else{
+        setTimeout(() => {
+          setFormPosition(0);          
+        }, 1000)
+      }
     }
-    else{
-      setPositionY(positionY - (deltaY * 0.08));
+    
+    if(!swipeDirection && deltaX < 0){
+      setMapPosition(mapPosition - (deltaX * 0.08));
+
+      if(Math.abs(mapPosition) > 5){
+        setIsVisible(true);
+        setTimeout(() => {
+          setSwipeDirection(true);
+        }, 1000)
+      }
+      else{
+        setTimeout(() => {
+          setMapPosition(0);          
+        }, 1000)
+      }
     }
   }
 
@@ -34,12 +58,8 @@ function App() {
 
   return (
     <div className="App" ref={app}>
-    <Form visibility={isVisible} positionX={positionX} positionY={positionY}/>
-
-      <div className="map">
-        Map place
-      </div>
-
+      <Form visibility={isVisible} positionX={formPosition}/>
+      <Map visibility={!isVisible} positionX={mapPosition}/>
     </div>
   );
 }

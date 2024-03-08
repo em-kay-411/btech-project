@@ -8,10 +8,9 @@ function Form(props){
     const [destination, setDestination] = useState('');
     const visibility = props.visibility;
     const positionX = props.positionX;
-    const positionY = props.positionY;
 
     return (
-    <div className={`form ${visibility ? 'visible' : 'hidden'}`} id="form" style={{transform : `translate(${positionX}%, ${positionY}%)`}}>
+    <div className={`form ${visibility ? 'visible' : 'hidden'}`} id="form" style={{transform : `translate(${positionX}%, 0%)`}}>
         <Autocomplete
           className='text'
           disablePortal
