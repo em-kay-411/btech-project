@@ -1,37 +1,43 @@
 import './App.css';
 import { Autocomplete, TextField, Button } from '@mui/material';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import allStations from './stations'
+import Form from './components/Form';
 
 function App() {
-  const [source, setSource] = useState('');
-  const [destination, setDestination] = useState('');
+  const [page, setPage] = useState('form');
+  const [isVisible, setIsVisible] = useState(true);
+  const [positionX, setPositionX] = useState(0);
+  const [positionY, setPositionY] = useState(0);
+  const app = useRef(null);
+
+  const handleMouseMove = (event) => {
+    event.preventDefault();
+    const deltaX = event.deltaX;
+    const deltaY = event.deltaY;
+    // console.log(deltaX);
+    if(Math.abs(deltaX) > Math.abs(deltaY)){
+      setPositionX(positionX - (deltaX * 0.08));
+    }
+    else{
+      setPositionY(positionY - (deltaY * 0.08));
+    }
+  }
+
+  useEffect(() => {
+    app.current.addEventListener('wheel', handleMouseMove);
+
+    return () => {
+      app.current.removeEventListener('wheel', handleMouseMove);
+    }
+  })
 
   return (
-    <div className="App">
-      <div className="form" id="form">
-        <Autocomplete
-          className='text'
-          disablePortal
-          id="source-box"
-          options={allStations}
-          // sx={{ width: 30% }}
-          sx={{height: 60}}
-          renderInput={(params) => <TextField color='warning' {...params} label="source" onChange={(event) =>setSource(event.target.value) } />}
-        />
+    <div className="App" ref={app}>
+    <Form visibility={isVisible} positionX={positionX} positionY={positionY}/>
 
-        <Autocomplete
-          className='text'
-          disablePortal
-          id="destination-box"
-          options={allStations}
-          sx={{height: 60}}
-          renderInput={(params) => <TextField color='warning' {...params} label="destination" onChange={(event) =>setDestination(event.target.value) } />}
-        />
-
-        <Button id='findButton' variant="contained">
-          find buses
-        </Button>
+      <div className="map">
+        Map place
       </div>
 
     </div>
