@@ -7,9 +7,11 @@ function OptionCard(props) {
 
     return (
         <div className="option-card">
-            <DirectionsBusIcon />
-            <div className="changes-count">
-                buses to change: {numOfChanges}
+            <div className="bus-info">
+                <DirectionsBusIcon className='bus-icon' style={{fontSize : 60}} />
+                <div className="changes-count">
+                    {numOfChanges} bus(s) to change
+                </div>
             </div>
             {stations.map((transit, index) => {
                 console.log(transit.buses);

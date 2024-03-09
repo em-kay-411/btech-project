@@ -1,11 +1,26 @@
+.bus-info{
+    width: 30%;
+    align-items: center;
+    text-align: center;
+}
+
 .option-card{
     align-items: center;
     width: 100%;
     display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+}
+
+.transit-card{
+    display: flex;
     flex-direction: column;
+    text-align: center;
+    align-items: center;
 }
 
 .buses-to-display{    
+    width: 100%;
     display: flex;    
     flex-direction: row;
     justify-content: space-evenly;

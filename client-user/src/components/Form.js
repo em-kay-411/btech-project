@@ -10,7 +10,8 @@ function Form(props) {
     const [source, setSource] = useState('');
     const [destination, setDestination] = useState('');
     const [options, setOptions] = useState([]);
-    const visibility = props.visibility;
+    const [isSidePanelVisible, setIsSidePanelVisible] = useState(false);
+    const [visibility, setIsVisibility] = useState(props.visibility);
     const positionX = props.positionX;
 
     const getOptions = async () => {
@@ -20,9 +21,11 @@ function Form(props) {
         }
 
         try {
-            const options = await axios.post(backendURL, requestBody);
+            const response = await axios.post(backendURL, requestBody);
             console.log(options);
-            setOptions(options);
+            setOptions(response.data.options);
+            setIsVisibility(false);
+            setIsSidePanelVisible(true);
         }
         catch (error) {
             console.log(error);
@@ -67,7 +70,7 @@ function Form(props) {
                     find buses
                 </Button>
             </div>
-            <SidePanel source={source} destination={destination} options={options}/>
+            <SidePanel visibility={isSidePanelVisible} source={source} destination={destination} options={options}/>
         </>
 
     )
