@@ -6,9 +6,13 @@ const findOptionsPOSTReq = async (req, res) => {
 
     console.log(source, destination);
 
-    const options = await findOptions(source, destination,);
-
-    res.status(200).json({options});
+    try{
+        const options = await findOptions(source, destination,);
+        res.status(200).json({options});
+    } catch(error){
+        res.status(500).json({message : error.message});
+    }
+    
 }
 
 module.exports = {

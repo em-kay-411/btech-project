@@ -2,10 +2,12 @@ const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
 const dotenv = require('dotenv');
+const cors = require('cors');
 const { findOptionsPOSTReq } = require('./controllers/user');
 const mongoose = require('mongoose');
 const BACKEND_USER_PORT = process.env.BACKEND_USER_PORT || 3050;
 
+app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 dotenv.config();

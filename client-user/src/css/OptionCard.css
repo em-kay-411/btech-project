@@ -1,0 +1,20 @@
+.option-card{
+    align-items: center;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.buses-to-display{    
+    display: flex;    
+    flex-direction: row;
+    justify-content: space-evenly;
+}
+
+.bus-number{
+    border-radius: 10%;
+    text-align: center;
+    width: 20%;
+    background-color: rgba(255, 166, 0, 0.742);
+    color: white;
+}
