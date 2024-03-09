@@ -76,9 +76,9 @@ function SidePanel(props) {
                     search nearby buses
                 </Button>
             </div>
-            <div className="loading-spinner">
-                {loading && (<Spinner />)}
-            </div>            
+            {/* <div className="loading-spinner"> */}
+            {loading && (<Spinner/>)}
+            {/* </div>             */}
             <div className="options">
                 {options.map((option, index) => {
                     return (

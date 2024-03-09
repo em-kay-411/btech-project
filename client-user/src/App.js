@@ -13,7 +13,7 @@ function App() {
   }
 
   const handleMouseMove = (event) => {
-    event.preventDefault();
+    // event.preventDefault();
     const deltaX = event.deltaX;
     // console.log(deltaX);
     handleDelta(deltaX);

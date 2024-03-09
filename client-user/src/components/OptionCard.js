@@ -1,5 +1,9 @@
 import '../css/OptionCard.css'
 import DirectionsBusIcon from '@mui/icons-material/DirectionsBus';
+import GpsFixedTwoToneIcon from '@mui/icons-material/GpsFixedTwoTone';
+import LocationOnTwoToneIcon from '@mui/icons-material/LocationOnTwoTone';
+import Divider from '@mui/material/Divider';
+
 
 function OptionCard(props) {
     const stations = props.buses;
@@ -16,8 +20,10 @@ function OptionCard(props) {
                 return (
                     <div key={index} className="transit-card">
                         <div className="buses-to-display">{transit.buses.map((element, i) => { return (<div key={i} className='bus-number'>{element.id}</div>) })}</div>
-                        <div className="source-name">{transit.source}</div>
-                        <div className="destination-name">{transit.destination}</div>
+                        <div className="transit-stations">
+                            <div className="source-name"> <GpsFixedTwoToneIcon fontSize='small' color='success'/>{transit.source}</div>
+                            <div className="destination-name"> <LocationOnTwoToneIcon fontSize='small' color='error'/>{transit.destination}</div>
+                        </div>
                     </div>
                 )
 
