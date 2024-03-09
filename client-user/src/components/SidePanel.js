@@ -5,14 +5,18 @@ import SearchIcon from '@mui/icons-material/Search';
 import allStations from '../stations'
 import OptionCard from './OptionCard';
 import axios from 'axios';
+import Spinner from './Spinner';
 
 function SidePanel(props) {
     const backendURL = 'http://localhost:3050'
-    const [source, setSource] = useState(props.source);
-    const [destination, setDestination] = useState(props.destination);
-    const [options, setOptions] = useState(props.options);
+    const [source, setSource] = useState('');
+    const [destination, setDestination] = useState('');
+    const [loading, setLoading] = useState(false);
+    const [options, setOptions] = useState([]);
 
     const getOptions = async () => {
+        setLoading(true);
+        setOptions([]);
         const requestBody = {
             source: source,
             destination: destination
@@ -22,9 +26,11 @@ function SidePanel(props) {
             const response = await axios.post(backendURL, requestBody);
             console.log(options);
             setOptions(response.data.options);
+            setLoading(false);
         }
         catch (error) {
             console.log(error);
+            setLoading(false);
         }
     }
 
@@ -38,35 +44,42 @@ function SidePanel(props) {
 
 
     return (
-        <>
-            <div className={`${props.visibility ? 'side-panel-visible' : 'side-panel-hidden'}`} id="side-panel">
-                <div className="side-panel-form">
-                    <Autocomplete
-                        className='side-panel-text'
-                        disablePortal
-                        id="side-panel-source-box"
-                        options={allStations}
-                        sx={{ height: 60 }}
-                        onChange={handleSourceChange}
-                        value={source}
-                        renderInput={(params) => <TextField color='warning' {...params} label="source" />}
-                    />
+        <div className='side-panel' id="side-panel">
+            <div className="side-panel-form">
+                <Autocomplete
+                    className='side-panel-text'
+                    disablePortal
+                    id="side-panel-source-box"
+                    options={allStations}
+                    sx={{ height: 60 }}
+                    onChange={handleSourceChange}
+                    value={source}
+                    renderInput={(params) => <TextField color='warning' {...params} label="source" />}
+                />
 
-                    <Autocomplete
-                        className='side-panel-text'
-                        disablePortal
-                        id="side-panel-destination-box"
-                        options={allStations}
-                        sx={{ height: 60 }}
-                        onChange={handleDestinationChange}
-                        value={destination}
-                        renderInput={(params) => <TextField color='warning' {...params} label="destination" />}
-                    />
+                <Autocomplete
+                    className='side-panel-text'
+                    disablePortal
+                    id="side-panel-destination-box"
+                    options={allStations}
+                    sx={{ height: 60 }}
+                    onChange={handleDestinationChange}
+                    value={destination}
+                    renderInput={(params) => <TextField color='warning' {...params} label="destination" />}
+                />
 
-                    <Button id='findButton' variant="contained" onClick={getOptions}>
-                        <SearchIcon />
-                    </Button>
-                </div>
+                <Button id='findButton' variant="contained" onClick={getOptions}>
+                    <SearchIcon /> find buses
+                </Button>
+
+                <Button id='findButton' variant="contained">
+                    search nearby buses
+                </Button>
+            </div>
+            <div className="loading-spinner">
+                {loading && (<Spinner />)}
+            </div>            
+            <div className="options">
                 {options.map((option, index) => {
                     return (
                         <OptionCard
@@ -81,7 +94,8 @@ function SidePanel(props) {
                     );
                 })}
             </div>
-        </>
+
+        </div>
     )
 }
 

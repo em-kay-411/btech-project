@@ -1,48 +1,15 @@
 import './App.css';
 import { useEffect, useRef, useState } from 'react';
-import Form from './components/Form';
+import SidePanel from './components/SidePanel';
 import Map from './components/Map';
 
 function App() {
-  const [isVisible, setIsVisible] = useState(true);
-  const [swipeDirection, setSwipeDirection] = useState(true);
-  const [formPosition, setFormPosition] = useState(0);
   const [mapPosition, setMapPosition] = useState(0);
   const [touchStartX, setTouchStartX] = useState(0);
   const app = useRef(null);
 
   const handleDelta = (deltaX) => {
-    if (swipeDirection && deltaX > 0) {
-      setFormPosition(formPosition - (deltaX * 0.08));
-
-      if (Math.abs(formPosition) > 5) {
-        setIsVisible(false);
-        setTimeout(() => {
-          setSwipeDirection(false);
-        }, 1000)
-      }
-      else {
-        setTimeout(() => {
-          setFormPosition(0);
-        }, 1000)
-      }
-    }
-
-    if (!swipeDirection && deltaX < 0) {
-      setMapPosition(mapPosition - (deltaX * 0.08));
-
-      if (Math.abs(mapPosition) > 5) {
-        setIsVisible(true);
-        setTimeout(() => {
-          setSwipeDirection(true);
-        }, 1000)
-      }
-      else {
-        setTimeout(() => {
-          setMapPosition(0);
-        }, 1000)
-      }
-    }
+    return
   }
 
   const handleMouseMove = (event) => {
@@ -80,8 +47,8 @@ function App() {
 
   return (
     <div className="App" ref={app}>
-      <Form visibility={isVisible} positionX={formPosition} />
-      <Map visibility={!isVisible} positionX={mapPosition} />
+      <SidePanel/>
+      <Map positionX={mapPosition} />
     </div>
   );
 }

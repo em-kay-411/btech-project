@@ -1,4 +1,5 @@
 #side-panel{
+    overflow-y: scroll;
     /* transition: opacity 0.5s ease; */
     box-shadow: 0 1px 6px rgba(0, 0, 0, 0.12), 0 1px 4px rgba(0, 0, 0, 0.24);
     background-color: rgb(255, 247, 231);
@@ -12,7 +13,15 @@
     left: 0vw;
 }
 
+#findButton {
+    margin-bottom: 5px;
+    color: white;
+    background: #ffa500;
+    font-family: "Nunito Sans", sans-serif;
+}
+
 .side-panel-form{
+    margin-top: 5%;
     width: 100%;
     top: 2%;
     right: 0;
@@ -21,6 +30,14 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;    
+}
+
+.loading-spinner{
+    position: absolute;
+}
+
+.options{
+    position: absolute;
 }
 
 .side-panel-text{
@@ -38,4 +55,20 @@
     height: 0;
     overflow: hidden;
     /* Hides the content when opacity is 0 */
+}
+
+@media only screen and (max-width: 767px){
+    #side-panel{
+        height: 50vh;
+        width: 100vw;
+        bottom: 0;
+    }
+
+    .options{
+        top: 60%;
+    }
+
+    .loading-spinner{
+        top: 60%;
+    }
 }
