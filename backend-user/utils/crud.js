@@ -256,7 +256,7 @@ const findOptions = async (source, destination) => {
     const options = [];             // Will contain [{source, destination, [buses]}]
     for (let i = 0; i < possibleRoutes.length; i++) {
         const pathGuide = await getPathGuide(possibleRoutes[i]);
-        if(pathGuide.length > 0 && !options.some(opt => JSON.stringify(opt) === JSON.stringify(pathGuide))){ // Check if pathGuide is not present in the options array
+        if(pathGuide.length > 0 && pathGuide[pathGuide.length - 1].destination === possibleRoutes[i][possibleRoutes[i].length - 1] && !options.some(opt => JSON.stringify(opt) === JSON.stringify(pathGuide))){ // Check if pathGuide is not present in the options array
             options.push(pathGuide);
         }        
     }

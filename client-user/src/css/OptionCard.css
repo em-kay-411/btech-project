@@ -31,6 +31,7 @@
     flex-direction: row;
     text-align: center;
     align-items: center;
+    border-radius: 15px;
     border-bottom: rgba(0, 0, 0, 0.329) 1px solid;
 }
 
