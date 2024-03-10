@@ -2,14 +2,6 @@ import './App.css';
 import { useEffect, useRef, useState } from 'react';
 import SidePanel from './components/SidePanel';
 import Map from './components/Map';
-import dotenv from 'dotenv';
-dotenv.config({
-  resolve : {
-    fallback : {
-      "crypto" : false
-    }
-  }
-});
 
 function App() {
   const [mapPosition, setMapPosition] = useState(0);

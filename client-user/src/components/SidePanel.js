@@ -6,9 +6,10 @@ import allStations from '../stations'
 import OptionCard from './OptionCard';
 import axios from 'axios';
 import Spinner from './Spinner';
+import env from "react-dotenv";
 
 function SidePanel(props) {
-    const backendURL = process.env.BACKEND_API_URL;
+    const backendURL = env.BACKEND_API_URL;
     const [source, setSource] = useState('');
     const [destination, setDestination] = useState('');
     const [loading, setLoading] = useState(false);
