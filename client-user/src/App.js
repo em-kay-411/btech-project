@@ -20,7 +20,7 @@ function App() {
   }
 
   const handleTouchMove = (event) => {
-    event.preventDefault();
+    // event.preventDefault();
     const touch = event.touches[0];
     const deltaX = touchStartX - touch.pageX;
     console.log(touchStartX);
