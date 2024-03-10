@@ -8,7 +8,7 @@ import axios from 'axios';
 import Spinner from './Spinner';
 
 function SidePanel(props) {
-    const backendURL = 'http://localhost:3050'
+    const backendURL = process.env.BACKEND_API_URL;
     const [source, setSource] = useState('');
     const [destination, setDestination] = useState('');
     const [loading, setLoading] = useState(false);

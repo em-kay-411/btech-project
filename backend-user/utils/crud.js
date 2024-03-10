@@ -176,7 +176,7 @@ const deleteStationById = async (id) => {
 }
 
 const breadthFirstSearch = async (source, destination) => {
-    const json = await fs.promises.readFile('stationConnections.json', 'utf8');
+    const json = await fs.promises.readFile(process.env.DATA_PATH, 'utf8');
     const data = JSON.parse(json);
 
     const paths = [];
