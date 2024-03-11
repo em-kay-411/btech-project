@@ -1,0 +1,23 @@
+.left-panel{
+    
+    top: 0;
+    width: 20%;
+    height: 70%;
+    left: 0;
+    position: fixed;
+    background-color: rgb(255, 247, 231);
+}
+
+.location-form{
+    margin-top: 5%;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;    
+}
+
+#findButton{
+    background: orange;
+    color: white;
+}

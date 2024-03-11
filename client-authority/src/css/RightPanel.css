@@ -1,0 +1,8 @@
+.right-panel{
+    top: 0;
+    width: 20%;
+    height: 70%;
+    right: 0;
+    position: fixed;
+    background-color: rgb(255, 247, 231);
+}
