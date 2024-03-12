@@ -1,0 +1,27 @@
+.station-with-plus{
+    /* width: 1 */
+    margin: 15px;
+    /* background-color: black; */
+    display: flex;
+    flex-direction: row;
+}
+
+.station-action{
+    justify-content: space-evenly;
+    display: flex;
+    flex-direction: column;
+}
+
+.action-icon{
+    border-radius: 50%;
+    background-color: grey;
+    height: 25px;
+    width: 25px;
+}
+
+.action-icon :hover{
+    cursor: pointer;
+    color: orange;
+    background-color: black;
+    border-radius: 50%;
+}

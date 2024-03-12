@@ -1,9 +1,9 @@
 import '../css/FootPanel.css'
 import { Autocomplete, TextField, Button } from '@mui/material';
 import { useState } from 'react';
-import StationAutocomplete from './StationAutocomplete';
+import RouteArray from './RouteArray';
 
-function FootPanel () {
+function FootPanel() {
 
     const [bus, setBus] = useState('');
     const [route, setRoute] = useState([]);
@@ -17,13 +17,14 @@ function FootPanel () {
             Update/Add Bus Route
 
             <TextField
-                    color='warning'
-                    label='location'
-                    onChange={handleBusChange}
-                    value={bus}
-                />
-            <StationAutocomplete/>
-            <StationAutocomplete/>
+                className='bus-number-text'
+                color='warning'
+                label='bus number'
+                onChange={handleBusChange}
+                value={bus}
+            />
+            
+            <RouteArray/>
         </div>
     )
 }

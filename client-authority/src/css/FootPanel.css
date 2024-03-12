@@ -1,4 +1,9 @@
 .foot-panel{
+    overflow-y: scroll;
+    display: flex;
+    flex-direction: column;
+    /* justify-content: center; */
+    align-items: center;
     padding: 10px;
     font-family: "Nunito Sans", sans-serif;
     text-align: center;
@@ -8,4 +13,17 @@
     position: fixed;
     bottom: 0;
     background-color: rgb(255, 247, 231);
+}
+
+.bus-number-text{
+    width: 10%;
+}
+
+.route-array{
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    flex-direction: row;
+    width: 90%;
+    flex-wrap: wrap;
 }
