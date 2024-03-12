@@ -6,6 +6,8 @@ const TWILIO_ACCOUNT_SID = process.env.TWILIO_ACCOUNT_SID;
 const TWILIO_SERVICE_ID = process.env.TWILIO_SERVICE_SID;
 const client = twilio(TWILIO_ACCOUNT_SID, TWILIO_ACCOUNT_AUTH_TOKEN);
 
+const users = [];
+
 const verifyAdmin = async (req, res) => {
     const mobileNo = req.body.mobileNo;
     try{
@@ -31,12 +33,15 @@ const verificationCheck = async(req, res) => {
             .then(verification_check => console.log(verification_check.status));
         
         res.status(200).json({message : 'Successful authentication'});
+        users.push(mobileNo);
     }
     catch(err){
         res.status(500).json({message : err.message});
     }
    
 }
+
+// For every new route, send mobile no or hash it to a cookie with every request as it serves authentication
 
 module.exports = {
     verifyAdmin,
