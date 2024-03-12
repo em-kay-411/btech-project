@@ -1,7 +1,7 @@
 import '../css/Auth.css'
 import { useState } from 'react';
 import { TextField, Button, Snackbar, Link } from '@mui/material';
-import { Route } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 import env from 'react-dotenv'
 import axios from 'axios';
 
@@ -57,7 +57,7 @@ function Auth() {
 
     return (
         <>
-            {status !== 'done' && (<div className="auth-container">
+            {status !== 'done' ? (<div className="auth-container">
                 <TextField
                     className='mobile-number'
                     color='warning'
@@ -91,7 +91,11 @@ function Auth() {
                         Verify
                     </Button>
                 )}
-            </div>)}
+            </div>) : (
+                <Navigate to='/dashboard' />
+            )
+
+            }
 
         </>
     );
