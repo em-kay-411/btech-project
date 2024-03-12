@@ -1,0 +1,11 @@
+.auth-container{
+    position: fixed;
+    background-color: white;
+    width: 60vw;
+    height: 60vh;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
