@@ -6,7 +6,6 @@ import RouteArray from './RouteArray';
 function FootPanel() {
 
     const [bus, setBus] = useState('');
-    const [route, setRoute] = useState([]);
 
     const handleBusChange = (event, value) => {
         setBus(value);

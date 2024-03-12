@@ -4,6 +4,7 @@ import RemoveIcon from '@mui/icons-material/Remove';
 import { useState } from "react";
 import allStations from '../stations';
 import '../css/RouteArray.css'
+import env from 'react-dotenv'
 
 function RouteArray() {
 
@@ -44,6 +45,9 @@ function RouteArray() {
     }
 
     const handleRemoveStation = (stationID) => {
+        if(stations.length <= 2){
+            return;
+        }
         const updatedArray = stations.filter((station) => station.id !== stationID);
 
         for(let i=0; i<updatedArray.length; i++){
