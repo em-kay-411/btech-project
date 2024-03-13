@@ -1,11 +1,14 @@
 import '../css/FootPanel.css'
-import { Autocomplete, TextField, Button } from '@mui/material';
+import { TextField } from '@mui/material';
 import { useState } from 'react';
 import RouteArray from './RouteArray';
+import CookieContext from '../CookieContext';
+import { useContext } from 'react';
 
 function FootPanel() {
 
     const [bus, setBus] = useState('');
+    const {cookie, setCookie} = useContext(CookieContext);
 
     const handleBusChange = (event, value) => {
         setBus(value);
@@ -14,7 +17,6 @@ function FootPanel() {
     return (
         <div className="foot-panel">
             Update/Add Bus Route
-
             <TextField
                 className='bus-number-text'
                 color='warning'

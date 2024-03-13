@@ -4,6 +4,8 @@ import { TextField, Button, Snackbar, Link } from '@mui/material';
 import { Navigate } from 'react-router-dom';
 import env from 'react-dotenv'
 import axios from 'axios';
+import CookieContext from '../CookieContext';
+import { useContext } from 'react';
 
 function Auth() {
     const backendURL = env.BACKEND_API_URL;
@@ -12,6 +14,7 @@ function Auth() {
     const [message, setMessage] = useState('');
     const [otp, setOTP] = useState('');
     const [open, setOpen] = useState(false);
+    const {cookie, setCookie} = useContext(CookieContext);
 
     const handleMobileNumberChange = (event) => {
         setMobileNumber(event.target.value);
@@ -40,7 +43,7 @@ function Auth() {
         const response = await axios.post(`${backendURL}/auth`, requestBody);
 
         response.status === 200 ? setStatus('pending') : setStatus('dormant');
-        setMessage(response.message);
+        setMessage(response.data.message);
     }
 
     const verificationCheck = async () => {
@@ -51,8 +54,14 @@ function Auth() {
         }
 
         const response = await axios.post(`${backendURL}/verifyOTP`, requestBody);
-        response.status === 200 ? setStatus('done') : setStatus('pending');
-        setMessage(response.message);
+        if(response.status === 200){
+            setMessage(response.data.message);
+            setCookie(response.data.cookie);
+            setStatus('done');
+        }
+        else{
+            setStatus('pending');
+        }
     }
 
     return (

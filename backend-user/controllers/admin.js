@@ -1,6 +1,7 @@
 const dotenv = require('dotenv');
 dotenv.config();
 const twilio = require('twilio');
+const crypto = require('crypto')
 const TWILIO_ACCOUNT_AUTH_TOKEN = process.env.TWILIO_ACCOUNT_AUTH_TOKEN;
 const TWILIO_ACCOUNT_SID = process.env.TWILIO_ACCOUNT_SID;
 const TWILIO_SERVICE_ID = process.env.TWILIO_SERVICE_SID;
@@ -32,8 +33,11 @@ const verificationCheck = async(req, res) => {
             .create({to: mobileNo, code: code})
             .then(verification_check => console.log(verification_check.status));
         
-        res.status(200).json({message : 'Successful authentication'});
-        users.push(mobileNo);
+        const cookie = crypto.createHash('md5').update(mobileNo).digest('hex');
+        console.log(cookie);
+        users.push(cookie);
+        res.status(200).json({cookie : cookie, message : 'Successful authentication'});
+        
     }
     catch(err){
         res.status(500).json({message : err.message});
