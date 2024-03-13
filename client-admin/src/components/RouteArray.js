@@ -1,14 +1,22 @@
-import { Autocomplete, TextField, Button } from '@mui/material';
+import { Autocomplete, TextField, Button, Snackbar } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
 import { useState } from "react";
 import allStations from '../stations';
+import axios from 'axios'
 import '../css/RouteArray.css'
 import env from 'react-dotenv'
 
-function RouteArray() {
-
+function RouteArray(props) {
+    const bus = props.bus;
+    const backendURL = env.BACKEND_API_URL;
     const [stations, setStations] = useState([{ id: 0, value:'' }, { id: 1, value:'' }]);
+    const [message, setMessage] = useState('');
+    const [open, setOpen] = useState(false);
+
+    const handleClose = (event, reason) => {
+        setOpen(false);
+    }
 
     const handleStationChange = (stationID, value) => {
         const idx = stations.findIndex(station => station.id === stationID);
@@ -59,6 +67,22 @@ function RouteArray() {
         setStations(updatedArray);
     }
 
+    const handleAddBus = async () => {
+        const route = [];
+        for(let i=0; i<stations.length; i++){
+            route.push(stations[i].value);
+        }
+
+        const requestBody = {
+            bus : bus,
+            route : route
+        }
+
+        const response = await axios.post(`${backendURL}/addBus`, requestBody);
+        setMessage(response.data.message);
+        setOpen(true);
+    }
+
     return (
         <div className="route-array">
             {stations.map(station => (
@@ -81,9 +105,16 @@ function RouteArray() {
                         <div className="action-icon" onClick={() => handleRemoveStation(station.id)}>
                             <RemoveIcon />
                         </div>
-                    </div>
-                </div>
+                    </div>                    
+                </div>                
             ))}
+            <Button onClick={handleAddBus}>add bus</Button>
+            <Snackbar
+                open={open}
+                autoHideDuration={5000}
+                onClose={handleClose}
+                message={message}
+            />
         </div>
     )
 }

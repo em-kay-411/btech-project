@@ -8,7 +8,7 @@ function LeftPanel() {
     const [location, setLocation] = useState('');
 
     const handleLocationChange = (event, value) => {
-        setLocation(value);
+        setLocation(event.target.value);
     }
 
     return (

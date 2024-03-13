@@ -1,7 +1,8 @@
 const dotenv = require('dotenv');
 dotenv.config();
 const twilio = require('twilio');
-const crypto = require('crypto')
+const crypto = require('crypto');
+const {insertNewBusOnExistingRouteByName} = require('../utils/crud')
 const TWILIO_ACCOUNT_AUTH_TOKEN = process.env.TWILIO_ACCOUNT_AUTH_TOKEN;
 const TWILIO_ACCOUNT_SID = process.env.TWILIO_ACCOUNT_SID;
 const TWILIO_SERVICE_ID = process.env.TWILIO_SERVICE_SID;
@@ -14,9 +15,10 @@ const verifyAdmin = async (req, res) => {
     try{
         client.verify.v2.services(TWILIO_SERVICE_ID)
         .verifications
-        .create({ to: mobileNo, channel: 'sms' });
-
-        res.status(200).json({message : 'OTP has been sent to the mobile number'});
+        .create({ to: mobileNo, channel: 'sms' })
+        .then(() => {
+            res.status(200).json({message : 'OTP has been sent to the mobile number'});
+        });        
     }
     catch(err){
         res.status(500).json({message : err.message});
@@ -31,13 +33,13 @@ const verificationCheck = async(req, res) => {
         client.verify.v2.services(TWILIO_SERVICE_ID)
             .verificationChecks
             .create({to: mobileNo, code: code})
-            .then(verification_check => console.log(verification_check.status));
-        
-        const cookie = crypto.createHash('md5').update(mobileNo).digest('hex');
-        console.log(cookie);
-        users.push(cookie);
-        res.status(200).json({cookie : cookie, message : 'Successful authentication'});
-        
+            .then(verification_check => console.log(verification_check.status))
+            .then(() => {
+                const cookie = crypto.createHash('md5').update(mobileNo).digest('hex');
+                console.log(cookie);
+                users.push(cookie);
+                res.status(200).json({cookie : cookie, message : 'Successful authentication'});
+            });       
     }
     catch(err){
         res.status(500).json({message : err.message});
@@ -45,9 +47,23 @@ const verificationCheck = async(req, res) => {
    
 }
 
+const addBus = async(req, res) => {
+    const bus = req.body.bus;
+    const route = req.body.route;
+
+    try{
+        await insertNewBusOnExistingRouteByName(bus, route);
+        res.status(200).json({message : 'Bus successfully entered'});
+    }
+    catch(err){
+        res.status(500).json({message : err.message});
+    }
+}
+
 // For every new route, send mobile no or hash it to a cookie with every request as it serves authentication
 
 module.exports = {
     verifyAdmin,
-    verificationCheck
+    verificationCheck,
+    addBus
 }

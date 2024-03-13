@@ -11,7 +11,7 @@ function FootPanel() {
     const {cookie, setCookie} = useContext(CookieContext);
 
     const handleBusChange = (event, value) => {
-        setBus(value);
+        setBus(event.target.value);
     }
 
     return (
@@ -25,7 +25,7 @@ function FootPanel() {
                 value={bus}
             />
             
-            <RouteArray/>
+            <RouteArray bus={bus}/>
         </div>
     )
 }
