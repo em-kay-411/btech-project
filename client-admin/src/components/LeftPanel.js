@@ -2,9 +2,9 @@ import '../css/LeftPanel.css'
 import { Autocomplete, TextField, Button } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import { useState } from 'react';
+import BusList from './BusList';
 
-function LeftPanel() {
-    
+function LeftPanel() {    
     const [location, setLocation] = useState('');
 
     const handleLocationChange = (event, value) => {
@@ -23,8 +23,9 @@ function LeftPanel() {
 
                 <Button id='findButton' variant="contained">
                     <SearchIcon /> find buses
-                </Button>
+                </Button>                
             </div>
+            <BusList/>
         </div>
     )
 }
