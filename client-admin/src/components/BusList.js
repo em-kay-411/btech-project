@@ -1,4 +1,5 @@
 import '../css/BusList.css'
+import {Snackbar} from '@mui/material';
 import { useEffect, useState } from "react";
 import mqtt from 'mqtt';
 import env from 'react-dotenv';
@@ -8,6 +9,12 @@ const client = mqtt.connect(brokerURL);
 
 function BusList() {
     const [busCards, setBusCards] = useState([]);
+    const [message, setMessage] = useState('');
+    const [open, setOpen] = useState(false);
+
+    const handleClose = (event, reason) => {
+        setOpen(false);
+    }
 
     useEffect(() => {
         const handleConnect = () => {
@@ -34,6 +41,8 @@ function BusList() {
                     client.subscribe(`location/${busID}`, () => {
                         console.log(`subscribed to bus location from ${busID}`);
                     });
+                    setMessage(`Bus ${busID} connected`);
+                    setOpen(true);
                 }
             }
 
@@ -70,6 +79,12 @@ function BusList() {
 
     return (
         <div className="bus-list">
+            <Snackbar
+                open={open}
+                autoHideDuration={5000}
+                onClose={handleClose}
+                message={message}
+            />
             {Object.keys(busCards).map((busID) => {
                 const { latitude, longitude, nextStation, previousStation, eta } = busCards[busID];
                 return (

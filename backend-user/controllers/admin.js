@@ -2,7 +2,7 @@ const dotenv = require('dotenv');
 dotenv.config();
 const twilio = require('twilio');
 const crypto = require('crypto');
-const {insertNewBusOnExistingRouteByName} = require('../utils/crud')
+const {insertNewBusOnExistingRouteByName, getBusRoute} = require('../utils/crud')
 const TWILIO_ACCOUNT_AUTH_TOKEN = process.env.TWILIO_ACCOUNT_AUTH_TOKEN;
 const TWILIO_ACCOUNT_SID = process.env.TWILIO_ACCOUNT_SID;
 const TWILIO_SERVICE_ID = process.env.TWILIO_SERVICE_SID;
@@ -60,10 +60,23 @@ const addBus = async(req, res) => {
     }
 }
 
+const getRouteForBus = async (req, res) => {
+    const bus = req.body.bus;
+
+    try{
+        const busRoute = await getBusRoute(bus);
+        res.status(200).json({route : busRoute});
+    }
+    catch(err){
+        res.status(500).json({message : err.message});
+    }
+}
+
 // For every new route, send mobile no or hash it to a cookie with every request as it serves authentication
 
 module.exports = {
     verifyAdmin,
     verificationCheck,
-    addBus
+    addBus,
+    getRouteForBus
 }

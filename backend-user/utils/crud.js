@@ -19,6 +19,21 @@ const checkRoute = async (route) => {
     return true;
 }
 
+const getBusRoute = async (busID) => {
+    try{
+        const busObj = await Bus.findOne({id : busID});
+        const route = [];
+        for(let i=0; i<busObj.route.length; i++){
+            const stationObj = await Station.findById(busObj.route[i]);
+            route.push(stationObj.name);
+        }
+
+        return route;
+    } catch(err){
+        console.log(err);
+    }
+}
+
 const insertNewBusOnExistingRouteById = async (id, route) => {
     if (!checkRoute(route)) {
         console.log('the root does not exist.. Try using another function to enter new route simultanoeusly');
@@ -267,6 +282,7 @@ const findOptions = async (source, destination) => {
 
 module.exports = {
     findOptions,
+    getBusRoute,
     insertNewStationByIdOfRoutes,
     insertNewStationByNameOfRoutes,
     insertNewBusOnExistingRouteByName,
