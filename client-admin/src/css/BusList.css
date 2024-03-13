@@ -1,0 +1,41 @@
+.busList{
+    overflow-y: scroll;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+}
+
+.bus-id{
+    position: relative;
+    left: 0.5%;
+    border-radius: 5px;
+    padding: 5px;
+    background-color: orange;
+    color: white;
+}
+
+.busCard{
+    border: rgb(244, 208, 155) 1px solid;
+    border-radius: 5px;
+    background-color: blanchedalmond;
+    justify-content: center;
+    align-items: center;
+    padding: 5px;
+    display: flex;
+    flex-direction: row;
+    margin: 5px 0;
+}
+
+.busCard :hover {
+    cursor: pointer;
+}
+
+.station-info{
+    padding: 10px;
+    font-size: 12px;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+}

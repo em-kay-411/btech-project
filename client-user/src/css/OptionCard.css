@@ -10,6 +10,7 @@
     border-radius: 15px;
     box-shadow: 0 1px 6px rgba(0, 0, 0, 0.12), 0 1px 4px rgba(0, 0, 0, 0.24);
     position: relative;
+    background-color: blanchedalmond;
     align-items: center;
     width: 100%;
     display: flex;

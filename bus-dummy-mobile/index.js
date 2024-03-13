@@ -77,8 +77,11 @@ const enableMQTT = () => {
 const updatePosition = async (position) => {
     const latitude = position.coords.latitude;
     const longitude = position.coords.longitude;
+    const nextStation = {name : 'COEP Hostel', latitude : 18.5287368, longitude : 73.8504897};
+    const previousStation = {name : 'Shivajinagar', latitude : 18.5318164, longitude: 73.8450759};
+    const eta = 2;
 
-    const message = { latitude, longitude };
+    const message = { latitude, longitude, nextStation, previousStation, eta };
     const topic = `location/${busID}`;
 
     // Topic to send location everywhere
