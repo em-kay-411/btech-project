@@ -1,5 +1,6 @@
 const Station = require('./models/station');
 const Bus = require('./models/bus');
+const mongoose = require('mongoose');
 const fs = require('fs');
 
 const checkRoute = async (route) => {
@@ -19,16 +20,38 @@ const checkRoute = async (route) => {
     return true;
 }
 
+const getBusRoute = async (busID) => {
+    try{
+        const busObj = await Bus.findOne({id : busID});
+        const route = [];
+        for(let i=0; i<busObj.route.length; i++){
+            const stationObj = await Station.findById(busObj.route[i].station);
+            route.push(stationObj.name);
+        }
+
+        return route;
+    } catch(err){
+        console.log(err);
+    }
+}
+
 const insertNewBusOnExistingRouteById = async (id, route) => {
     if (!checkRoute(route)) {
         console.log('the root does not exist.. Try using another function to enter new route simultanoeusly');
         return;
     }
 
+    const routeArray = route.map((element) => {
+        return ({
+            station : element,
+            crossed : false
+        })
+    })
+
     try {
         const busObj = new Bus({
             id: id,
-            route: route
+            route: routeArray
         })
 
         await busObj.save();
@@ -47,17 +70,25 @@ const insertNewBusOnExistingRouteByName = async (id, routeByName) => {
     const route = await getStationIdsByName(routeByName);
     console.log(route);
 
+    const routeArray = route.map((element) => {
+        const id = element;
+        return ({
+            station : id,
+            crossed : false
+        })
+    })
+
     try {
         const busObj = new Bus({
             id: id,
-            route: route
+            route: routeArray
         })
 
         await busObj.save();
 
-        for (let i = 0; i < route.length; i++) {
-            console.log(`Adding bus ${id} to ${route[i]}`);
-            await Station.findByIdAndUpdate(route[i], { $push: { buses: busObj._id } });
+        for (let i = 0; i < routeArray.length; i++) {
+            console.log(`Adding bus ${id} to ${routeArray[i].station}`);
+            await Station.findByIdAndUpdate(routeArray[i].station, { $push: { buses: busObj._id } });
         }
 
         console.log('Route entered succesfully');
@@ -78,7 +109,7 @@ const deleteBus = async (id) => {
         const route = busObj.route;
 
         for (let i = 0; i < route.length; i++) {
-            await Station.findByIdAndUpdate(route[i], { $pull: { buses: busObj._id } });
+            await Station.findByIdAndUpdate(route[i].station, { $pull: { buses: busObj._id } });
         }
 
         await busObj.deleteOne();
@@ -176,7 +207,7 @@ const deleteStationById = async (id) => {
 }
 
 const breadthFirstSearch = async (source, destination) => {
-    const json = await fs.promises.readFile((__dirname + '/prep/stationConnections.json'), 'utf8');
+    const json = await fs.promises.readFile('./prep/stationConnections.json', 'utf8');
     const data = JSON.parse(json);
 
     const paths = [];
@@ -265,6 +296,32 @@ const findOptions = async (source, destination) => {
     return options;
 }
 
+const setSomething = async() => {
+    const pointer = await Bus.find();
+    let count = 0;
+
+    pointer.forEach(async (bus) => {
+        const routeArray = bus.route;
+
+        const updatedRouteArray = [];
+
+        for(let i=0; i<routeArray.length; i++){
+            updatedRouteArray.push({
+                station :routeArray[i],
+                crossed:false
+            })
+        }
+
+        console.log(updatedRouteArray);
+
+        await Bus.findByIdAndUpdate(bus._id, { $set : {route: updatedRouteArray} });
+        console.log(`Updated ${bus.id}`);
+        count++;
+    })
+
+    console.log('Updated', + count);
+}
+
 module.exports = {
     findOptions,
     insertNewStationByIdOfRoutes,
@@ -274,5 +331,6 @@ module.exports = {
     updateExistingBusRoute,
     deleteBus,
     deleteStationByName,
-    deleteStationById
+    deleteStationById, 
+    setSomething
 };

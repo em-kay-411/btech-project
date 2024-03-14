@@ -1,29 +1,27 @@
 {
   "Shivajinagar": [
-    "C.O.E.P.Hostel (Towards Shivaji Maharaj Road)",
-    "Lokmangal Shivajinagar",
-    "Chhatrapati Shivaji Maharaj Putala Ma.Na.Pa.",
-    "Shivajinagar Simla Office",
-    "C.O.E.P.Hostel (Towards Jangli Maharaj Road)"
+    "C.O.E.P.Hostel (To Manapa)",
+    "Chhatrapati Shivaji Maharaj Putla",
+    "Simla Office Shivajinagar",
+    "C.O.E.P.Hostel (To Deccan)"
   ],
-  "C.O.E.P.Hostel (Towards Shivaji Maharaj Road)": [
+  "C.O.E.P.Hostel (To Manapa)": [
     "Shivajinagar",
-    "Chhatrapati Shivaji Maharaj Putala Ma.Na.Pa.",
-    "Manapa Bhavan - Towards Shanivarwada",
+    "Chhatrapati Shivaji Maharaj Putla",
+    "Manapa Nava Pul (Mangala Takies)",
     "Labour Office (Shoppers Stop)",
     "Luxury Bus Offices Sangamwadi",
     "Shivajinagar Metro Station",
     "Modern High School",
-    "Shivajinagar Simla Office"
+    "Simla Office Shivajinagar"
   ],
-  "Chhatrapati Shivaji Maharaj Putala Ma.Na.Pa.": [
-    "C.O.E.P.Hostel (Towards Shivaji Maharaj Road)",
+  "Chhatrapati Shivaji Maharaj Putla": [
+    "C.O.E.P.Hostel (To Manapa)",
     "Manapa Bhavan - Dengle Pul",
-    "Manapa Bhavan - Towards Simla Office",
+    "Manapa Nava Pul (Mangala Takies)",
     "Shivajinagar",
-    "Manapa Bhavan - Towards Shanivarwada",
     "Lokmangal Shivajinagar",
-    "Shivajinagar Simla Office",
+    "Simla Office Shivajinagar",
     "Shivajinagar Metro Station",
     "Manapa Bhavan - Mangala Talkies",
     "Manapa Bhavan - Daphale Garage",
@@ -33,7 +31,7 @@
     "Manapa Bhavan - River Side Bus Stop"
   ],
   "Manapa Bhavan - Dengle Pul": [
-    "Chhatrapati Shivaji Maharaj Putala Ma.Na.Pa.",
+    "Chhatrapati Shivaji Maharaj Putla",
     "Kumbharwada",
     "Manapa Bhavan - Congress Bhavan",
     "Manapa Bhavan - Opposite Main Building",
@@ -69,78 +67,28 @@
     "Ruby Hall",
     "Pune Station"
   ],
-  "Lokmangal Shivajinagar": [
-    "Shivajinagar",
-    "Civil Court Gate No.2",
-    "Chhatrapati Shivaji Maharaj Putala Ma.Na.Pa.",
-    "Patil Estate",
-    "Shivajinagar Simla Office"
-  ],
-  "Civil Court Gate No.2": [
-    "Lokmangal Shivajinagar",
-    "Civil Court Metro Station"
-  ],
-  "Civil Court Metro Station": [
-    "Civil Court Gate No.2",
-    "Manapa Bhavan - Towards Shanivarwada"
-  ],
-  "Manapa Bhavan - Towards Shanivarwada": [
-    "Civil Court Metro Station",
-    "Kasba Peth Police Chowky - Shanivarwada",
-    "Chhatrapati Shivaji Maharaj Putala Ma.Na.Pa.",
-    "C.O.E.P.Hostel (Towards Shivaji Maharaj Road)"
-  ],
-  "Kasba Peth Police Chowky - Shanivarwada": [
-    "Manapa Bhavan - Towards Shanivarwada",
-    "Vasant Talkies - Appa Balwant Chowk",
-    "Dakshinmukhi Maruti Mandir - Bajirao Road",
-    "Lal Mahal",
-    "Appa Balwant Chowk"
-  ],
-  "Vasant Talkies - Appa Balwant Chowk": [
-    "Kasba Peth Police Chowky - Shanivarwada",
-    "Mandai - Gadikhana Hospital",
-    "Appa Balwant Chowk"
-  ],
-  "Mandai - Gadikhana Hospital": [
-    "Vasant Talkies - Appa Balwant Chowk",
-    "Shahu Chowk"
-  ],
-  "Shahu Chowk": [
-    "Mandai - Gadikhana Hospital",
-    "Shivaji Maratha School - Mamledar Kacheri"
-  ],
-  "Shivaji Maratha School - Mamledar Kacheri": [
-    "Shahu Chowk",
-    "Swargate Corner - Gokul Bhuvan"
-  ],
-  "Swargate Corner - Gokul Bhuvan": [
-    "Shivaji Maratha School - Mamledar Kacheri",
-    "Swargate",
-    "Swargate - Natraj Stand"
-  ],
   "Swargate": [
-    "Swargate Corner - Gokul Bhuvan",
     "Swargate",
     "Sarasbaug",
+    "Gokul Bhuvan",
     "Laxmi Narayan Theatre",
-    "Nehru Stadium - Swargate",
-    "Swargate Corner - Tilak Road",
+    "Nehru Stadium",
+    "Swargate Corner",
     "Police Line - Swargate",
     "Parvati Payatha",
     "Mitramandal Sabhagruha",
     "Kirloskar Press",
     "Swargate Depot",
     "Laxminarayan Talkies",
-    "Swargate - Natraj Stand"
+    "Swargate Natraj Stand"
   ],
   "Sarasbaug": [
     "Swargate",
     "Maharana Pratap Udyan",
-    "Nehru Stadium - Swargate",
+    "Nehru Stadium",
     "Madiwale Colony",
     "Parvati Payatha",
-    "Hirabaug - Tilak Road",
+    "Hirabaug Chowk",
     "Ambil Odha Colony"
   ],
   "Maharana Pratap Udyan": [
@@ -150,32 +98,69 @@
   ],
   "Shanipar": [
     "Maharana Pratap Udyan",
-    "Appa Balwant Chowk - Bajirao Road",
+    "Appa Balwant Chowk",
     "Kunte Chowk / Common Wealth Building"
   ],
-  "Appa Balwant Chowk - Bajirao Road": [
+  "Appa Balwant Chowk": [
     "Shanipar",
-    "Dakshinmukhi Maruti Mandir - Bajirao Road",
-    "Vishrambaug (Tulsibaug)"
-  ],
-  "Dakshinmukhi Maruti Mandir - Bajirao Road": [
-    "Appa Balwant Chowk - Bajirao Road",
-    "Shaniwarwada - Bajirao Road",
+    "Dakshinmukhi Maruti Mandir",
+    "Kanya Shala Ramanbaug",
+    "Lal Mahal",
     "Appa Balwant Chowk",
-    "Kasba Peth Police Chowky - Shanivarwada"
+    "Kasba Peth Police Chowky",
+    "Vasant Talkies",
+    "Vishram Baug Wada"
   ],
-  "Shaniwarwada - Bajirao Road": [
-    "Dakshinmukhi Maruti Mandir - Bajirao Road",
-    "Manapa Bhavan - Towards Simla Office",
+  "Dakshinmukhi Maruti Mandir": [
+    "Appa Balwant Chowk",
+    "Shaniwarwada",
+    "Kasba Peth Police Chowky"
+  ],
+  "Shaniwarwada": [
+    "Dakshinmukhi Maruti Mandir",
+    "Manapa Nava Pul (Mangala Takies)",
     "Shanivarwada"
   ],
-  "Manapa Bhavan - Towards Simla Office": [
-    "Shaniwarwada - Bajirao Road",
-    "Chhatrapati Shivaji Maharaj Putala Ma.Na.Pa."
+  "Manapa Nava Pul (Mangala Takies)": [
+    "Shaniwarwada",
+    "Chhatrapati Shivaji Maharaj Putla",
+    "Kasba Peth Police Chowky",
+    "Civil Court Metro Station",
+    "C.O.E.P.Hostel (To Manapa)"
+  ],
+  "Kasba Peth Police Chowky": [
+    "Manapa Nava Pul (Mangala Takies)",
+    "Vasant Talkies",
+    "Dakshinmukhi Maruti Mandir",
+    "Lal Mahal",
+    "Appa Balwant Chowk"
+  ],
+  "Vasant Talkies": [
+    "Kasba Peth Police Chowky",
+    "Mahatma Phule Mandai",
+    "Appa Balwant Chowk"
+  ],
+  "Mahatma Phule Mandai": [
+    "Vasant Talkies",
+    "Shahu Chowk"
+  ],
+  "Shahu Chowk": [
+    "Mahatma Phule Mandai",
+    "Shivaji Maratha School"
+  ],
+  "Shivaji Maratha School": [
+    "Shahu Chowk",
+    "Gokul Bhuvan"
+  ],
+  "Gokul Bhuvan": [
+    "Shivaji Maratha School",
+    "Swargate",
+    "Swargate Natraj Stand"
   ],
   "Laxmi Narayan Theatre": [
     "Swargate",
     "S.T.Colony / Panchami Hotel",
+    "Panchami Hotel",
     "Kirloskar Press"
   ],
   "S.T.Colony / Panchami Hotel": [
@@ -236,7 +221,48 @@
     "Santoshnagar",
     "Kinara Hotel Katraj"
   ],
-  "Nehru Stadium - Swargate": [
+  "Lokmangal Shivajinagar": [
+    "Chhatrapati Shivaji Maharaj Putla",
+    "Patil Estate",
+    "Simla Office Shivajinagar",
+    "Civil Court Gate No.2"
+  ],
+  "Patil Estate": [
+    "Lokmangal Shivajinagar",
+    "Labour Office (Shoppers Stop)"
+  ],
+  "Labour Office (Shoppers Stop)": [
+    "Patil Estate",
+    "Bajaj Showroom Wakdewadi",
+    "Civil Court Gate No.2",
+    "C.O.E.P.Hostel (To Manapa)",
+    "C.O.E.P.Hostel (To Deccan)",
+    "Engineering College"
+  ],
+  "Bajaj Showroom Wakdewadi": [
+    "Labour Office (Shoppers Stop)",
+    "Wakdewadi S.T.Stand"
+  ],
+  "Wakdewadi S.T.Stand": [
+    "Bajaj Showroom Wakdewadi",
+    "Poultry Farm (Old Highway)",
+    "Mula Road"
+  ],
+  "Poultry Farm (Old Highway)": [
+    "Wakdewadi S.T.Stand",
+    "Raja Bungalow",
+    "Mula Road"
+  ],
+  "Civil Court Gate No.2": [
+    "Labour Office (Shoppers Stop)",
+    "Civil Court Metro Station",
+    "Lokmangal Shivajinagar"
+  ],
+  "Civil Court Metro Station": [
+    "Civil Court Gate No.2",
+    "Manapa Nava Pul (Mangala Takies)"
+  ],
+  "Nehru Stadium": [
     "Swargate",
     "Sarasbaug",
     "Swargate Depot"
@@ -245,7 +271,7 @@
     "Sarasbaug",
     "S.P.College (Phadke Road)",
     "S.P.College",
-    "Hirabaug - Tilak Road",
+    "Hirabaug Chowk",
     "Maharana Pratap Udyan"
   ],
   "S.P.College (Phadke Road)": [
@@ -266,16 +292,8 @@
     "Appa Balwant Chowk",
     "Kesari Wada"
   ],
-  "Appa Balwant Chowk": [
-    "Kanya Shala Ramanbaug",
-    "Dakshinmukhi Maruti Mandir - Bajirao Road",
-    "Lal Mahal",
-    "Appa Balwant Chowk",
-    "Kasba Peth Police Chowky - Shanivarwada",
-    "Vasant Talkies - Appa Balwant Chowk"
-  ],
   "Lal Mahal": [
-    "Kasba Peth Police Chowky - Shanivarwada",
+    "Kasba Peth Police Chowky",
     "Phadke Haud",
     "Appa Balwant Chowk"
   ],
@@ -321,8 +339,8 @@
     "Income Tax Office",
     "Pune Station",
     "Ruby Hall",
-    "Pune Station - Jayprakash Stand",
-    "Pune Station Depot"
+    "Pune Station Depot",
+    "Pune Station - Jayprakash Stand"
   ],
   "Income Tax Office": [
     "Pune Railway Station",
@@ -356,7 +374,7 @@
     "Patrya Maruti",
     "Nana Saheb Karpe Chowk",
     "Kunte Chowk / Common Wealth Building",
-    "Chitrashala"
+    "Vijay Talkies"
   ],
   "Nana Saheb Karpe Chowk": [
     "Gokhale Hall",
@@ -368,16 +386,16 @@
     "Maharashtra Mandal",
     "Nilayam Talkies"
   ],
-  "Hirabaug - Tilak Road": [
+  "Hirabaug Chowk": [
     "Madiwale Colony",
-    "Swargate Corner - Tilak Road",
+    "Swargate Corner",
     "Sarasbaug",
     "Ambil Odha Colony"
   ],
-  "Swargate Corner - Tilak Road": [
-    "Hirabaug - Tilak Road",
+  "Swargate Corner": [
+    "Hirabaug Chowk",
     "Swargate",
-    "Swargate - Natraj Stand",
+    "Swargate Natraj Stand",
     "Police Line - Swargate"
   ],
   "Maharashtra Mandal": [
@@ -420,29 +438,29 @@
   ],
   "Police Ground Shivajinagar": [
     "Dyaneshwar Paduka",
-    "Shivajinagar Simla Office",
+    "Simla Office Shivajinagar",
     "Mhasoba Gate"
   ],
-  "Shivajinagar Simla Office": [
+  "Simla Office Shivajinagar": [
     "Police Ground Shivajinagar",
     "Shivajinagar",
-    "Chhatrapati Shivaji Maharaj Putala Ma.Na.Pa.",
+    "Chhatrapati Shivaji Maharaj Putla",
     "Mhasoba Gate",
-    "C.O.E.P.Hostel (Towards Jangli Maharaj Road)",
+    "C.O.E.P.Hostel (To Deccan)",
     "Lokmangal Shivajinagar",
-    "C.O.E.P.Hostel (Towards Shivaji Maharaj Road)",
+    "C.O.E.P.Hostel (To Manapa)",
     "Engineering College"
   ],
   "Police Line - Swargate": [
     "Swargate",
     "Swargate Depot",
-    "Swargate Corner - Tilak Road"
+    "Swargate Corner"
   ],
   "Swargate Depot": [
     "Police Line - Swargate",
     "Ghorpade Peth",
     "Swargate",
-    "Nehru Stadium - Swargate"
+    "Nehru Stadium"
   ],
   "Ghorpade Peth": [
     "Swargate Depot",
@@ -507,7 +525,7 @@
   "Sonya Maruti Chowk": [
     "Ganesh Peth Police Chowky",
     "Moti Chowk",
-    "City Post"
+    "City Post Office"
   ],
   "Moti Chowk": [
     "Sonya Maruti Chowk",
@@ -542,30 +560,30 @@
     "Juna Motor Stand",
     "Ramoshi Gate"
   ],
-  "City Post": [
+  "City Post Office": [
     "Sonya Maruti Chowk",
-    "Ganpati Chowk - Laxmi Road"
+    "Ganpati Chowk"
   ],
-  "Ganpati Chowk - Laxmi Road": [
-    "City Post",
+  "Ganpati Chowk": [
+    "City Post Office",
     "Kunte Chowk / Common Wealth Building"
   ],
   "Kunte Chowk / Common Wealth Building": [
-    "Ganpati Chowk - Laxmi Road",
+    "Ganpati Chowk",
     "Gokhale Hall",
     "Shanipar Bus Stand",
     "Shanipar"
   ],
-  "Chitrashala": [
+  "Vijay Talkies": [
     "Gokhale Hall",
-    "Kulkarni Petrol Pump",
-    "Sadashiv Peth Haud (Kunte Chowk)"
+    "Kulkarni Petrol Pump"
   ],
   "Kulkarni Petrol Pump": [
-    "Chitrashala",
+    "Vijay Talkies",
     "Deccan Gymkhana",
     "Mati Ganpati Narayan Peth",
     "Ganjavewadi",
+    "Chitrashala",
     "Deccan Corner - Towards Paud Road",
     "Deccan Corner - Towards Karve Road"
   ],
@@ -623,14 +641,14 @@
     "Sachapir Street",
     "Nana Peth - Chacha Halwai Chowk"
   ],
-  "Swargate - Natraj Stand": [
-    "Swargate Corner - Gokul Bhuvan",
+  "Swargate Natraj Stand": [
+    "Gokul Bhuvan",
     "Parvati Payatha",
     "Swargate",
-    "Swargate Corner - Tilak Road"
+    "Swargate Corner"
   ],
   "Parvati Payatha": [
-    "Swargate - Natraj Stand",
+    "Swargate Natraj Stand",
     "Dandekar Pul",
     "Swargate",
     "Mitramandal Sabhagruha",
@@ -717,6 +735,7 @@
     "Manaji Baug",
     "Gopi Chal",
     "Dapodi",
+    "Alegaonkar School",
     "Shivaji Maharaj Udyan Bopodi"
   ],
   "Manaji Baug": [
@@ -725,7 +744,8 @@
   ],
   "Alegaonkar School": [
     "Manaji Baug",
-    "Khadki Bazar"
+    "Khadki Bazar",
+    "Bopodi Jakat Naka"
   ],
   "Khadki Bazar": [
     "Alegaonkar School",
@@ -754,22 +774,6 @@
     "Pachwad",
     "Raja Bungalow"
   ],
-  "Wakdewadi S.T.Stand": [
-    "Mula Road",
-    "Bajaj Showroom Wakdewadi",
-    "Poultry Farm (Old Highway)"
-  ],
-  "Bajaj Showroom Wakdewadi": [
-    "Wakdewadi S.T.Stand",
-    "Labour Office (Shoppers Stop)"
-  ],
-  "Labour Office (Shoppers Stop)": [
-    "Bajaj Showroom Wakdewadi",
-    "C.O.E.P.Hostel (Towards Shivaji Maharaj Road)",
-    "Patil Estate",
-    "Engineering College",
-    "C.O.E.P.Hostel (Towards Jangli Maharaj Road)"
-  ],
   "Bank Of Baroda Marketyard": [
     "Bhapkar Petrol Pump",
     "Bhaji Mandai Marketyard",
@@ -794,15 +798,6 @@
     "Wakhar Mahamandal Marketyard",
     "Gangadham Corner",
     "Gangadham - Aai Mata Chowk"
-  ],
-  "Patil Estate": [
-    "Lokmangal Shivajinagar",
-    "Labour Office (Shoppers Stop)"
-  ],
-  "Poultry Farm (Old Highway)": [
-    "Wakdewadi S.T.Stand",
-    "Raja Bungalow",
-    "Mula Road"
   ],
   "Raja Bungalow": [
     "Poultry Farm (Old Highway)",
@@ -932,7 +927,7 @@
   "Mhasoba Gate": [
     "Police Ground Shivajinagar",
     "Pune Central Mall",
-    "Shivajinagar Simla Office"
+    "Simla Office Shivajinagar"
   ],
   "Pune Central Mall": [
     "Mhasoba Gate",
@@ -994,31 +989,31 @@
   ],
   "Ganesh Nagar Dhayari": [
     "Dhayarigaon",
-    "Poultry Farm - Dhayari Road"
+    "Poultry Farm"
   ],
-  "Poultry Farm - Dhayari Road": [
+  "Poultry Farm": [
     "Ganesh Nagar Dhayari",
     "Raikar Wasti"
   ],
   "Raikar Wasti": [
-    "Poultry Farm - Dhayari Road",
+    "Poultry Farm",
     "Dangat Wasti"
   ],
   "Dangat Wasti": [
     "Raikar Wasti",
-    "Dhayari Phata - Sinhgad Road",
-    "Dhayari Phata - Dhayari Road"
+    "Dhayari Phata"
   ],
-  "Dhayari Phata - Sinhgad Road": [
+  "Dhayari Phata": [
     "Dangat Wasti",
     "Patil Colony - Abhiruchi Mall",
-    "Lagad Mala - Sinhgad Road",
+    "Gokul Nagar Narhe",
+    "Lagad Mala",
     "Madhukosh Society"
   ],
   "Patil Colony - Abhiruchi Mall": [
-    "Dhayari Phata - Sinhgad Road",
+    "Dhayari Phata",
     "Vadgaon Budruk Phata",
-    "Dhayari Phata - Dhayari Road"
+    "Navale Pul / Nikhil Garden"
   ],
   "Vadgaon Budruk Phata": [
     "Patil Colony - Abhiruchi Mall",
@@ -1115,19 +1110,19 @@
   ],
   "Vaiduwadi": [
     "Ramtekdi",
-    "Magarpatta Dawakhana - Solapur Road"
+    "Magarpatta Dawakhana"
   ],
-  "Magarpatta Dawakhana - Solapur Road": [
+  "Magarpatta Dawakhana": [
     "Vaiduwadi",
     "Bhaji Mandai Hadapsar",
     "Hadapsar Gaon",
+    "Tilekar Wasti",
     "Traffic Police Chowky Vaiduwadi"
   ],
   "Bhaji Mandai Hadapsar": [
-    "Magarpatta Dawakhana - Solapur Road",
+    "Magarpatta Dawakhana",
     "Krushna Chhaya Hotel Hadapsar",
-    "Hadapsar Gaon",
-    "Magarpatta Dawakhana"
+    "Hadapsar Gaon"
   ],
   "Krushna Chhaya Hotel Hadapsar": [
     "Bhaji Mandai Hadapsar",
@@ -1169,17 +1164,12 @@
     "Ganganagar Saswad Road",
     "Suiba Mangal Karyalaya"
   ],
-  "Dhayari Phata - Dhayari Road": [
-    "Patil Colony - Abhiruchi Mall",
-    "Gokulnagar Narhe Road",
-    "Dangat Wasti"
-  ],
-  "Gokulnagar Narhe Road": [
-    "Dhayari Phata - Dhayari Road",
+  "Gokul Nagar Narhe": [
+    "Dhayari Phata",
     "Datta Mandir Narhe Road"
   ],
   "Datta Mandir Narhe Road": [
-    "Gokulnagar Narhe Road",
+    "Gokul Nagar Narhe",
     "Dhayareshwar Industries (Surbhi)"
   ],
   "Dhayareshwar Industries (Surbhi)": [
@@ -1443,11 +1433,12 @@
   ],
   "Luxury Bus Offices Sangamwadi": [
     "Sangamwadi",
-    "C.O.E.P.Hostel (Towards Shivaji Maharaj Road)"
+    "C.O.E.P.Hostel (To Manapa)"
   ],
   "Panchami Hotel": [
     "S.T.Colony / Panchami Hotel",
-    "Shiv Darshan Society"
+    "Shiv Darshan Society",
+    "Laxmi Narayan Theatre"
   ],
   "Shiv Darshan Society": [
     "Panchami Hotel",
@@ -1624,6 +1615,7 @@
   "Netaji High School": [
     "Vikrikar Karyalay / Golf Club",
     "Gunjan Chowk / Neeta Park",
+    "Yerwada Gaon",
     "Audyogik Vasahat"
   ],
   "Gunjan Chowk / Neeta Park": [
@@ -1633,6 +1625,7 @@
   "Yerwada Gaon": [
     "Gunjan Chowk / Neeta Park",
     "Bund Garden",
+    "Netaji High School",
     "Gunjan Corner",
     "Yerwada"
   ],
@@ -1666,69 +1659,129 @@
     "Apsara Talkies",
     "Meera Society"
   ],
-  "Lohgaon": [
-    "Panyachi Taki Lohgaon",
-    "Sathe Wasti Lohgaon",
-    "Panyachi Taki Dhanori Road",
-    "Gurudwara Colony Lohgaon"
+  "Gandhi Training Centre": [
+    "Sarang Society",
+    "Dyaneshwar Society Padmavati"
   ],
-  "Panyachi Taki Lohgaon": [
-    "Lohgaon",
-    "Kendriya Vidyalaya Lohgaon"
+  "Dyaneshwar Society Padmavati": [
+    "Gandhi Training Centre",
+    "Date Bus Stop"
   ],
-  "Kendriya Vidyalaya Lohgaon": [
-    "Panyachi Taki Lohgaon",
-    "Officers Mess Lohgaon"
+  "Date Bus Stop": [
+    "Dyaneshwar Society Padmavati",
+    "Yashwantnagar Padmavati"
   ],
-  "Officers Mess Lohgaon": [
-    "Kendriya Vidyalaya Lohgaon",
-    "Khese Park"
+  "Yashwantnagar Padmavati": [
+    "Date Bus Stop",
+    "Power House Padmavati"
   ],
-  "Khese Park": [
-    "Officers Mess Lohgaon",
-    "Kalwad"
+  "Power House Padmavati": [
+    "Yashwantnagar Padmavati",
+    "Padmavati Stand"
   ],
-  "Kalwad": [
-    "Khese Park",
-    "Burma Shell / Airport Corner",
-    "Burma Shell New Airport Road"
+  "Padmavati Stand": [
+    "Power House Padmavati",
+    "Padmavati"
   ],
-  "Burma Shell / Airport Corner": [
-    "Kalwad",
-    "509 Chowk"
-  ],
-  "509 Chowk": [
-    "Burma Shell / Airport Corner",
-    "Sanjay Park",
-    "Kekan Gas Agency"
-  ],
-  "Sanjay Park": [
-    "509 Chowk",
-    "Akash Nagar"
-  ],
-  "Akash Nagar": [
-    "Sanjay Park",
+  "Nagpur Chawl": [
+    "Yerwada Post Office",
     "Guard Room"
   ],
   "Guard Room": [
-    "Akash Nagar",
-    "Nagpur Chawl"
+    "Nagpur Chawl",
+    "Akash Nagar"
   ],
-  "Nagpur Chawl": [
+  "Akash Nagar": [
     "Guard Room",
-    "Yerwada Post Office"
+    "Sanjay Park"
   ],
-  "C.O.E.P.Hostel (Towards Jangli Maharaj Road)": [
+  "Sanjay Park": [
+    "Akash Nagar",
+    "509 Chowk"
+  ],
+  "509 Chowk": [
+    "Sanjay Park",
+    "Burma Shell / Airport Corner",
+    "Kekan Gas Agency"
+  ],
+  "Burma Shell / Airport Corner": [
+    "509 Chowk",
+    "Kalwad"
+  ],
+  "Kalwad": [
+    "Burma Shell / Airport Corner",
+    "Khese Park",
+    "Burma Shell New Airport Road"
+  ],
+  "Khese Park": [
+    "Kalwad",
+    "Officers Mess Lohgaon"
+  ],
+  "Officers Mess Lohgaon": [
+    "Khese Park",
+    "Kendriya Vidyalaya Lohgaon"
+  ],
+  "Kendriya Vidyalaya Lohgaon": [
+    "Officers Mess Lohgaon",
+    "Panyachi Taki Lohgaon"
+  ],
+  "Panyachi Taki Lohgaon": [
+    "Kendriya Vidyalaya Lohgaon",
+    "Lohgaon"
+  ],
+  "Lohgaon": [
+    "Panyachi Taki Lohgaon",
+    "Gurudwara Colony Lohgaon",
+    "Sathe Wasti Lohgaon",
+    "Panyachi Taki Dhanori Road"
+  ],
+  "Gurudwara Colony Lohgaon": [
+    "Lohgaon",
+    "Smashan Bhumi Lohgaon"
+  ],
+  "Smashan Bhumi Lohgaon": [
+    "Gurudwara Colony Lohgaon",
+    "Shubam Mangal Karyalaya"
+  ],
+  "Shubam Mangal Karyalaya": [
+    "Smashan Bhumi Lohgaon",
+    "Indrayani Vihar"
+  ],
+  "Indrayani Vihar": [
+    "Shubam Mangal Karyalaya",
+    "Vadachi Wasti"
+  ],
+  "Vadachi Wasti": [
+    "Indrayani Vihar",
+    "Dadachi Padal"
+  ],
+  "Dadachi Padal": [
+    "Vadachi Wasti",
+    "Pawar Wasti Lohgaon Road"
+  ],
+  "Pawar Wasti Lohgaon Road": [
+    "Dadachi Padal",
+    "Poultry Farm Lohgaon Road"
+  ],
+  "Poultry Farm Lohgaon Road": [
+    "Pawar Wasti Lohgaon Road",
+    "Diamond Water Park Lohgaon"
+  ],
+  "Diamond Water Park Lohgaon": [
+    "Poultry Farm Lohgaon Road",
+    "More Wasti Lohgaon Road"
+  ],
+  "C.O.E.P.Hostel (To Deccan)": [
     "Shivajinagar",
     "Modern High School",
-    "Shivajinagar Simla Office",
+    "Simla Office Shivajinagar",
     "Labour Office (Shoppers Stop)"
   ],
   "Modern High School": [
-    "C.O.E.P.Hostel (Towards Jangli Maharaj Road)",
+    "C.O.E.P.Hostel (To Deccan)",
     "Balgandharva",
-    "Manapa Bhavan - Congress Bhavan",
-    "C.O.E.P.Hostel (Towards Shivaji Maharaj Road)",
+    "Savarkar Bhavan",
+    "C.O.E.P.Hostel (To Manapa)",
     "Police Line Shivajinagar"
   ],
   "Balgandharva": [
@@ -2085,30 +2138,6 @@
     "Hatti Chowk",
     "Ahilyadevi Holkar Chowk K.K.Market"
   ],
-  "Padmavati Stand": [
-    "Padmavati",
-    "Power House Padmavati"
-  ],
-  "Power House Padmavati": [
-    "Padmavati Stand",
-    "Yashwantnagar Padmavati"
-  ],
-  "Yashwantnagar Padmavati": [
-    "Power House Padmavati",
-    "Date Bus Stop"
-  ],
-  "Date Bus Stop": [
-    "Yashwantnagar Padmavati",
-    "Dyaneshwar Society Padmavati"
-  ],
-  "Dyaneshwar Society Padmavati": [
-    "Date Bus Stop",
-    "Gandhi Training Centre"
-  ],
-  "Gandhi Training Centre": [
-    "Dyaneshwar Society Padmavati",
-    "Sarang Society"
-  ],
   "Parvati Darshan": [
     "Shiv Darshan Society",
     "Laxminarayan Talkies",
@@ -2147,13 +2176,14 @@
   ],
   "Pune Station - Jayprakash Stand": [
     "Pune Station Depot",
-    "Pune Railway Station",
-    "Income Tax Office"
+    "Income Tax Office",
+    "Pune Railway Station"
   ],
   "Mukai Chowk Kiwale Terminal": [
     "Bhondve Wasti Ravet",
     "Mukai Chowk Kiwale",
-    "Sentosa Resorts &amp; Water Park"
+    "Sentosa Resorts &amp; Water Park",
+    "Mukai Chowk"
   ],
   "Bhondve Wasti Ravet": [
     "Mukai Chowk Kiwale Terminal",
@@ -2191,10 +2221,10 @@
   "Dange Chowk": [
     "Dairy Farm",
     "Laxman Nagar",
-    "Thergaon Phata Dange Chowk",
-    "Ganeshnagar Dange Chowk",
-    "16 Number (Santosh Nagar)",
     "Dange Chowk",
+    "Ganeshnagar Dange Chowk",
+    "Thergaon Phata Dange Chowk",
+    "16 Number (Santosh Nagar)",
     "Dange Chowk Wakad Road"
   ],
   "Laxman Nagar": [
@@ -2278,16 +2308,61 @@
     "Savitribai Phule Pune Vidyapeeth Gate",
     "Chatuhshrungi Paytha"
   ],
-  "Manapa Bhavan - Congress Bhavan": [
+  "Savarkar Bhavan": [
     "Modern High School",
+    "Manapa Bhavan - Congress Bhavan"
+  ],
+  "Manapa Bhavan - Congress Bhavan": [
+    "Savarkar Bhavan",
     "Manapa Bhavan - Dengle Pul",
     "Balgandharva",
     "Manapa Bhavan - Mangala Talkies",
     "Manapa Bhavan - Daphale Garage",
     "Kumbharwada",
     "Manapa Bhavan - Opposite Main Building",
-    "Janata Sahakari Bank",
-    "Manapa Bhavan - Main Bus Stand"
+    "Manapa Bhavan - Main Bus Stand",
+    "Janata Sahakari Bank"
+  ],
+  "Ganeshnagar Dange Chowk": [
+    "Dange Chowk",
+    "Pandit Automotive"
+  ],
+  "Pandit Automotive": [
+    "Ganeshnagar Dange Chowk",
+    "Kala Khadak Vasahat"
+  ],
+  "Kala Khadak Vasahat": [
+    "Pandit Automotive",
+    "Bhumkar Chowk (Towards Wakad)",
+    "Bhumkar Chowk",
+    "Bhumkar Chowk (Towards Hinjawadi)"
+  ],
+  "Bhumkar Chowk (Towards Wakad)": [
+    "Kala Khadak Vasahat",
+    "B.U.Bhandari Showroom Wakad"
+  ],
+  "B.U.Bhandari Showroom Wakad": [
+    "Bhumkar Chowk (Towards Wakad)",
+    "Wakad Pul",
+    "Bhumkarnagar",
+    "Indira College Tathwade"
+  ],
+  "Wakad Pul": [
+    "B.U.Bhandari Showroom Wakad",
+    "Digambar Marble Kaveri Hotel",
+    "Savtamali Mandir Wakad",
+    "Wakad Chowk"
+  ],
+  "Digambar Marble Kaveri Hotel": [
+    "Wakad Pul",
+    "Balewadi Depot",
+    "Balewadi Stadium"
+  ],
+  "Balewadi Depot": [
+    "Digambar Marble Kaveri Hotel",
+    "Yashoda Niwas",
+    "Moze College Balewadi",
+    "Radha Chowk Mhalunge Corner"
   ],
   "Tathwade Corner": [
     "Pawar Wasti Tathwade",
@@ -2316,31 +2391,13 @@
   ],
   "Indira College Tathwade": [
     "D.Y.Patil Campus Tathwade",
-    "B.U.Bhandari Showroom Wakad",
-    "Indira College Tathwade"
+    "Bhumkar Chowk",
+    "B.U.Bhandari Showroom Wakad"
   ],
-  "B.U.Bhandari Showroom Wakad": [
+  "Bhumkar Chowk": [
     "Indira College Tathwade",
-    "Wakad Pul",
-    "Bhumkar Chowk (Towards Wakad)",
-    "Bhumkarnagar"
-  ],
-  "Wakad Pul": [
-    "B.U.Bhandari Showroom Wakad",
-    "Digambar Marble Kaveri Hotel",
-    "Savtamali Mandir Wakad",
-    "Wakad Chowk"
-  ],
-  "Digambar Marble Kaveri Hotel": [
-    "Wakad Pul",
-    "Balewadi Depot",
-    "Balewadi Stadium"
-  ],
-  "Balewadi Depot": [
-    "Digambar Marble Kaveri Hotel",
-    "Yashoda Niwas",
-    "Moze College Balewadi",
-    "Radha Chowk Mhalunge Corner"
+    "Kala Khadak Vasahat",
+    "Bhumkar Wasti"
   ],
   "Chinchwad Gaon": [
     "Chaphekar Chowk",
@@ -2378,24 +2435,6 @@
     "Thergaon Phata Dange Chowk",
     "Vitbhatti Thergaon"
   ],
-  "Ganeshnagar Dange Chowk": [
-    "Dange Chowk",
-    "Pandit Automotive"
-  ],
-  "Pandit Automotive": [
-    "Ganeshnagar Dange Chowk",
-    "Kala Khadak Vasahat"
-  ],
-  "Kala Khadak Vasahat": [
-    "Pandit Automotive",
-    "Bhumkar Chowk (Towards Wakad)",
-    "Bhumkar Chowk",
-    "Bhumkar Chowk (Towards Hinjawadi)"
-  ],
-  "Bhumkar Chowk (Towards Wakad)": [
-    "Kala Khadak Vasahat",
-    "B.U.Bhandari Showroom Wakad"
-  ],
   "Balewadi Stadium": [
     "Digambar Marble Kaveri Hotel",
     "Radha Chowk Sadanand Hotel",
@@ -2430,9 +2469,9 @@
     "Maharashtra Mandal"
   ],
   "Shivajinagar Metro Station": [
-    "Chhatrapati Shivaji Maharaj Putala Ma.Na.Pa.",
+    "Chhatrapati Shivaji Maharaj Putla",
     "Na.Ta.Wadi",
-    "C.O.E.P.Hostel (Towards Shivaji Maharaj Road)"
+    "C.O.E.P.Hostel (To Manapa)"
   ],
   "Na.Ta.Wadi": [
     "Shivajinagar Metro Station"
@@ -2542,8 +2581,7 @@
   ],
   "Kharalwadi": [
     "H.A. Company",
-    "P.C.M.C.Bhavan Pimpri",
-    "Kundan Hotel"
+    "P.C.M.C.Bhavan Pimpri"
   ],
   "P.C.M.C.Bhavan Pimpri": [
     "Kharalwadi",
@@ -2634,6 +2672,7 @@
   "Navale Pul / Nikhil Garden": [
     "Krushnai Mangal Karyalaya",
     "Vadgaon Budruk Pul",
+    "Patil Colony - Abhiruchi Mall",
     "Venkatesh Vrundavan Society",
     "Dangat Patil Nagar Vadgaon Highway"
   ],
@@ -2775,10 +2814,6 @@
     "Vinodenagar",
     "Bhumkar Chowk"
   ],
-  "Bhumkar Chowk": [
-    "Bhumkar Wasti",
-    "Kala Khadak Vasahat"
-  ],
   "Elpro Company": [
     "Chaphekar Chowk",
     "More Prekshagruha",
@@ -2919,7 +2954,8 @@
   "Chinchwade Farm": [
     "Munjaba Vasahat",
     "Chintamani Pravesh Dwaar",
-    "Aaher Garden Walhekarwadi"
+    "Aaher Garden Walhekarwadi",
+    "Aaher Garden"
   ],
   "Chintamani Pravesh Dwaar": [
     "Chinchwade Farm",
@@ -2947,13 +2983,13 @@
     "Paranjpe Scheme Dagade Wasti",
     "Ved Bhavan"
   ],
-  "Lagad Mala - Sinhgad Road": [
-    "Dhayari Phata - Sinhgad Road",
+  "Lagad Mala": [
+    "Dhayari Phata",
     "Mate Pat",
     "Madhukosh Society"
   ],
   "Mate Pat": [
-    "Lagad Mala - Sinhgad Road",
+    "Lagad Mala",
     "Nanded City Gate"
   ],
   "Nanded City Gate": [
@@ -2977,7 +3013,7 @@
   "Kirkatwadi Phata": [
     "C.W.P.R.S.Gate No.1",
     "Kirkatwadi",
-    "Kolhewadi - Sinhgad Road"
+    "Kolhewadi"
   ],
   "Kirkatwadi": [
     "Kirkatwadi Phata",
@@ -3060,22 +3096,22 @@
   ],
   "Datsons Company": [
     "Gorhe Budruk",
-    "Sant Dharmaji Samadhi - Sinhgad Road"
+    "Sant Dharmaji Samadhi"
   ],
-  "Sant Dharmaji Samadhi - Sinhgad Road": [
+  "Sant Dharmaji Samadhi": [
     "Datsons Company",
-    "Kondhana Hotel - Sinhgad Road"
+    "Kondhana Hotel"
   ],
-  "Kondhana Hotel - Sinhgad Road": [
-    "Sant Dharmaji Samadhi - Sinhgad Road",
-    "Khirid Wasti - Sinhgad Road"
+  "Kondhana Hotel": [
+    "Sant Dharmaji Samadhi",
+    "Khirid Wasti"
   ],
-  "Khirid Wasti - Sinhgad Road": [
-    "Kondhana Hotel - Sinhgad Road",
+  "Khirid Wasti": [
+    "Kondhana Hotel",
     "I.A.T.Gate Khadakwasla"
   ],
   "I.A.T.Gate Khadakwasla": [
-    "Khirid Wasti - Sinhgad Road",
+    "Khirid Wasti",
     "Children's School Khadakwasla"
   ],
   "Children's School Khadakwasla": [
@@ -3101,25 +3137,25 @@
   ],
   "Khadakwasla Phata": [
     "Laman Wasti Khadakwasla Gaon",
-    "Mukainagar - Sinhgad Road",
+    "Mukainagar",
     "Khadakwasla Samshan Bhumi",
     "N.D.A.Gate",
     "Khadakwasla Dharan Stores"
   ],
-  "Mukainagar - Sinhgad Road": [
+  "Mukainagar": [
     "Khadakwasla Phata",
-    "Kolhewadi - Sinhgad Road"
+    "Kolhewadi"
   ],
-  "Kolhewadi - Sinhgad Road": [
-    "Mukainagar - Sinhgad Road",
+  "Kolhewadi": [
+    "Mukainagar",
     "Kirkatwadi Phata"
   ],
   "Madhukosh Society": [
-    "Lagad Mala - Sinhgad Road",
-    "Dhayari Phata - Sinhgad Road"
+    "Lagad Mala",
+    "Dhayari Phata"
   ],
   "Shanivarwada": [
-    "Shaniwarwada - Bajirao Road",
+    "Shaniwarwada",
     "Kumbharwada"
   ],
   "Khadakwasala Dharan": [
@@ -3206,8 +3242,8 @@
   "Warje Gaon - N.D.A.Road": [
     "Malwadi",
     "Tapodham Society",
-    "Warje Bridge",
     "Popular Nagar",
+    "Warje Bridge",
     "Warje Malwadi Gaon"
   ],
   "Tapodham Society": [
@@ -3294,6 +3330,38 @@
   "Law College": [
     "Film Institute (Law College Road)",
     "Bhandarkar Institute (Hotel Moka)"
+  ],
+  "Moryanagar Chinchwad Road": [
+    "Chaphekar Chowk",
+    "Chinchwad S.K.F.Company"
+  ],
+  "Chinchwad S.K.F.Company": [
+    "Moryanagar Chinchwad Road",
+    "Premlok Park"
+  ],
+  "Premlok Park": [
+    "Chinchwad S.K.F.Company",
+    "Police Ayuktalaya Chinchwad Road"
+  ],
+  "Police Ayuktalaya Chinchwad Road": [
+    "Premlok Park",
+    "Indira Nagar Chinchwad"
+  ],
+  "Indira Nagar Chinchwad": [
+    "Police Ayuktalaya Chinchwad Road",
+    "Bhoirnagar"
+  ],
+  "Bhoirnagar": [
+    "Indira Nagar Chinchwad",
+    "Jay Ganesh Vision Akurdi"
+  ],
+  "Jay Ganesh Vision Akurdi": [
+    "Bhoirnagar",
+    "Akurdi Corner"
+  ],
+  "Akurdi Corner": [
+    "Jay Ganesh Vision Akurdi",
+    "Akurdi Chowk"
   ],
   "Rajendra Nagar": [
     "Lokmanya Nagar",
@@ -3451,14 +3519,14 @@
   ],
   "Shelke Farm - Khamgaon Road": [
     "Golden Saag Resort - Khamgaon Road",
-    "Sinhgad Machi - Khamgaon Road"
+    "Sinhgad Machi"
   ],
-  "Sinhgad Machi - Khamgaon Road": [
+  "Sinhgad Machi": [
     "Shelke Farm - Khamgaon Road",
     "Shri Bapuji Buva Mandir - Khamgaon Road"
   ],
   "Shri Bapuji Buva Mandir - Khamgaon Road": [
-    "Sinhgad Machi - Khamgaon Road",
+    "Sinhgad Machi",
     "Malkhed Phata - Khamgaon Road"
   ],
   "Malkhed Phata - Khamgaon Road": [
@@ -3543,13 +3611,17 @@
     "Shivpushpak Park",
     "Hingane Khurd"
   ],
-  "Sadashiv Peth Haud (Kunte Chowk)": [
+  "Chitrashala": [
+    "Kulkarni Petrol Pump",
+    "Sadashiv Peth Haud"
+  ],
+  "Sadashiv Peth Haud": [
     "Chitrashala",
     "Shanipar Bus Stand",
-    "Vishrambaug (Tulsibaug)"
+    "Vishram Baug Wada"
   ],
   "Shanipar Bus Stand": [
-    "Sadashiv Peth Haud (Kunte Chowk)",
+    "Sadashiv Peth Haud",
     "Kunte Chowk / Common Wealth Building"
   ],
   "Vadgaon Budruk": [
@@ -3563,9 +3635,9 @@
     "Vadgaon Budruk",
     "Indian Hume Pipe Company"
   ],
-  "Vishrambaug (Tulsibaug)": [
-    "Sadashiv Peth Haud (Kunte Chowk)",
-    "Appa Balwant Chowk - Bajirao Road"
+  "Vishram Baug Wada": [
+    "Sadashiv Peth Haud",
+    "Appa Balwant Chowk"
   ],
   "Center Banker (Apollo Talkies)": [
     "Phadke Haud",
@@ -3849,7 +3921,6 @@
   ],
   "Hadapsar Gaon": [
     "Bhaji Mandai Hadapsar",
-    "Magarpatta Dawakhana - Solapur Road",
     "Magarpatta Dawakhana",
     "Krushna Chhaya Hotel Hadapsar",
     "Hadapsar Bhaji Mandai"
@@ -4391,7 +4462,7 @@
   ],
   "Ambil Odha Colony": [
     "Dandekar Pul Corner",
-    "Hirabaug - Tilak Road",
+    "Hirabaug Chowk",
     "Sarasbaug"
   ],
   "Mhatobachi Alandi": [
@@ -5083,6 +5154,25 @@
     "Nal Stop",
     "Mhatre Pul"
   ],
+  "Aditya Garden City (Dnyaneshwari Udyan)": [
+    "Aditya Garden City Gate",
+    "Aditya Garden City (Dnyaneshwari Udyan)"
+  ],
+  "Aditya Garden City Gate": [
+    "Aditya Garden City (Dnyaneshwari Udyan)",
+    "R.M.D.Sinhgad College"
+  ],
+  "R.M.D.Sinhgad College": [
+    "Aditya Garden City Gate",
+    "Rosary School",
+    "R.M.D.College / Sai Sayaji Nagar"
+  ],
+  "Police Line Shivajinagar": [
+    "Fergusson College Gate",
+    "Modern High School",
+    "Dyaneshwar Paduka",
+    "Lakaki Bungalow (Dnyaneshwar Paduka Chowk)"
+  ],
   "Rahul Park Gate": [
     "Atulnagar / Cipla Center",
     "Raghavdas School",
@@ -5098,25 +5188,6 @@
   "Atul Nagar Warje": [
     "Rahul Park Gate",
     "Runwal Society"
-  ],
-  "R.M.D.Sinhgad College": [
-    "R.M.D.College / Sai Sayaji Nagar",
-    "Aditya Garden City Gate",
-    "Rosary School"
-  ],
-  "Aditya Garden City Gate": [
-    "R.M.D.Sinhgad College",
-    "Aditya Garden City (Dnyaneshwari Udyan)"
-  ],
-  "Aditya Garden City (Dnyaneshwari Udyan)": [
-    "Aditya Garden City Gate",
-    "Aditya Garden City (Dnyaneshwari Udyan)"
-  ],
-  "Police Line Shivajinagar": [
-    "Fergusson College Gate",
-    "Modern High School",
-    "Dyaneshwar Paduka",
-    "Lakaki Bungalow (Dnyaneshwar Paduka Chowk)"
   ],
   "Gurujan Society Shastrinagar": [
     "Vanaj Company",
@@ -5163,12 +5234,12 @@
     "Guruganesh Nagar"
   ],
   "Manapa Bhavan - Mangala Talkies": [
-    "Chhatrapati Shivaji Maharaj Putala Ma.Na.Pa.",
+    "Chhatrapati Shivaji Maharaj Putla",
     "Manapa Bhavan - Congress Bhavan"
   ],
   "Manapa Bhavan - Daphale Garage": [
     "Manapa Bhavan - Congress Bhavan",
-    "Chhatrapati Shivaji Maharaj Putala Ma.Na.Pa."
+    "Chhatrapati Shivaji Maharaj Putla"
   ],
   "Pachwad": [
     "Mula Road",
@@ -5410,7 +5481,7 @@
   ],
   "Manapa Bhavan - Opposite Main Building": [
     "Manapa Bhavan - Congress Bhavan",
-    "Chhatrapati Shivaji Maharaj Putala Ma.Na.Pa.",
+    "Chhatrapati Shivaji Maharaj Putla",
     "Manapa Bhavan - Dengle Pul",
     "Manapa Bhavan - Main Gate"
   ],
@@ -5525,12 +5596,12 @@
     "Kesnand Phata",
     "Wagholi",
     "Tikone Godown",
-    "Bakuri Phata"
+    "Pachane Wasti"
   ],
   "Kesnand Phata": [
     "Kesnand Phata Wagholi",
     "Wagholi",
-    "Bakuri Phata",
+    "Pachane Wasti",
     "Wagholi Bazar Tal"
   ],
   "Wagholi": [
@@ -5599,18 +5670,17 @@
   ],
   "Vadgaon Sheri Phata": [
     "Viman Nagar Corner",
-    "Ramwadi Gaon",
-    "Ramwadi Jakat Naka",
+    "Ramwadi Metro Station",
     "Vrundavan"
   ],
-  "Ramwadi Gaon": [
+  "Ramwadi Metro Station": [
     "Vadgaon Sheri Phata",
-    "Ramwadi Jakat Naka"
+    "Ramwadi Jakat Naka",
+    "Hyatt Regency Hotel"
   ],
   "Ramwadi Jakat Naka": [
-    "Ramwadi Gaon",
-    "Agakhan Palace",
-    "Vadgaon Sheri Phata"
+    "Ramwadi Metro Station",
+    "Agakhan Palace"
   ],
   "Agakhan Palace": [
     "Ramwadi Jakat Naka",
@@ -5759,7 +5829,7 @@
     "Mati Ganpati Narayan Peth"
   ],
   "Manapa Bhavan - Main Gate": [
-    "Chhatrapati Shivaji Maharaj Putala Ma.Na.Pa.",
+    "Chhatrapati Shivaji Maharaj Putla",
     "Manapa Bhavan - Opposite Main Building"
   ],
   "Chandani Chowk (To Bavdhan)": [
@@ -6098,23 +6168,21 @@
   ],
   "Ranubai Mala - Talegaon Road": [
     "Kharabwadi - Talegaon Road",
-    "Shreya Lawns - Talegaon Road",
+    "Shreya Lawns",
     "Sanjivani Hospital - Talegaon Road"
   ],
-  "Shreya Lawns - Talegaon Road": [
+  "Shreya Lawns": [
     "Ranubai Mala - Talegaon Road",
-    "Chakan Talegaon Chowk - Nashik Highway",
-    "Chakan Talegaon Chowk - Talegaon Road"
+    "Chakan Talegaon Chowk"
   ],
-  "Chakan Talegaon Chowk - Nashik Highway": [
-    "Shreya Lawns - Talegaon Road",
+  "Chakan Talegaon Chowk": [
+    "Shreya Lawns",
     "Balaji Petrol Pump - Nashik Highway",
     "Chakan Ambethan Chowk"
   ],
   "Balaji Petrol Pump - Nashik Highway": [
-    "Chakan Talegaon Chowk - Nashik Highway",
-    "Vijay Oil Mill - Nashik Highway",
-    "Chakan Talegaon Chowk - Talegaon Road"
+    "Chakan Talegaon Chowk",
+    "Vijay Oil Mill - Nashik Highway"
   ],
   "Vijay Oil Mill - Nashik Highway": [
     "Balaji Petrol Pump - Nashik Highway",
@@ -6123,7 +6191,7 @@
   "Gavte Wasti - Nashik Highway": [
     "Vijay Oil Mill - Nashik Highway",
     "Alandi Phata - Nashik Highway",
-    "Alandi Phata - Chakan Alandi Road"
+    "Alandi Phata"
   ],
   "Alandi Phata - Nashik Highway": [
     "Gavte Wasti - Nashik Highway",
@@ -6235,9 +6303,9 @@
     "Bhosari Terminal"
   ],
   "Manapa Bhavan - Main Bus Stand": [
-    "Chhatrapati Shivaji Maharaj Putala Ma.Na.Pa.",
-    "Manapa Bhavan - Dengle Pul",
-    "Manapa Bhavan - Congress Bhavan"
+    "Chhatrapati Shivaji Maharaj Putla",
+    "Manapa Bhavan - Congress Bhavan",
+    "Manapa Bhavan - Dengle Pul"
   ],
   "C.I.R.T.Office": [
     "Nashik Phata",
@@ -6280,11 +6348,91 @@
     "Bhosari Terminal",
     "Bhosari Gaon"
   ],
-  "Kundan Hotel": [
-    "Kharalwadi",
-    "Gokul Hotel",
-    "P.C.M.C.Bhavan Pimpri",
+  "Nano Homes Ravet": [
+    "Ravet Pumping Station",
+    "Kedarinagar Rajyog Colony",
+    "Ravet Corner / Ojhas Hospital",
+    "Shinde Wasti Corner",
+    "Punawale Phata"
+  ],
+  "Kedarinagar Rajyog Colony": [
+    "Nano Homes Ravet",
+    "Rajyog Petrol Pump Walhekarwadi"
+  ],
+  "Rajyog Petrol Pump Walhekarwadi": [
+    "Kedarinagar Rajyog Colony",
+    "Walhekarwadi"
+  ],
+  "Walhekarwadi": [
+    "Rajyog Petrol Pump Walhekarwadi",
+    "Aaher Garden Walhekarwadi",
+    "Aaher Garden",
+    "Petrol Pump Walhekarwadi",
+    "Prerna School Walhekarwadi"
+  ],
+  "Aaher Garden Walhekarwadi": [
+    "Walhekarwadi",
+    "Chinchwade Farm"
+  ],
+  "B-Prabhag Office Chinchwad": [
+    "Chinchwad Gaon",
+    "Tanaji Nagar"
+  ],
+  "Tanaji Nagar": [
+    "B-Prabhag Office Chinchwad",
+    "Darshan Hall",
+    "Chinchwad Gaon"
+  ],
+  "Darshan Hall": [
+    "Tanaji Nagar",
+    "Elpro Company",
+    "Bakwoulf Colony"
+  ],
+  "Empire Estate": [
+    "Chinchwad Station",
+    "Morwadi"
+  ],
+  "Pimpri Depot": [
+    "Jyoti School",
+    "C-Ward Office"
+  ],
+  "Jyoti School": [
+    "Pimpri Depot",
+    "Nehrunagar",
+    "C-Ward Office"
+  ],
+  "Nehrunagar": [
+    "Jyoti School",
+    "H.A.Corner",
+    "Nehrunagar Corner"
+  ],
+  "H.A.Corner": [
+    "Nehrunagar",
+    "Kamgar Nagar",
+    "Nehrunagar Corner"
+  ],
+  "Kamgar Nagar": [
+    "H.A.Corner",
+    "Gandhinagar Pimpri Road"
+  ],
+  "Gandhinagar Pimpri Road": [
+    "Kamgar Nagar",
+    "Mahindra Company Pimpri Road"
+  ],
+  "Mahindra Company Pimpri Road": [
+    "Gandhinagar Pimpri Road",
     "Pimpri Road"
+  ],
+  "Pimpri Road": [
+    "Mahindra Company Pimpri Road",
+    "Kundan Hotel",
+    "P.C.M.C.Bhavan Pimpri",
+    "Finolex Chowk Morwadi / Pimpri Metro Station"
+  ],
+  "Kundan Hotel": [
+    "Pimpri Road",
+    "Gokul Hotel",
+    "P.C.M.C.Bhavan Pimpri"
   ],
   "Gokul Hotel": [
     "Kundan Hotel",
@@ -6316,23 +6464,22 @@
     "Darshan Hall",
     "Devi Link Society"
   ],
-  "Darshan Hall": [
-    "Bakwoulf Colony",
-    "Tanaji Nagar",
-    "Elpro Company"
+  "Aaher Garden": [
+    "Chinchwade Farm",
+    "Walhekarwadi"
   ],
-  "Tanaji Nagar": [
-    "Darshan Hall",
-    "B-Prabhag Office Chinchwad",
-    "Chinchwad Gaon"
+  "Petrol Pump Walhekarwadi": [
+    "Walhekarwadi",
+    "Rajwada Hotel Walhekarwadi"
   ],
-  "B-Prabhag Office Chinchwad": [
-    "Tanaji Nagar",
-    "Chinchwad Gaon"
+  "Rajwada Hotel Walhekarwadi": [
+    "Petrol Pump Walhekarwadi",
+    "Ravet Corner / Ojhas Hospital"
   ],
-  "Empire Estate": [
-    "Morwadi",
-    "Chinchwad Station"
+  "Ravet Corner / Ojhas Hospital": [
+    "Rajwada Hotel Walhekarwadi",
+    "Nano Homes Ravet",
+    "D.Y.Patil College Gate"
   ],
   "Khadki Bazar Corner": [
     "Trikoni Baug",
@@ -7060,9 +7207,6 @@
     "Kesnand Gaon",
     "Shree Kalubai Mandir Kesnand"
   ],
-  "Manapa Shramik Bhavan": [
-    "Kumbharwada"
-  ],
   "Pargaon Salu Malu": [
     "P.D.C.C.Pargaon Salu Malu"
   ],
@@ -7166,7 +7310,7 @@
   "Engineering College": [
     "Pune R.T.O.Office",
     "Labour Office (Shoppers Stop)",
-    "Shivajinagar Simla Office"
+    "Simla Office Shivajinagar"
   ],
   "Vasantbaug Chowk": [
     "Kothari Corner",
@@ -7488,6 +7632,10 @@
   ],
   "Bakuri Phata": [
     "Jadhav Wasti Nagar Road",
+    "Pachane Wasti"
+  ],
+  "Pachane Wasti": [
+    "Bakuri Phata",
     "Kesnand Phata",
     "Kesnand Phata Wagholi"
   ],
@@ -7527,11 +7675,6 @@
   "Srushti Chowk (148a, 277, 359a, 360)": [
     "Kalpataru Society Pimplegurav Road",
     "Pimple Gurav"
-  ],
-  "Magarpatta Dawakhana": [
-    "Hadapsar Gaon",
-    "Tilekar Wasti",
-    "Bhaji Mandai Hadapsar"
   ],
   "Tilekar Wasti": [
     "Magarpatta Dawakhana",
@@ -7829,42 +7972,6 @@
     "Ahilya Society",
     "Ambedkar Society"
   ],
-  "Gurudwara Colony Lohgaon": [
-    "Lohgaon",
-    "Smashan Bhumi Lohgaon"
-  ],
-  "Smashan Bhumi Lohgaon": [
-    "Gurudwara Colony Lohgaon",
-    "Shubam Mangal Karyalaya"
-  ],
-  "Shubam Mangal Karyalaya": [
-    "Smashan Bhumi Lohgaon",
-    "Indrayani Vihar"
-  ],
-  "Indrayani Vihar": [
-    "Shubam Mangal Karyalaya",
-    "Vadachi Wasti"
-  ],
-  "Vadachi Wasti": [
-    "Indrayani Vihar",
-    "Dadachi Padal"
-  ],
-  "Dadachi Padal": [
-    "Vadachi Wasti",
-    "Pawar Wasti Lohgaon Road"
-  ],
-  "Pawar Wasti Lohgaon Road": [
-    "Dadachi Padal",
-    "Poultry Farm Lohgaon Road"
-  ],
-  "Poultry Farm Lohgaon Road": [
-    "Pawar Wasti Lohgaon Road",
-    "Diamond Water Park Lohgaon"
-  ],
-  "Diamond Water Park Lohgaon": [
-    "Poultry Farm Lohgaon Road",
-    "More Wasti Lohgaon Road"
-  ],
   "Yerwada Jail": [
     "Yerwada Post Office",
     "Yerwada Press"
@@ -7891,6 +7998,9 @@
   "Lonkar School Mundhwa Gaon": [
     "Mundhwa Gaon",
     "Mundhwa Chowk"
+  ],
+  "Manapa Shramik Bhavan": [
+    "Kumbharwada"
   ],
   "Tulapur Phata (Phulgaon Phata)": [
     "Lonikand",
@@ -8842,6 +8952,22 @@
     "Sainik Wadi",
     "Vadgaon Sheri Phata"
   ],
+  "S.R.A.Colony Vimannagar": [
+    "Kailas Market"
+  ],
+  "Kailas Market": [
+    "S.R.A.Colony Vimannagar",
+    "Bekarnagar",
+    "Dattamandir Chowk"
+  ],
+  "Bekarnagar": [
+    "Kailas Market",
+    "Green Oaks"
+  ],
+  "Green Oaks": [
+    "Bekarnagar",
+    "Viman Nagar Corner"
+  ],
   "Viman Nagar": [
     "Konark Campus",
     "Rohan Mithila Aparments"
@@ -8865,18 +8991,6 @@
   "Dattamandir Chowk": [
     "Corporation Bank",
     "Kailas Market"
-  ],
-  "Kailas Market": [
-    "Dattamandir Chowk",
-    "Bekarnagar"
-  ],
-  "Bekarnagar": [
-    "Kailas Market",
-    "Green Oaks"
-  ],
-  "Green Oaks": [
-    "Bekarnagar",
-    "Viman Nagar Corner"
   ],
   "Westend (Towards Ghorpadi)": [
     "G.P.O.(Towards Pulgate)",
@@ -9096,7 +9210,7 @@
   ],
   "Traffic Police Chowky Vaiduwadi": [
     "Quality Bakery",
-    "Magarpatta Dawakhana - Solapur Road"
+    "Magarpatta Dawakhana"
   ],
   "Fatima Nagar": [
     "Fatimanagar",
@@ -9186,15 +9300,17 @@
   ],
   "Burma Shell New Airport Road": [
     "Kalwad",
-    "Lohgaon Airport Corner"
+    "Airport Croma Mall"
   ],
-  "Lohgaon Airport Corner": [
+  "Airport Croma Mall": [
     "Burma Shell New Airport Road",
-    "Symbiosis Law School Airport Road"
+    "Symbiosis Law School Airport Road",
+    "Lohgaon Airport"
   ],
   "Symbiosis Law School Airport Road": [
-    "Lohgaon Airport Corner",
-    "Rohan Mithila Aparments"
+    "Airport Croma Mall",
+    "Rohan Mithila Aparments",
+    "Symbiosis International School"
   ],
   "Rohan Mithila Aparments": [
     "Symbiosis Law School Airport Road",
@@ -10963,50 +11079,52 @@
   ],
   "Gulmohar Villa - Kharawade": [
     "Gujarwadi Phata - Kharawade",
-    "Aandgaon - Temghar Road"
+    "Aandgaon"
   ],
-  "Aandgaon - Temghar Road": [
+  "Aandgaon": [
     "Gulmohar Villa - Kharawade",
-    "Malegaon - Temghar Road"
+    "Malegaon"
   ],
-  "Malegaon - Temghar Road": [
-    "Aandgaon - Temghar Road",
-    "Dattanagar - Temghar Road"
+  "Malegaon": [
+    "Aandgaon",
+    "Dattanagar",
+    "Shivshambho Lawns Malegaon",
+    "Vijaykumar Aathavle Vidyalaya"
   ],
-  "Dattanagar - Temghar Road": [
-    "Malegaon - Temghar Road",
-    "Shedgewadi Phata - Temghar Road"
+  "Dattanagar": [
+    "Malegaon",
+    "Shedgewadi Phata"
   ],
-  "Shedgewadi Phata - Temghar Road": [
-    "Dattanagar - Temghar Road",
+  "Shedgewadi Phata": [
+    "Dattanagar",
     "Mutha Gaon"
   ],
   "Mutha Gaon": [
-    "Shedgewadi Phata - Temghar Road",
-    "Hotel Amruteshwar - Temghar Road"
+    "Shedgewadi Phata",
+    "Hotel Amruteshwar"
   ],
-  "Hotel Amruteshwar - Temghar Road": [
+  "Hotel Amruteshwar": [
     "Mutha Gaon",
-    "Hotel Nisarg - Temghar Road"
+    "Hotel Nisarga"
   ],
-  "Hotel Nisarg - Temghar Road": [
-    "Hotel Amruteshwar - Temghar Road",
-    "Hotel Turning Point - Temghar Road"
+  "Hotel Nisarga": [
+    "Hotel Amruteshwar",
+    "Hotel Turning Point"
   ],
-  "Hotel Turning Point - Temghar Road": [
-    "Hotel Nisarg - Temghar Road",
-    "Hotel Amrale Misal - Temghar Road"
+  "Hotel Turning Point": [
+    "Hotel Nisarga",
+    "Hotel Amrale Misal"
   ],
-  "Hotel Amrale Misal - Temghar Road": [
-    "Hotel Turning Point - Temghar Road",
-    "Hotel Matoshree - Temghar Road"
+  "Hotel Amrale Misal": [
+    "Hotel Turning Point",
+    "Hotel Matoshree"
   ],
-  "Hotel Matoshree - Temghar Road": [
-    "Hotel Amrale Misal - Temghar Road",
+  "Hotel Matoshree": [
+    "Hotel Amrale Misal",
     "Marnewadi Phata"
   ],
   "Marnewadi Phata": [
-    "Hotel Matoshree - Temghar Road",
+    "Hotel Matoshree",
     "Ambegaon Phata Lavasa Road",
     "Madhyamik Vidyalaya Urawade"
   ],
@@ -11333,10 +11451,9 @@
   "Mukai Chowk Kiwale": [
     "Lekha Farm &amp; Padmavati Garden",
     "Mukai Chowk Kiwale Terminal",
-    "Expressway Gahunje Road",
     "Indraprabha Society",
     "Malawali Nagar",
-    "Krushna Hotel Mukai Chowk"
+    "Kotwalnagar"
   ],
   "Sentosa Resorts &amp; Water Park": [
     "Mukai Chowk Kiwale Terminal",
@@ -11345,7 +11462,8 @@
   "Ravet Phata Samir Lawns": [
     "Sentosa Resorts &amp; Water Park",
     "Sai Cng Pump",
-    "Punawale Phata Highway"
+    "Punawale Phata Highway",
+    "Samir Lawns Ravet"
   ],
   "Sai Cng Pump": [
     "Ravet Phata Samir Lawns",
@@ -11354,7 +11472,8 @@
   ],
   "Punawale Phata Highway": [
     "Ravet Phata Samir Lawns",
-    "Sai Cng Pump"
+    "Sai Cng Pump",
+    "Koyte Wasti"
   ],
   "Chhatrapati Shivaji Maharaj Vidyalaya": [
     "Daravali Phata",
@@ -12752,10 +12871,6 @@
     "Didghar",
     "Malegaon"
   ],
-  "Malegaon": [
-    "Shivshambho Lawns Malegaon",
-    "Vijaykumar Aathavle Vidyalaya"
-  ],
   "Vijaykumar Aathavle Vidyalaya": [
     "Malegaon",
     "Nidan Sangvi Phata"
@@ -12886,39 +13001,6 @@
     "Pimpri Metro Station",
     "Pimpri Road"
   ],
-  "Pimpri Road": [
-    "P.C.M.C.Bhavan Pimpri",
-    "Mahindra Company Pimpri Road",
-    "Kundan Hotel",
-    "Finolex Chowk Morwadi / Pimpri Metro Station"
-  ],
-  "Mahindra Company Pimpri Road": [
-    "Pimpri Road",
-    "Gandhinagar Pimpri Road"
-  ],
-  "Gandhinagar Pimpri Road": [
-    "Mahindra Company Pimpri Road",
-    "Kamgar Nagar"
-  ],
-  "Kamgar Nagar": [
-    "Gandhinagar Pimpri Road",
-    "H.A.Corner"
-  ],
-  "H.A.Corner": [
-    "Kamgar Nagar",
-    "Nehrunagar",
-    "Nehrunagar Corner"
-  ],
-  "Nehrunagar": [
-    "H.A.Corner",
-    "Jyoti School",
-    "Nehrunagar Corner"
-  ],
-  "Jyoti School": [
-    "Nehrunagar",
-    "C-Ward Office",
-    "Pimpri Depot"
-  ],
   "C-Ward Office": [
     "Jyoti School",
     "Abhi Chemicals",
@@ -13028,50 +13110,46 @@
   ],
   "Dharmaraj Chowk": [
     "P.C.P.College Chowk",
-    "D.Y.Patil College Akurdi"
+    "D.Y.Patil College Gate"
   ],
-  "D.Y.Patil College Akurdi": [
+  "D.Y.Patil College Gate": [
     "Dharmaraj Chowk",
-    "Nano Homes Ravet",
-    "Kedarinagar Rajyog Colony"
+    "Ravet Corner / Ojhas Hospital"
   ],
-  "Nano Homes Ravet": [
-    "D.Y.Patil College Akurdi",
-    "Ravet Pumping Station",
-    "Phuljai Chowk",
-    "Kedarinagar Rajyog Colony",
-    "Punawale Phata"
+  "Mukai Chowk": [
+    "Mukai Chowk Kiwale Terminal",
+    "Expressway Gahunje"
   ],
-  "Expressway Gahunje Road": [
-    "Mukai Chowk Kiwale",
-    "Gurukrupa Developers Gahunje Road"
+  "Expressway Gahunje": [
+    "Mukai Chowk",
+    "Guru Krupa Developers Office"
   ],
-  "Gurukrupa Developers Gahunje Road": [
-    "Expressway Gahunje Road",
-    "Mangalam Sales Office Gahunje Road"
+  "Guru Krupa Developers Office": [
+    "Expressway Gahunje",
+    "Mangalam Society"
   ],
-  "Mangalam Sales Office Gahunje Road": [
-    "Gurukrupa Developers Gahunje Road",
-    "Symbiosis College Gahunje Road"
+  "Mangalam Society": [
+    "Guru Krupa Developers Office",
+    "Symbiosis University Gahunje"
   ],
-  "Symbiosis College Gahunje Road": [
-    "Mangalam Sales Office Gahunje Road",
+  "Symbiosis University Gahunje": [
+    "Mangalam Society",
     "Mamurdi Phata Chowk"
   ],
   "Mamurdi Phata Chowk": [
-    "Symbiosis College Gahunje Road",
-    "Lodha Belmondo Apartments"
+    "Symbiosis University Gahunje",
+    "Lodha Belmondo Society"
   ],
-  "Lodha Belmondo Apartments": [
+  "Lodha Belmondo Society": [
     "Mamurdi Phata Chowk",
-    "Fire Brigade Station Gahunje Road"
+    "Fire Station Gahunje"
   ],
-  "Fire Brigade Station Gahunje Road": [
-    "Lodha Belmondo Apartments",
+  "Fire Station Gahunje": [
+    "Lodha Belmondo Society",
     "Panyachi Taki Gahunje"
   ],
   "Panyachi Taki Gahunje": [
-    "Fire Brigade Station Gahunje Road",
+    "Fire Station Gahunje",
     "Gahunje Gaon",
     "M.C.A.Stadium Gahunje"
   ],
@@ -13341,22 +13419,18 @@
     "Mezza 9"
   ],
   "Iskcon Mandir Shinde Wasti Ravet": [
-    "Sonigara Apartments Shinde Wasti Ravet"
+    "Sonigara Apartments"
   ],
-  "Sonigara Apartments Shinde Wasti Ravet": [
+  "Sonigara Apartments": [
     "Iskcon Mandir Shinde Wasti Ravet",
     "Anandban Soceity Shinde Wasti Ravet"
   ],
   "Anandban Soceity Shinde Wasti Ravet": [
-    "Sonigara Apartments Shinde Wasti Ravet",
-    "Ravet Shinde Wasti"
-  ],
-  "Ravet Shinde Wasti": [
-    "Anandban Soceity Shinde Wasti Ravet",
+    "Sonigara Apartments",
     "Mauli Park"
   ],
   "Mauli Park": [
-    "Ravet Shinde Wasti",
+    "Anandban Soceity Shinde Wasti Ravet",
     "Mauli Park Corner"
   ],
   "Mauli Park Corner": [
@@ -13365,25 +13439,11 @@
   ],
   "Phuljai Chowk": [
     "Mauli Park Corner",
+    "Shinde Wasti Corner"
+  ],
+  "Shinde Wasti Corner": [
+    "Phuljai Chowk",
     "Nano Homes Ravet"
-  ],
-  "Kedarinagar Rajyog Colony": [
-    "Nano Homes Ravet",
-    "Rajyog Petrol Pump Walhekarwadi",
-    "D.Y.Patil College Akurdi"
-  ],
-  "Rajyog Petrol Pump Walhekarwadi": [
-    "Kedarinagar Rajyog Colony",
-    "Walhekarwadi"
-  ],
-  "Walhekarwadi": [
-    "Rajyog Petrol Pump Walhekarwadi",
-    "Aaher Garden Walhekarwadi",
-    "Prerna School Walhekarwadi"
-  ],
-  "Aaher Garden Walhekarwadi": [
-    "Walhekarwadi",
-    "Chinchwade Farm"
   ],
   "Sai Garden Prashant Society": [
     "Thermax",
@@ -13822,7 +13882,7 @@
     "Hexaware Company"
   ],
   "Manapa Bhavan - River Side Bus Stop": [
-    "Chhatrapati Shivaji Maharaj Putala Ma.Na.Pa."
+    "Chhatrapati Shivaji Maharaj Putla"
   ],
   "Srushti Chowk": [
     "Pimple Gurav",
@@ -14085,7 +14145,7 @@
   "Kokane Chowk": [
     "Shivar Chowk",
     "Rose Land Nisarg Nirmiti Society",
-    "Ganesh Mandir Rahatani Road",
+    "Ganesh Mandir",
     "Kokane Chowk"
   ],
   "Rose Land Nisarg Nirmiti Society": [
@@ -14134,12 +14194,12 @@
     "Roseland Residency",
     "Shivar Chowk"
   ],
-  "Ganesh Mandir Rahatani Road": [
+  "Ganesh Mandir": [
     "Kokane Chowk",
     "Sindhu Park Society"
   ],
   "Sindhu Park Society": [
-    "Ganesh Mandir Rahatani Road",
+    "Ganesh Mandir",
     "Rahatani Gaon"
   ],
   "Pimple Saudagar": [
@@ -14382,10 +14442,6 @@
     "Patole Wasti Charholi",
     "Charholi Gaon"
   ],
-  "Pimpri Depot": [
-    "C-Ward Office",
-    "Jyoti School"
-  ],
   "Dhangarbaba Mandir": [
     "M.M.School",
     "Rahatani Phata"
@@ -14425,16 +14481,17 @@
   ],
   "Punawale Corner": [
     "Punawale",
-    "Koyte Wasti Jambe Road",
+    "Koyte Wasti",
     "T-Point Laxmi Chowk"
   ],
-  "Koyte Wasti Jambe Road": [
+  "Koyte Wasti": [
     "Punawale Corner",
     "Tajane Wasti Jambe Road",
-    "Siddhashila Eela Society"
+    "Siddhashila Eela Society",
+    "Punawale Phata Highway"
   ],
   "Tajane Wasti Jambe Road": [
-    "Koyte Wasti Jambe Road",
+    "Koyte Wasti",
     "Vijaynagar Jambe Road"
   ],
   "Vijaynagar Jambe Road": [
@@ -14514,15 +14571,19 @@
     "Jambe Gaon"
   ],
   "Siddhashila Eela Society": [
-    "Koyte Wasti Jambe Road",
+    "Koyte Wasti",
     "Somani Residency Business Complex (Punawale)"
   ],
   "Somani Residency Business Complex (Punawale)": [
     "Siddhashila Eela Society",
+    "Gaikwad Nagar Punawale"
+  ],
+  "Gaikwad Nagar Punawale": [
+    "Somani Residency Business Complex (Punawale)",
     "Kate Wasti Corner"
   ],
   "Kate Wasti Corner": [
-    "Somani Residency Business Complex (Punawale)",
+    "Gaikwad Nagar Punawale",
     "Punville Society Punawale"
   ],
   "Punville Society Punawale": [
@@ -14822,12 +14883,8 @@
     "Kharabwadi - Talegaon Road",
     "Ranubai Mala - Talegaon Road"
   ],
-  "Chakan Talegaon Chowk - Talegaon Road": [
-    "Balaji Petrol Pump - Nashik Highway",
-    "Shreya Lawns - Talegaon Road"
-  ],
   "Chakan Ambethan Chowk": [
-    "Chakan Talegaon Chowk - Nashik Highway",
+    "Chakan Talegaon Chowk",
     "Chakan Marketyard",
     "Bhimashakar Colony Chakan"
   ],
@@ -14884,38 +14941,6 @@
   "C.N.G.Pump Phugewadi": [
     "Shitaladevi Petrol Pump",
     "Phugewadi Jakat Naka"
-  ],
-  "Moryanagar Chinchwad Road": [
-    "Chaphekar Chowk",
-    "Chinchwad S.K.F.Company"
-  ],
-  "Chinchwad S.K.F.Company": [
-    "Moryanagar Chinchwad Road",
-    "Premlok Park"
-  ],
-  "Premlok Park": [
-    "Chinchwad S.K.F.Company",
-    "Police Ayuktalaya Chinchwad Road"
-  ],
-  "Police Ayuktalaya Chinchwad Road": [
-    "Premlok Park",
-    "Indira Nagar Chinchwad"
-  ],
-  "Indira Nagar Chinchwad": [
-    "Police Ayuktalaya Chinchwad Road",
-    "Bhoirnagar"
-  ],
-  "Bhoirnagar": [
-    "Indira Nagar Chinchwad",
-    "Jay Ganesh Vision Akurdi"
-  ],
-  "Jay Ganesh Vision Akurdi": [
-    "Bhoirnagar",
-    "Akurdi Corner"
-  ],
-  "Akurdi Corner": [
-    "Jay Ganesh Vision Akurdi",
-    "Akurdi Chowk"
   ],
   "Toll Naka Shikrapur": [
     "Shikrapur Phata",
@@ -15080,8 +15105,7 @@
     "Nageshwar Vidyalaya"
   ],
   "Rajgurunagar Law College": [
-    "Rahul Petrol Pump Thigalsthal",
-    "Tukaiwadi"
+    "Rahul Petrol Pump Thigalsthal"
   ],
   "Rahul Petrol Pump Thigalsthal": [
     "Rajgurunagar Law College",
@@ -15334,79 +15358,76 @@
   "Dattanagar Kiwale": [
     "St.Joseph School Dattanagar"
   ],
-  "Samir Lawns Ravet": [
-    "G.K.Silverland Society"
-  ],
-  "G.K.Silverland Society": [
-    "Samir Lawns Ravet",
-    "Kasturi Chowk Kiwale"
-  ],
-  "Kasturi Chowk Kiwale": [
-    "G.K.Silverland Society",
-    "Katale Wasti"
-  ],
-  "Katale Wasti": [
-    "Kasturi Chowk Kiwale",
-    "V-Up Town"
-  ],
-  "V-Up Town": [
-    "Katale Wasti",
-    "Ganga Vivante"
-  ],
-  "Ganga Vivante": [
-    "V-Up Town",
-    "Kiwale"
-  ],
-  "Kiwale": [
-    "Ganga Vivante",
-    "Manapa School Kiwale"
-  ],
-  "Manapa School Kiwale": [
-    "Kiwale",
+  "Kotwalnagar": [
+    "Mukai Chowk Kiwale",
     "Aaple Ghar Vruddhashram"
   ],
   "Aaple Ghar Vruddhashram": [
-    "Manapa School Kiwale",
-    "Kotwalnagar"
-  ],
-  "Kotwalnagar": [
-    "Aaple Ghar Vruddhashram",
-    "Krushna Hotel Mukai Chowk"
-  ],
-  "Krushna Hotel Mukai Chowk": [
     "Kotwalnagar",
-    "Mukai Chowk Kiwale"
+    "Manapa School Kiwale"
   ],
-  "Alandi Phata - Chakan Alandi Road": [
+  "Manapa School Kiwale": [
+    "Aaple Ghar Vruddhashram",
+    "Kiwale"
+  ],
+  "Kiwale": [
+    "Manapa School Kiwale",
+    "Ganga Vivante"
+  ],
+  "Ganga Vivante": [
+    "Kiwale",
+    "V-Up Town"
+  ],
+  "V-Up Town": [
+    "Ganga Vivante",
+    "Katale Wasti"
+  ],
+  "Katale Wasti": [
+    "V-Up Town",
+    "Kasturi Chowk Kiwale"
+  ],
+  "Kasturi Chowk Kiwale": [
+    "Katale Wasti",
+    "G.K.Silverland Society"
+  ],
+  "G.K.Silverland Society": [
+    "Kasturi Chowk Kiwale",
+    "Samir Lawns Ravet"
+  ],
+  "Samir Lawns Ravet": [
+    "G.K.Silverland Society",
+    "Ravet Phata Samir Lawns"
+  ],
+  "Alandi Phata": [
     "Gavte Wasti - Nashik Highway",
-    "A.S.A.L.Company - Chakan Alandi Road"
+    "A.S.A.L.Company"
   ],
-  "A.S.A.L.Company - Chakan Alandi Road": [
-    "Alandi Phata - Chakan Alandi Road",
+  "A.S.A.L.Company": [
+    "Alandi Phata",
     "Sumeet Packers Company"
   ],
   "Sumeet Packers Company": [
-    "A.S.A.L.Company - Chakan Alandi Road",
-    "Majgaon Phata - Chakan Alandi Road"
+    "A.S.A.L.Company",
+    "Majgaon Phata"
   ],
-  "Majgaon Phata - Chakan Alandi Road": [
+  "Majgaon Phata": [
     "Sumeet Packers Company",
     "Ruta Aai Lake"
   ],
   "Ruta Aai Lake": [
-    "Majgaon Phata - Chakan Alandi Road",
-    "M.I.T.College Hanumanwadi - Alandi Chakan Road"
+    "Majgaon Phata",
+    "M.I.T.College Hanumanwadi"
   ],
-  "M.I.T.College Hanumanwadi - Alandi Chakan Road": [
+  "M.I.T.College Hanumanwadi": [
     "Ruta Aai Lake",
-    "Thakarwadi Phata - Chakan Alandi Road"
+    "Thakarwadi Phata"
   ],
-  "Thakarwadi Phata - Chakan Alandi Road": [
-    "M.I.T.College Hanumanwadi - Alandi Chakan Road",
+  "Thakarwadi Phata": [
+    "M.I.T.College Hanumanwadi",
     "Hanumanwadi Jilha Parishad School"
   ],
   "Hanumanwadi Jilha Parishad School": [
-    "Thakarwadi Phata - Chakan Alandi Road",
+    "Thakarwadi Phata",
     "Indrayani Hospital &amp; Cancer Institute Alandi"
   ],
   "Indrayani Hospital &amp; Cancer Institute Alandi": [
@@ -16310,6 +16331,37 @@
     "Suryadatta College",
     "Bavdhan Gaon"
   ],
+  "Hyatt Regency Hotel": [
+    "Ramwadi Metro Station",
+    "Weikfield I.T.Park"
+  ],
+  "Weikfield I.T.Park": [
+    "Hyatt Regency Hotel",
+    "Sakore Nagar"
+  ],
+  "Sakore Nagar": [
+    "Weikfield I.T.Park",
+    "Nexa Maruti Suzuki Showroom"
+  ],
+  "Nexa Maruti Suzuki Showroom": [
+    "Sakore Nagar",
+    "Viman Nagar Lane No.22"
+  ],
+  "Viman Nagar Lane No.22": [
+    "Nexa Maruti Suzuki Showroom",
+    "Viman Nagar Lane No.21"
+  ],
+  "Viman Nagar Lane No.21": [
+    "Viman Nagar Lane No.22",
+    "Symbiosis International School"
+  ],
+  "Symbiosis International School": [
+    "Viman Nagar Lane No.21",
+    "Symbiosis Law School Airport Road"
+  ],
+  "Lohgaon Airport": [
+    "Airport Croma Mall"
+  ],
   "Thergaon Phata": [
     "Vitbhatti Thergaon"
   ],
@@ -16421,317 +16473,6 @@
   "Chinchwade Nagar": [
     "Shri Gurumaiyya Primary School",
     "Gokhale Park Walhekarwadi Road"
-  ],
-  "Junnar (Chhatrapati Shivaji Maharaj Putala)": [
-    "Junnar S.T.Stand"
-  ],
-  "Junnar S.T.Stand": [
-    "Junnar (Chhatrapati Shivaji Maharaj Putala)",
-    "Junnar Civil Court"
-  ],
-  "Junnar Civil Court": [
-    "Junnar S.T.Stand",
-    "United School Junnar"
-  ],
-  "United School Junnar": [
-    "Junnar Civil Court",
-    "Rural Hospital Junnar"
-  ],
-  "Rural Hospital Junnar": [
-    "United School Junnar",
-    "Shri Chhatrapati Shivaji Maharaj Pravesh Dwar"
-  ],
-  "Shri Chhatrapati Shivaji Maharaj Pravesh Dwar": [
-    "Rural Hospital Junnar",
-    "Bharat Petroleum Junnar"
-  ],
-  "Bharat Petroleum Junnar": [
-    "Shri Chhatrapati Shivaji Maharaj Pravesh Dwar",
-    "Dhamankhel Phata"
-  ],
-  "Dhamankhel Phata": [
-    "Bharat Petroleum Junnar",
-    "Khore Wasti"
-  ],
-  "Khore Wasti": [
-    "Dhamankhel Phata",
-    "Party Garden Hotel Junnar Road"
-  ],
-  "Party Garden Hotel Junnar Road": [
-    "Khore Wasti",
-    "Indian Oil Pump Junnar Road"
-  ],
-  "Indian Oil Pump Junnar Road": [
-    "Party Garden Hotel Junnar Road",
-    "Badshah Talao"
-  ],
-  "Badshah Talao": [
-    "Indian Oil Pump Junnar Road",
-    "Aagar Hapus Baug Phata"
-  ],
-  "Aagar Hapus Baug Phata": [
-    "Badshah Talao",
-    "Indian Oil Pump Aagar"
-  ],
-  "Indian Oil Pump Aagar": [
-    "Aagar Hapus Baug Phata",
-    "Ghodegaon Phata Khanapur"
-  ],
-  "Ghodegaon Phata Khanapur": [
-    "Indian Oil Pump Aagar",
-    "Jaihind College Kuran"
-  ],
-  "Jaihind College Kuran": [
-    "Ghodegaon Phata Khanapur",
-    "Kuran Phata"
-  ],
-  "Kuran Phata": [
-    "Jaihind College Kuran",
-    "Pimpalgaon Phata"
-  ],
-  "Pimpalgaon Phata": [
-    "Kuran Phata",
-    "Arvi Junnar Road"
-  ],
-  "Arvi Junnar Road": [
-    "Pimpalgaon Phata",
-    "Khebade Mala"
-  ],
-  "Khebade Mala": [
-    "Arvi Junnar Road",
-    "Datta Mandir Junnar Road"
-  ],
-  "Datta Mandir Junnar Road": [
-    "Khebade Mala",
-    "Junnar Phata Narayangaon"
-  ],
-  "Junnar Phata Narayangaon": [
-    "Datta Mandir Junnar Road",
-    "Ozar Phata Narayangaon"
-  ],
-  "Ozar Phata Narayangaon": [
-    "Junnar Phata Narayangaon",
-    "Kolhe Mala"
-  ],
-  "Kolhe Mala": [
-    "Ozar Phata Narayangaon",
-    "Irrigation Colony Narayangaon"
-  ],
-  "Irrigation Colony Narayangaon": [
-    "Kolhe Mala",
-    "H.P.Petrol Pump Narayangaon"
-  ],
-  "H.P.Petrol Pump Narayangaon": [
-    "Irrigation Colony Narayangaon",
-    "Narayangaon S.T.Stand"
-  ],
-  "Narayangaon S.T.Stand": [
-    "H.P.Petrol Pump Narayangaon",
-    "Jilha Parishad School Narayangaon"
-  ],
-  "Jilha Parishad School Narayangaon": [
-    "Narayangaon S.T.Stand",
-    "Narayangaon Police Station"
-  ],
-  "Narayangaon Police Station": [
-    "Jilha Parishad School Narayangaon",
-    "M.S.E.B.Narayangaon"
-  ],
-  "M.S.E.B.Narayangaon": [
-    "Narayangaon Police Station",
-    "Polytechnic College Narayangaon"
-  ],
-  "Polytechnic College Narayangaon": [
-    "M.S.E.B.Narayangaon",
-    "K.V.K.Narayangaon"
-  ],
-  "K.V.K.Narayangaon": [
-    "Polytechnic College Narayangaon",
-    "Rural Agricultural Institute Narayangaon"
-  ],
-  "Rural Agricultural Institute Narayangaon": [
-    "K.V.K.Narayangaon",
-    "Narayangaon Phata"
-  ],
-  "Narayangaon Phata": [
-    "Rural Agricultural Institute Narayangaon",
-    "Maruti Suzuki Showroom Narayangaon"
-  ],
-  "Maruti Suzuki Showroom Narayangaon": [
-    "Narayangaon Phata",
-    "Essar Petrol Pump"
-  ],
-  "Essar Petrol Pump": [
-    "Maruti Suzuki Showroom Narayangaon",
-    "Hotel Bhujbal Bandhu"
-  ],
-  "Hotel Bhujbal Bandhu": [
-    "Essar Petrol Pump",
-    "Ganeshwadi Phata Kalamb"
-  ],
-  "Ganeshwadi Phata Kalamb": [
-    "Hotel Bhujbal Bandhu",
-    "Kalamb Gaon"
-  ],
-  "Kalamb Gaon": [
-    "Ganeshwadi Phata Kalamb",
-    "Mhalunge Padwal Phata Kalamb"
-  ],
-  "Mhalunge Padwal Phata Kalamb": [
-    "Kalamb Gaon",
-    "Sultanpur Phata"
-  ],
-  "Sultanpur Phata": [
-    "Mhalunge Padwal Phata Kalamb",
-    "Kalamb Phata"
-  ],
-  "Kalamb Phata": [
-    "Sultanpur Phata",
-    "Eklahare Phata"
-  ],
-  "Eklahare Phata": [
-    "Kalamb Phata",
-    "Jeevan Mangal Karyalaya Manchar"
-  ],
-  "Jeevan Mangal Karyalaya Manchar": [
-    "Eklahare Phata",
-    "Mahatma Gandhi Vidyalaya Manchar"
-  ],
-  "Mahatma Gandhi Vidyalaya Manchar": [
-    "Jeevan Mangal Karyalaya Manchar",
-    "Ambegaon Phata Mancha"
-  ],
-  "Ambegaon Phata Mancha": [
-    "Mahatma Gandhi Vidyalaya Manchar",
-    "Bhimashankar Phata"
-  ],
-  "Bhimashankar Phata": [
-    "Ambegaon Phata Mancha",
-    "Bazar Samiti Manchar"
-  ],
-  "Bazar Samiti Manchar": [
-    "Bhimashankar Phata",
-    "Manchar S.T.Stand"
-  ],
-  "Manchar S.T.Stand": [
-    "Bazar Samiti Manchar",
-    "Primary Health Hospital Manchar"
-  ],
-  "Primary Health Hospital Manchar": [
-    "Manchar S.T.Stand",
-    "Getwell Hospital"
-  ],
-  "Getwell Hospital": [
-    "Primary Health Hospital Manchar",
-    "Lokhare Hospital"
-  ],
-  "Lokhare Hospital": [
-    "Getwell Hospital",
-    "Indian Oil Petrol Pump"
-  ],
-  "Indian Oil Petrol Pump": [
-    "Lokhare Hospital",
-    "Mauli Mangal Kendra Malwadi"
-  ],
-  "Mauli Mangal Kendra Malwadi": [
-    "Indian Oil Petrol Pump",
-    "Khan Wasti Nashik Highway"
-  ],
-  "Khan Wasti Nashik Highway": [
-    "Mauli Mangal Kendra Malwadi",
-    "Badhe Mala"
-  ],
-  "Badhe Mala": [
-    "Khan Wasti Nashik Highway",
-    "Avasari Khurd Phata"
-  ],
-  "Avasari Khurd Phata": [
-    "Badhe Mala",
-    "Avsari Dudh Sankalan Kendra"
-  ],
-  "Avsari Dudh Sankalan Kendra": [
-    "Avasari Khurd Phata",
-    "Bhorwadi"
-  ],
-  "Bhorwadi": [
-    "Avsari Dudh Sankalan Kendra",
-    "Gorakshanath Mandir"
-  ],
-  "Gorakshanath Mandir": [
-    "Bhorwadi",
-    "Tambade Mala Nashik Highway"
-  ],
-  "Tambade Mala Nashik Highway": [
-    "Gorakshanath Mandir",
-    "Forest Office Nashik Highway"
-  ],
-  "Forest Office Nashik Highway": [
-    "Tambade Mala Nashik Highway",
-    "Honey Bee Hotel / Pawale Wasti"
-  ],
-  "Honey Bee Hotel / Pawale Wasti": [
-    "Forest Office Nashik Highway",
-    "Pargaon Phata"
-  ],
-  "Pargaon Phata": [
-    "Honey Bee Hotel / Pawale Wasti",
-    "Sathe Nagar Peth"
-  ],
-  "Sathe Nagar Peth": [
-    "Pargaon Phata",
-    "Peth Gaon"
-  ],
-  "Peth Gaon": [
-    "Sathe Nagar Peth",
-    "Kankadi Phata Peth"
-  ],
-  "Kankadi Phata Peth": [
-    "Peth Gaon",
-    "Shree Wakeshwar Vidyalaya Peth"
-  ],
-  "Shree Wakeshwar Vidyalaya Peth": [
-    "Kankadi Phata Peth",
-    "Peth Phata"
-  ],
-  "Peth Phata": [
-    "Shree Wakeshwar Vidyalaya Peth",
-    "Jaidwadi Phata"
-  ],
-  "Jaidwadi Phata": [
-    "Peth Phata",
-    "S.N.G.Institute Malegaon"
-  ],
-  "S.N.G.Institute Malegaon": [
-    "Jaidwadi Phata",
-    "Thakarwadi Nashik Highway"
-  ],
-  "Thakarwadi Nashik Highway": [
-    "S.N.G.Institute Malegaon",
-    "Pazhar Talav"
-  ],
-  "Pazhar Talav": [
-    "Thakarwadi Nashik Highway",
-    "Ghat Wasti / Sargam Hotel"
-  ],
-  "Ghat Wasti / Sargam Hotel": [
-    "Pazhar Talav",
-    "Panmala Nashik Highway"
-  ],
-  "Panmala Nashik Highway": [
-    "Ghat Wasti / Sargam Hotel",
-    "Varkad Wasti Sandbhorwadi"
-  ],
-  "Varkad Wasti Sandbhorwadi": [
-    "Panmala Nashik Highway",
-    "Sandbhorwadi"
-  ],
-  "Sandbhorwadi": [
-    "Varkad Wasti Sandbhorwadi",
-    "Tukaiwadi"
-  ],
-  "Tukaiwadi": [
-    "Sandbhorwadi",
-    "Rajgurunagar Law College"
   ],
   "Panyachi Taki Old Sangvi (337, 347)": [
     "Sai Chowk Navi Sangvi",

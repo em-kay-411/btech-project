@@ -24,7 +24,7 @@ const getBusRoute = async (busID) => {
         const busObj = await Bus.findOne({id : busID});
         const route = [];
         for(let i=0; i<busObj.route.length; i++){
-            const stationObj = await Station.findById(busObj.route[i]);
+            const stationObj = await Station.findById(busObj.route[i].station);
             route.push(stationObj.name);
         }
 
@@ -40,16 +40,23 @@ const insertNewBusOnExistingRouteById = async (id, route) => {
         return;
     }
 
+    const routeArray = route.map((element) => {
+        return ({
+            station : element,
+            crossed : false
+        })
+    })
+
     try {
         const busObj = new Bus({
             id: id,
-            route: route
+            route: routeArray
         })
 
         await busObj.save();
 
-        for (let i = 0; i < route.length; i++) {
-            await Station.findByIdAndUpdate(route[i], { $push: { buses: busObj._id } });
+        for (let i = 0; i < routeArray.length; i++) {
+            await Station.findByIdAndUpdate(routeArray[i], { $push: { buses: busObj._id } });
         }
 
         console.log('Route entered succesfully');
@@ -62,17 +69,24 @@ const insertNewBusOnExistingRouteByName = async (id, routeByName) => {
     const route = await getStationIdsByName(routeByName);
     console.log(route);
 
+    const routeArray = route.map((element) => {
+        return ({
+            station : element,
+            crossed : false
+        })
+    })
+
     try {
         const busObj = new Bus({
             id: id,
-            route: route
+            route: routeArray
         })
 
         await busObj.save();
 
         for (let i = 0; i < route.length; i++) {
-            console.log(`Adding bus ${id} to ${route[i]}`);
-            await Station.findByIdAndUpdate(route[i], { $push: { buses: busObj._id } });
+            console.log(`Adding bus ${id} to ${route[i].station}`);
+            await Station.findByIdAndUpdate(route[i].station, { $push: { buses: busObj._id } });
         }
 
         console.log('Route entered succesfully');
@@ -93,7 +107,7 @@ const deleteBus = async (id) => {
         const route = busObj.route;
 
         for (let i = 0; i < route.length; i++) {
-            await Station.findByIdAndUpdate(route[i], { $pull: { buses: busObj._id } });
+            await Station.findByIdAndUpdate(route[i].station, { $pull: { buses: busObj._id } });
         }
 
         await busObj.deleteOne();

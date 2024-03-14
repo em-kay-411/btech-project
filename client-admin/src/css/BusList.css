@@ -26,8 +26,9 @@
     margin: 5px 0;
 }
 
-.busCard :hover {
+.busCard:hover {
     cursor: pointer;
+    background-color: rgb(249, 211, 163);
 }
 
 .station-info{

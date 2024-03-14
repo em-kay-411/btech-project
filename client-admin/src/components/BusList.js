@@ -88,7 +88,9 @@ function BusList() {
             {Object.keys(busCards).map((busID) => {
                 const { latitude, longitude, nextStation, previousStation, eta } = busCards[busID];
                 return (
-                    <div key={busID} className="busCard">
+                    <div key={busID} className="busCard" onClick={() => {
+                        return (<BusDetails busID={busID} latitude={latitude} longitude={longitude} nextStation={nextStation} previousStation={previousStation} eta={eta} />)
+                    }}>
                         <div className="bus-id">{busID}</div>
                         <div className="station-info">
                             <div className="crossed">Crossed {previousStation.name}</div>

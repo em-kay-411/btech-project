@@ -68,7 +68,6 @@ const main = async () => {
 
     getArray();
 
-
 }
 
 main();

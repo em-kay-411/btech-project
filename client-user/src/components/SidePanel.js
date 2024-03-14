@@ -16,6 +16,7 @@ function SidePanel(props) {
     const [options, setOptions] = useState([]);
 
     const getOptions = async () => {
+        console.log(source, destination)
         setLoading(true);
         setOptions([]);
         const requestBody = {

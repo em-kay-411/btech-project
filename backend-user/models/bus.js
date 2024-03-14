@@ -6,8 +6,14 @@ const busSchema = new mongoose.Schema({
     },
     route: {
         type: [{
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'Station'
+            station: {
+                type: mongoose.Schema.Types.ObjectId,
+                ref: 'Station'
+            },
+            crossed: {
+                type: Boolean,
+                default: false // You can set a default value if needed
+            }
         }]
     }
 })

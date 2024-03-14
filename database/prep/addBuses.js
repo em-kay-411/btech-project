@@ -44,7 +44,7 @@ const insertBuses = async () => {
         for (let j = 0; j < elements.length; j++) {
             const stationName = $(elements[j]).find('h3').html();
             route.push(stationName);
-            console.log('Adding ' + busID + ' to route ' + route);
+            console.log('Adding ' + busID + ' to route ' + stationName);
         }
 
         await insertNewBusOnExistingRouteByName(busID, route);
