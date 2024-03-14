@@ -6,6 +6,7 @@ import env from 'react-dotenv';
 import axios from 'axios';
 import BusDetails from './BusDetails'
 import CloseIcon from '@mui/icons-material/Close';
+import ChatBubbleIcon from '@mui/icons-material/ChatBubble';
 // console.log(env);
 const brokerURL = env.MQTT_BROKER_URL;
 const client = mqtt.connect(brokerURL);
@@ -29,7 +30,7 @@ function BusList() {
         }
         const response = await axios.post(`${backendURL}/busRoute`, requestBody);
         const routeArray = response.data.route;
-        console.log(routeArray)
+        // console.log(routeArray)
         setRoute(routeArray);
         setDetailBus(busID);
         setDetailsVisible(true);
@@ -49,7 +50,7 @@ function BusList() {
 
         const handleMessage = (topic, message) => {
             const mqttTopic = topic.split('/')[0];
-            console.log(mqttTopic);
+            // console.log(mqttTopic);
             if (mqttTopic === 'universal') {
                 const command = message.toString().split('/')[0];
 
@@ -70,16 +71,16 @@ function BusList() {
             }
 
             if (mqttTopic === 'location') {
-                console.log(mqttTopic);
+                // console.log(mqttTopic);
                 const busID = topic.split('/')[1];
-                console.log(busID);
+                // console.log(busID);
                 const data = JSON.parse(message);
                 const latitude = data.latitude;
                 const longitude = data.longitude;
                 const nextStation = data.nextStation;
                 const previousStation = data.previousStation;
                 const eta = data.eta;
-                console.log(busCards);
+                // console.log(busCards);
 
                 setBusCards(prevState => {
                     return {
@@ -110,7 +111,7 @@ function BusList() {
             />
             {Object.keys(busCards).map((busID) => {
                 const { latitude, longitude, nextStation, previousStation, eta } = busCards[busID];
-                console.log(latitude, longitude);
+                {/* console.log(latitude, longitude); */}
                 return (
                     <>
                         <div className="busCard" onClick={() => { handleBusCardClick(busID) }}>
@@ -122,11 +123,12 @@ function BusList() {
                                 </div>
                                 <div className="next">Arriving at {nextStation.name} in {eta} mins</div>
                             </div>
+                            <ChatBubbleIcon className='chat-icon' style={{color:'#c79a46'}}/>                      
                         </div>
 
                         {detailsVisible && (
                             <div className="bus-details-container">
-                            {console.log(busCards[detailBus])}
+                            {/* {console.log(busCards[detailBus])} */}
                                 <BusDetails
                                     route={route}
                                     busID={detailBus}

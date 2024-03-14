@@ -18,7 +18,7 @@ function BusDetails(props) {
                     {props.route.map((station) => {
                         return (
                             <div className="station-element">
-                                <div className="symbol">{station.crossed ? <RadioButtonCheckedIcon fontSize='small' color='#9d9dff'/> : <RadioButtonUncheckedIcon fontSize='small' color='#9d9dff' />}</div>
+                                <div className="symbol">{station.crossed ? <RadioButtonCheckedIcon fontSize='small' style={{color: '#9d9dff'}}/> : <RadioButtonUncheckedIcon fontSize='small' style={{color: '#9d9dff'}} />}</div>
                                 <div className="station-name">{station.name}</div>
                             </div> 
                             

@@ -18,7 +18,7 @@
     border: rgb(244, 208, 155) 1px solid;
     border-radius: 5px;
     background-color: blanchedalmond;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
     padding: 5px;
     display: flex;
@@ -54,4 +54,10 @@
     display: flex;
     align-items: center;
     justify-content: center;
+}
+
+.chat-icon:hover{
+    padding: 4px;
+    border-radius: 50%;
+    background-color: orange;
 }
