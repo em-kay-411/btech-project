@@ -25,7 +25,7 @@ const getBusRoute = async (busID) => {
         const route = [];
         for(let i=0; i<busObj.route.length; i++){
             const stationObj = await Station.findById(busObj.route[i].station);
-            route.push(stationObj.name);
+            route.push({ name : stationObj.name, crossed : busObj.route[i].crossed});
         }
 
         return route;

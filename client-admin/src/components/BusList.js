@@ -1,19 +1,42 @@
 import '../css/BusList.css'
-import {Snackbar} from '@mui/material';
+import { Snackbar } from '@mui/material';
 import { useEffect, useState } from "react";
 import mqtt from 'mqtt';
 import env from 'react-dotenv';
+import axios from 'axios';
+import BusDetails from './BusDetails'
+import CloseIcon from '@mui/icons-material/Close';
 // console.log(env);
 const brokerURL = env.MQTT_BROKER_URL;
 const client = mqtt.connect(brokerURL);
 
 function BusList() {
+    const backendURL = env.BACKEND_API_URL;
     const [busCards, setBusCards] = useState([]);
     const [message, setMessage] = useState('');
     const [open, setOpen] = useState(false);
+    const [detailsVisible, setDetailsVisible] = useState(false);
+    const [detailBus, setDetailBus] = useState('');
+    const [route, setRoute] = useState([]);
 
     const handleClose = (event, reason) => {
         setOpen(false);
+    }
+
+    const handleBusCardClick = async (busID) => {
+        const requestBody = {
+            bus: busID
+        }
+        const response = await axios.post(`${backendURL}/busRoute`, requestBody);
+        const routeArray = response.data.route;
+        console.log(routeArray)
+        setRoute(routeArray);
+        setDetailBus(busID);
+        setDetailsVisible(true);
+    }
+
+    const handleDetailsClose = () => {
+        setDetailsVisible(false);
     }
 
     useEffect(() => {
@@ -87,20 +110,36 @@ function BusList() {
             />
             {Object.keys(busCards).map((busID) => {
                 const { latitude, longitude, nextStation, previousStation, eta } = busCards[busID];
+                console.log(latitude, longitude);
                 return (
-                    <div key={busID} className="busCard" onClick={() => {
-                        return (<BusDetails busID={busID} latitude={latitude} longitude={longitude} nextStation={nextStation} previousStation={previousStation} eta={eta} />)
-                    }}>
-                        <div className="bus-id">{busID}</div>
-                        <div className="station-info">
-                            <div className="crossed">Crossed {previousStation.name}</div>
-                            <div className="current-location">
-                                Near ({latitude}, {longitude})
+                    <>
+                        <div className="busCard" onClick={() => { handleBusCardClick(busID) }}>
+                            <div className="bus-id">{busID}</div>
+                            <div className="station-info">
+                                <div className="crossed">Crossed {previousStation.name}</div>
+                                <div className="current-location">
+                                    Near ({latitude}, {longitude})
+                                </div>
+                                <div className="next">Arriving at {nextStation.name} in {eta} mins</div>
                             </div>
-                            <div className="next">Arriving at {nextStation.name} in {eta} mins</div>
                         </div>
 
-                    </div>
+                        {detailsVisible && (
+                            <div className="bus-details-container">
+                            {console.log(busCards[detailBus])}
+                                <BusDetails
+                                    route={route}
+                                    busID={detailBus}
+                                    latitude={busCards[detailBus].latitude}
+                                    longitude={busCards[detailBus].longitude}
+                                    nextStation={busCards[detailBus].nextStation}
+                                    previousStation={busCards[detailBus].previousStation}
+                                    eta={busCards[detailBus].eta}
+                                />
+                                <CloseIcon className='close-icon' color='#fff' onClick={handleDetailsClose} />
+                            </div>
+                        )}
+                    </>
                 )
             })}
         </div>

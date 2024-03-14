@@ -27,7 +27,7 @@ app.post('/', findOptionsPOSTReq);
 app.post('/auth', verifyAdmin);
 app.post('/verifyOTP', verificationCheck);
 app.post('/addBus', addBus);
-app.get('/busRoute', getRouteForBus);
+app.post('/busRoute', getRouteForBus);
 
 app.listen(BACKEND_USER_PORT, () => {
     console.log(`The Backend for user is running on ${BACKEND_USER_PORT}`);
