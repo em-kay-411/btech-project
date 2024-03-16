@@ -22,7 +22,7 @@ function BusList() {
     const [detailsVisible, setDetailsVisible] = useState(false);
     const [detailBus, setDetailBus] = useState('');
     const [route, setRoute] = useState([]);
-    const [checkedBuses, setMessageMultipleBuses] = useState([]);
+    const [checkedBuses, setCheckedBus] = useState([]);
     const [messageSingleBus, setMessageSingleBus] = useState('');
     const [textMessage, setTextMessage] = useState('');
     const [messageBoxOpen, setMessageBoxOpen] = useState(false);
@@ -47,7 +47,7 @@ function BusList() {
     const clickAnywhere = () => {
         setMessageBoxOpen(false);
         setTextMessage('');
-        setMessageMultipleBuses([]);
+        setCheckedBus([]);
         setMessageSingleBus(false);
     }
 
@@ -56,8 +56,7 @@ function BusList() {
     }
 
     const handleChatClick = (busID) => {
-        setIsMarkingMode(false);
-        setMessageMultipleBuses([]);
+        uncheckAllBuses();
         setMessageSingleBus(busID);
         setMessageBoxOpen(true);
     }
@@ -67,8 +66,10 @@ function BusList() {
             client.publish(`adminToBus/${messageSingleBus}`, textMessage);
         }
         else{            
-            for (let i = 0; i < checkedBuses.length; i++) {
-                client.publish(`adminToBus/${checkedBuses[i]}`, textMessage);
+            for (const [checkedBusKey, checkedBusValue] of Object.entries(checkedBuses)) {
+                if(checkedBusValue){
+                    client.publish(`adminToBus/${checkedBusKey}`, textMessage);
+                }                
             }
         }
         setMessageBoxOpen(false);
@@ -86,23 +87,31 @@ function BusList() {
         setTextMessage(event.target.value);
     }
 
-    const handleCheckboxClick = (busID) => {
-        setIsMarkingMode(true);
-        const updatedArray = checkedBuses;
-        if(!updatedArray.includes(busID)){            
-            updatedArray.push(busID);
-        }
-        else{
-            const idx = updatedArray.indexOf(busID);
-            updatedArray.splice(idx, 1);
-            
-        }
-        setMessageMultipleBuses(updatedArray);
+    const handleCheckboxClick = async (busID) => {
+        setCheckedBus(prevState => ({
+            ...prevState,
+            [busID]: !prevState[busID]
+        }));
         console.log(checkedBuses)
+    }
 
-        if(updatedArray.length === 0){
-            setIsMarkingMode(false);
-        }
+    const addCardToCheckedMap = (busID) => {
+        setCheckedBus(prevState => ({
+            ...prevState,
+            [busID]: false
+        }));
+    }
+
+    const uncheckAllBuses = () => {
+        setCheckedBus(prevState => {
+            const temp = {...prevState};
+
+            Object.keys(temp).forEach(value => {
+                value = false;
+            });
+
+            return temp;
+        })
     }
 
     useEffect(() => {
@@ -127,6 +136,7 @@ function BusList() {
                             [busID]: { latitude: 0, longitude: 0, nextStation: { name: '', latitude: 0, longitude: 0 }, previousStation: { name: '', latitude: '', longitude: '' }, eta: 0 }
                         };
                     });
+                    addCardToCheckedMap(busID);
                     client.subscribe(`location/${busID}`, () => {
                         console.log(`subscribed to bus location from ${busID}`);
                     });
@@ -190,13 +200,13 @@ function BusList() {
                 message={message}
             />
             {busCards.length > 1 && <Checkbox className='check-box' aria-label= 'Checkbox demo' />}
-            {Object.keys(busCards).map((busID) => {
+            {Object.keys(busCards).map((busID) => {          
                 const { latitude, longitude, nextStation, previousStation, eta } = busCards[busID];
                 {/* console.log(latitude, longitude); */ }
                 return (
                     <>
                         <div className="busCard" onClick={() => { handleBusCardClick(busID) }}>
-                            <Checkbox aria-label= 'Checkbox demo' checked={checkedBuses.includes(busID)} onClick={(event) => {event.stopPropagation(); handleCheckboxClick(busID)}} />
+                            <Checkbox aria-label= 'Checkbox demo' checked={checkedBuses[busID]} onClick={(event) => {event.stopPropagation(); handleCheckboxClick(busID)}} />
                             <div className="bus-id">{busID}</div>
                             <div className="station-info">
                                 <div className="crossed">Crossed {previousStation.name}</div>
