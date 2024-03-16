@@ -7,7 +7,9 @@ import axios from 'axios';
 import BusDetails from './BusDetails'
 import CloseIcon from '@mui/icons-material/Close';
 import ChatBubbleIcon from '@mui/icons-material/ChatBubble';
+import Checkbox from '@mui/material/Checkbox';
 import { TextareaAutosize } from '@mui/base/TextareaAutosize';
+import { useRef } from 'react';
 // console.log(env);
 const brokerURL = env.MQTT_BROKER_URL;
 const client = mqtt.connect(brokerURL);
@@ -20,9 +22,10 @@ function BusList() {
     const [detailsVisible, setDetailsVisible] = useState(false);
     const [detailBus, setDetailBus] = useState('');
     const [route, setRoute] = useState([]);
-    const [messageMultipleBuses, setMessageMultipleBuses] = useState([]);
+    const [checkedBuses, setMessageMultipleBuses] = useState([]);
     const [messageSingleBus, setMessageSingleBus] = useState('');
     const [textMessage, setTextMessage] = useState('');
+    const [messageBoxOpen, setMessageBoxOpen] = useState(false);
     const [isMarkingMode, setIsMarkingMode] = useState(false);
 
     const handleClose = (event, reason) => {
@@ -41,13 +44,22 @@ function BusList() {
         setDetailsVisible(true);
     }
 
+    const clickAnywhere = () => {
+        setMessageBoxOpen(false);
+        setTextMessage('');
+        setMessageMultipleBuses([]);
+        setMessageSingleBus(false);
+    }
+
     const handleDetailsClose = () => {
         setDetailsVisible(false);
     }
 
     const handleChatClick = (busID) => {
         setIsMarkingMode(false);
+        setMessageMultipleBuses([]);
         setMessageSingleBus(busID);
+        setMessageBoxOpen(true);
     }
 
     const handleSendMessage = () => {
@@ -55,18 +67,42 @@ function BusList() {
             client.publish(`adminToBus/${messageSingleBus}`, textMessage);
         }
         else{            
-            for (let i = 0; i < messageMultipleBuses.length; i++) {
-                client.publish(`adminToBus/${messageMultipleBuses[i]}`, textMessage);
+            for (let i = 0; i < checkedBuses.length; i++) {
+                client.publish(`adminToBus/${checkedBuses[i]}`, textMessage);
             }
         }
-        setMessageMultipleBuses([]);
+        setMessageBoxOpen(false);
         setMessageSingleBus('');
-        setIsMarkingMode(false);
+        setTextMessage('');
+    }
+
+    const handleMessageBoxClose = () => {
+        setMessageBoxOpen(false);
+        setMessageSingleBus('');
         setTextMessage('');
     }
 
     const handleTextMessageChange = (event) => {
         setTextMessage(event.target.value);
+    }
+
+    const handleCheckboxClick = (busID) => {
+        setIsMarkingMode(true);
+        const updatedArray = checkedBuses;
+        if(!updatedArray.includes(busID)){            
+            updatedArray.push(busID);
+        }
+        else{
+            const idx = updatedArray.indexOf(busID);
+            updatedArray.splice(idx, 1);
+            
+        }
+        setMessageMultipleBuses(updatedArray);
+        console.log(checkedBuses)
+
+        if(updatedArray.length === 0){
+            setIsMarkingMode(false);
+        }
     }
 
     useEffect(() => {
@@ -135,11 +171,13 @@ function BusList() {
             }
         }
 
+        // document.body.addEventListener('click', clickAnywhere);
         client.on('connect', handleConnect);
         client.on('message', handleMessage);
 
         return () => {
             client.off('message', handleMessage);
+            document.body.removeEventListener('click', clickAnywhere);
         }
     }, [busCards])
 
@@ -151,12 +189,14 @@ function BusList() {
                 onClose={handleClose}
                 message={message}
             />
+            {busCards.length > 1 && <Checkbox className='check-box' aria-label= 'Checkbox demo' />}
             {Object.keys(busCards).map((busID) => {
                 const { latitude, longitude, nextStation, previousStation, eta } = busCards[busID];
                 {/* console.log(latitude, longitude); */ }
                 return (
                     <>
-                        <div className="busCard" id={busID} onClick={() => { handleBusCardClick(busID) }}>
+                        <div className="busCard" onClick={() => { handleBusCardClick(busID) }}>
+                            <Checkbox aria-label= 'Checkbox demo' checked={checkedBuses.includes(busID)} onClick={(event) => {event.stopPropagation(); handleCheckboxClick(busID)}} />
                             <div className="bus-id">{busID}</div>
                             <div className="station-info">
                                 <div className="crossed">Crossed {previousStation.name}</div>
@@ -164,9 +204,10 @@ function BusList() {
                                     Near ({latitude}, {longitude})
                                 </div>
                                 <div className="next">Arriving at {nextStation.name} in {eta} mins</div>
-                            </div>
-                            <ChatBubbleIcon className='chat-icon' onClick={() => { handleChatClick(busID) }} style={{ zIndex: 5, color: '#c79a46' }} />
+                            </div>   
+                            <ChatBubbleIcon className='chat-icon' onClick={(event) => { event.stopPropagation(); handleChatClick(busID) }} style={{ zIndex: 5, color: '#c79a46' }} />                         
                         </div>
+                        
 
                         {detailsVisible && (
                             <div className="bus-details-container">
@@ -187,8 +228,10 @@ function BusList() {
                 )
             })}
 
-            {(messageMultipleBuses.length >= 1 || messageSingleBus !== '') && (<div className='message-box'>
-                <TextareaAutosize aria-label="minimum height" minRows={3} placeholder="Enter Message" onChange={handleTextMessageChange} />
+            {((checkedBuses.length >= 1 || messageSingleBus !== '') && messageBoxOpen) && (<div className='message-box'>
+                <CloseIcon className='message-box-close-icon' color='#fff' onClick={handleMessageBoxClose} />
+                <textarea className="text-area" cols="30" rows="3" placeholder='enter message' onChange={handleTextMessageChange}></textarea>
+                {/* <TextareaAutosize aria-label="minimum height" minRows={3} placeholder="Enter Message" onChange={handleTextMessageChange} /> */}
                 <Button id='sendButton' onClick={handleSendMessage}>Send</Button>
             </div>)}
         </div>

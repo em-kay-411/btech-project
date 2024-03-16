@@ -63,12 +63,24 @@
 }
 
 #sendButton {
+    margin-top: 2%;
     background-color: orange;
     color: white;
+    width: 20%;
 }
 
 .message-box{
+    border-radius: 10px;
+    padding: 10px;
     position: fixed;
+    display: flex;
+    flex-direction: column;
     top: 18%;
-    left: 20%;
+    left: 21%;
+    background-color: rgba(255, 235, 205, 0.663);
+}
+
+.message-box-close-icon:hover{
+    cursor: pointer;
+    color: orange;
 }
