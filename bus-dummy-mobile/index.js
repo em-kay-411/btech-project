@@ -69,7 +69,7 @@ const enableMQTT = () => {
     })
 
     client.on('message', function (topic, message) {
-        console.log(topic, message);
+        console.log(topic, message.toString());
     })
 }
 
@@ -130,11 +130,11 @@ busIDElement.onchange = () => {
 }
 
 sendMessageButton.onclick = () => {
-    client.publish(`busToAdmin/${busID}`, message, function (err) {
+    client.publish(`busToAdmin/${busID}`, message.value, function (err) {
         if (err) {
             console.error(`Error publishing to MQTT: ${err}`);
         } else {
-            console.log(`Published message to ${topic}: ${message}`);
+            console.log(`Published message to ${busID}: ${message}`);
         }
     })
 }

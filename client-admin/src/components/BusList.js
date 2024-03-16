@@ -1,5 +1,5 @@
 import '../css/BusList.css'
-import { Snackbar } from '@mui/material';
+import { Snackbar, Button } from '@mui/material';
 import { useEffect, useState } from "react";
 import mqtt from 'mqtt';
 import env from 'react-dotenv';
@@ -7,6 +7,7 @@ import axios from 'axios';
 import BusDetails from './BusDetails'
 import CloseIcon from '@mui/icons-material/Close';
 import ChatBubbleIcon from '@mui/icons-material/ChatBubble';
+import { TextareaAutosize } from '@mui/base/TextareaAutosize';
 // console.log(env);
 const brokerURL = env.MQTT_BROKER_URL;
 const client = mqtt.connect(brokerURL);
@@ -19,6 +20,10 @@ function BusList() {
     const [detailsVisible, setDetailsVisible] = useState(false);
     const [detailBus, setDetailBus] = useState('');
     const [route, setRoute] = useState([]);
+    const [messageMultipleBuses, setMessageMultipleBuses] = useState([]);
+    const [messageSingleBus, setMessageSingleBus] = useState('');
+    const [textMessage, setTextMessage] = useState('');
+    const [isMarkingMode, setIsMarkingMode] = useState(false);
 
     const handleClose = (event, reason) => {
         setOpen(false);
@@ -40,11 +45,35 @@ function BusList() {
         setDetailsVisible(false);
     }
 
+    const handleChatClick = (busID) => {
+        setIsMarkingMode(false);
+        setMessageSingleBus(busID);
+    }
+
+    const handleSendMessage = () => {
+        if(messageSingleBus !== ''){
+            client.publish(`adminToBus/${messageSingleBus}`, textMessage);
+        }
+        else{            
+            for (let i = 0; i < messageMultipleBuses.length; i++) {
+                client.publish(`adminToBus/${messageMultipleBuses[i]}`, textMessage);
+            }
+        }
+        setMessageMultipleBuses([]);
+        setMessageSingleBus('');
+        setIsMarkingMode(false);
+        setTextMessage('');
+    }
+
+    const handleTextMessageChange = (event) => {
+        setTextMessage(event.target.value);
+    }
+
     useEffect(() => {
         const handleConnect = () => {
             client.subscribe('universal', () => {
                 console.log('subscribed to universal topic');
-            })
+            });
             console.log('Connected to MQTT broker');
         };
 
@@ -65,6 +94,9 @@ function BusList() {
                     client.subscribe(`location/${busID}`, () => {
                         console.log(`subscribed to bus location from ${busID}`);
                     });
+                    client.subscribe(`busToAdmin/${busID}`, () => {
+                        console.log(`subscribed to adminToBus/${busID}`);
+                    })
                     setMessage(`Bus ${busID} connected`);
                     setOpen(true);
                 }
@@ -95,10 +127,20 @@ function BusList() {
                     };
                 });
             }
+
+            if (mqttTopic === 'busToAdmin') {
+                const busID = topic.split('/')[1];
+                setMessage(`${busID} sent a message`);
+                setOpen(true);
+            }
         }
 
         client.on('connect', handleConnect);
         client.on('message', handleMessage);
+
+        return () => {
+            client.off('message', handleMessage);
+        }
     }, [busCards])
 
     return (
@@ -111,10 +153,10 @@ function BusList() {
             />
             {Object.keys(busCards).map((busID) => {
                 const { latitude, longitude, nextStation, previousStation, eta } = busCards[busID];
-                {/* console.log(latitude, longitude); */}
+                {/* console.log(latitude, longitude); */ }
                 return (
                     <>
-                        <div className="busCard" onClick={() => { handleBusCardClick(busID) }}>
+                        <div className="busCard" id={busID} onClick={() => { handleBusCardClick(busID) }}>
                             <div className="bus-id">{busID}</div>
                             <div className="station-info">
                                 <div className="crossed">Crossed {previousStation.name}</div>
@@ -123,12 +165,12 @@ function BusList() {
                                 </div>
                                 <div className="next">Arriving at {nextStation.name} in {eta} mins</div>
                             </div>
-                            <ChatBubbleIcon className='chat-icon' style={{color:'#c79a46'}}/>                      
+                            <ChatBubbleIcon className='chat-icon' onClick={() => { handleChatClick(busID) }} style={{ zIndex: 5, color: '#c79a46' }} />
                         </div>
 
                         {detailsVisible && (
                             <div className="bus-details-container">
-                            {/* {console.log(busCards[detailBus])} */}
+                                {/* {console.log(busCards[detailBus])} */}
                                 <BusDetails
                                     route={route}
                                     busID={detailBus}
@@ -144,6 +186,11 @@ function BusList() {
                     </>
                 )
             })}
+
+            {(messageMultipleBuses.length >= 1 || messageSingleBus !== '') && (<div className='message-box'>
+                <TextareaAutosize aria-label="minimum height" minRows={3} placeholder="Enter Message" onChange={handleTextMessageChange} />
+                <Button id='sendButton' onClick={handleSendMessage}>Send</Button>
+            </div>)}
         </div>
     )
 }
