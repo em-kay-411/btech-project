@@ -7,9 +7,10 @@ import LocationOnTwoToneIcon from '@mui/icons-material/LocationOnTwoTone';
 function OptionCard(props) {
     const stations = props.buses;
     const numOfChanges = props.numOfChanges;
+    const onClick = props.onClick;
 
     return (
-        <div className="option-card">
+        <div className="option-card" onClick={onClick}>
             <div className="bus-info">
                 <DirectionsBusIcon className='bus-icon' style={{ fontSize: 60 }} />
                 {(numOfChanges - 1 > 0) && (<div className="changes-count">{numOfChanges - 1} bus(s) to change </div>)}

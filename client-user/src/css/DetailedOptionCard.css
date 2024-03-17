@@ -1,0 +1,11 @@
+.detailed-option-card{
+    border-radius: 10px;
+    overflow-y: scroll;
+    /* transition: opacity 0.5s ease; */
+    box-shadow: 0 1px 6px rgba(0, 0, 0, 0.12), 0 1px 4px rgba(0, 0, 0, 0.24);
+    background-color: rgb(255, 247, 231);
+    height: 100vh;
+    width: 20vw;
+    position: fixed;
+    left: 0vw;
+}

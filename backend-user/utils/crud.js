@@ -2,6 +2,16 @@ const Station = require('../models/station');
 const Bus = require('../models/bus');
 const fs = require('fs');
 
+const getStationNameByID = async (stationID) => {
+    try{
+        const stationObj = await Station.findById(stationID);
+        return stationObj.name;
+    }
+    catch(err){
+        console.log(err);
+    }
+}
+
 const checkRoute = async (route) => {
     if (route.length == 0) {
         return false;
@@ -297,6 +307,7 @@ const findOptions = async (source, destination) => {
 module.exports = {
     findOptions,
     getBusRoute,
+    getStationNameByID,
     insertNewStationByIdOfRoutes,
     insertNewStationByNameOfRoutes,
     insertNewBusOnExistingRouteByName,

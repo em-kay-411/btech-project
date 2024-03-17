@@ -1,11 +1,9 @@
 import '../css/Map.css'
 
-function Map(props) {
-    const visibility = props.visibility;
-    const positionX = props.positionX;
+function Map() {
 
     return (
-      <div className={`map ${visibility ? 'visible' : 'hidden'}`} id='map' style={{ transform: `translate(${positionX}%, 0%)` }}>
+      <div className="map-area">
         Map
       </div>
     );

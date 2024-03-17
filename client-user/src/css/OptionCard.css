@@ -18,6 +18,11 @@
     justify-content: space-evenly;
 }
 
+.option-card:hover{
+    cursor: pointer;
+    background-color: rgb(246, 220, 172);
+}
+
 .css-1ucxkcv-MuiSvgIcon-root{
     height: 0.7em;
 }
