@@ -4,6 +4,7 @@ const brokerURL = 'ws://192.168.0.107:9001/';
 const mapDiv = document.getElementById("map");
 const subscribeButton = document.getElementById('subscribe');
 const sendMessageButton = document.getElementById('sendMessage');
+const messageReceived = document.getElementById('message-received');
 const message = document.getElementById('message');
 let prevLatitude;
 let prevLongitude;
@@ -70,6 +71,7 @@ const enableMQTT = () => {
 
     client.on('message', function (topic, message) {
         console.log(topic, message.toString());
+        messageReceived.innerHTML = `${message.toString()}`;
     })
 }
 
