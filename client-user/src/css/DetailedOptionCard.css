@@ -8,4 +8,22 @@
     width: 20vw;
     position: fixed;
     left: 0vw;
+    display: flex;
+    flex: column;
+    text-align: center;
+}
+
+.bus{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.bus-number-detailed-option-card{
+    color: white;
+    text-align: center;
+    background: orange;
+    padding: 2px 15px;
+    border-radius: 5px;
 }
