@@ -1,6 +1,7 @@
 import '../css/SidePanel.css'
 import { useState } from 'react';
 import { Autocomplete, TextField, Button } from '@mui/material';
+import '../css/DetailedOptionCard.css'
 import SearchIcon from '@mui/icons-material/Search';
 import DetailedOptionCard from './DetailedOptionCard';
 import allStations from '../stations'
@@ -106,7 +107,7 @@ function SidePanel() {
                     })}
                 </div>
             </div>
-            {(detailedOptionCard.length > 0) && <DetailedOptionCard option={detailedOptionCard}/>}
+            {(detailedOptionCard.length > 0) && <DetailedOptionCard option={detailedOptionCard} setDetailedOptionCard={setDetailedOptionCard}/>}
         </>
     )
 }

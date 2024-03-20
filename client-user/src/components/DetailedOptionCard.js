@@ -1,4 +1,5 @@
 import Spinner from './Spinner';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import '../css/DetailedOptionCard.css'
 import { useState, useEffect } from 'react';
 import axios from 'axios';
@@ -6,9 +7,15 @@ import env from 'react-dotenv';
 const backendURL = env.BACKEND_API_URL;
 
 function DetailedOptionCard(props) {
-    const [option, setOption] = useState(props.option);
+    // const [props.option, setOption] = useState(props.props.option);
     const [loading, setLoading] = useState(true);
     const [transitDetailsForBus, setTransitDetailsForBus] = useState([]);
+
+    const goBack = () => {
+        setLoading(true);
+        props.setDetailedOptionCard([]);
+        setLoading(false);
+    }
 
     useEffect(() => {
         const getNextStation = async (bus) => {
@@ -62,7 +69,7 @@ function DetailedOptionCard(props) {
 
         const fetchAllData = async () => {
             setLoading(true);
-            const updatedOptions = await Promise.all(option.map(async (transit) => {
+            const updatedOptions = await Promise.all(props.option.map(async (transit) => {
                 const buses = transit.buses;
     
                 const updatedBuses = await Promise.all(buses.map(async (bus) => {
@@ -82,12 +89,12 @@ function DetailedOptionCard(props) {
                 };
             }))
 
-            setOption(updatedOptions);
+            props.setDetailedOptionCard(updatedOptions);
             setLoading(false);
         }        
 
         fetchAllData();
-        console.log('useeffect', option);
+        console.log('useeffect', props.option);
     }, [])
 
     const handleTransitDetailsClick = async (bus) => {
@@ -120,9 +127,10 @@ function DetailedOptionCard(props) {
 
     return(
         <>
-            <div className="detailed-option-card">
+            {props.option.length > 0 && <div className="detailed-option-card">
+                    <ArrowBackIcon className="back-button" onClick={goBack}/>
                 {loading && <Spinner/>}
-                {!loading && option.map((transit) => {
+                {!loading && props.option.map((transit) => {
                     console.log(transit);
                     const buses = transit.buses;
                     console.log(buses);
@@ -148,7 +156,8 @@ function DetailedOptionCard(props) {
                         </div>
                     );
                 })}
-            </div>
+            </div>}
+            
             {transitDetailsForBus.length > 1 && <div className="transit-details-for-bus">
                 Nothing
             </div>}

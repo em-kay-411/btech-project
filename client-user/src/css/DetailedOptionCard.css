@@ -9,7 +9,7 @@
     position: fixed;
     left: 0vw;
     display: flex;
-    flex: column;
+    flex-direction: column;
     text-align: center;
 }
 
@@ -26,4 +26,26 @@
     background: orange;
     padding: 2px 15px;
     border-radius: 5px;
+}
+
+.transit-heading{
+    font-size: 25px;
+    color: rgb(109, 92, 9);
+}
+
+.transit-buses{
+    font-size: 15px;
+}
+
+.bus:hover{
+    background-color: rgba(249, 206, 157, 0.7);
+    border-radius: 5px;
+}
+
+.back-button:hover{
+    cursor: pointer;
+    height: 25px;
+    width: 25px;
+    border-radius: 50%;
+    background-color: rgb(248, 202, 133);
 }
