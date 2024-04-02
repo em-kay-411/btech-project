@@ -38,6 +38,7 @@
 }
 
 .bus:hover{
+    cursor: pointer;
     background-color: rgba(249, 206, 157, 0.7);
     border-radius: 5px;
 }
