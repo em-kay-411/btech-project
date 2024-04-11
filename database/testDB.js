@@ -32,8 +32,7 @@ const main = async() => {
     // })
     // deleteBus('1');
 
-    const response = await axios.get('https://api.tomtom.com/search/2/geocode/De%20Ruijterkade%20154%2C%201011%20AC%2C%20Amsterdam.json?key=YwnGgYME2e9Yhc5cENrbjM5NyRibrscM');
-    console.log(response.data.results[0].position);
+    
 }
 
 main();
