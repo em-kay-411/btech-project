@@ -4,6 +4,12 @@ const stationSchema = new mongoose.Schema({
     name: {
         type: String
     },
+    latitude : {
+        type : Number
+    },
+    longitude : {
+        type : Number
+    },
     neighbouring_stations: {
         type: [{
             type: mongoose.Schema.Types.ObjectId,

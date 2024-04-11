@@ -17,6 +17,8 @@
   },
   "homepage": "https://github.com/em-kay-411/btech-project#readme",
   "dependencies": {
+    "@tomtom-international/web-sdk-maps": "^6.25.0",
+    "@tomtom-international/web-sdk-services": "^6.25.0",
     "axios": "^1.6.7",
     "cheerio": "^1.0.0-rc.12",
     "mongoose": "^8.2.0"

@@ -1,9 +1,9 @@
 #map {
     transition: opacity 1s ease;
     position: fixed;
-    border-radius: 30px;
-    width: 50vw;
-    height: 50vh;
+    right: 0;
+    width: 80vw;
+    height: 100vh;
     background-color: rgb(255, 247, 231);
     box-shadow: 0 1px 6px rgba(0, 0, 0, 0.12), 0 1px 4px rgba(0, 0, 0, 0.24);
     display: flex;
@@ -23,4 +23,12 @@
     height: 0;
     overflow: hidden;
     /* Hides the content when opacity is 0 */
+}
+
+@media only screen and (max-width: 767px){
+    #map{
+        width: 100vw;
+        height: 50vh;
+        top: 0;
+    }
 }
