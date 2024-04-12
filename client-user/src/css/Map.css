@@ -16,6 +16,18 @@
     opacity: 1;
 }
 
+#user-location{
+    width: 20px;
+    height: 20px;
+    background-color: orange;
+    border: 4px white;
+    border-radius: 50%;
+    text-align: center;
+    color: blue;
+    font-size: 13px;
+    font-stretch: condensed;
+}
+
 .hidden {
     opacity: 0;
     pointer-events: none;
@@ -23,6 +35,26 @@
     height: 0;
     overflow: hidden;
     /* Hides the content when opacity is 0 */
+}
+
+.recenter{
+    position: fixed;
+    right: 2px;
+    bottom: 2px;
+    width: 100px;
+    text-align: center;
+    z-index: 0;
+    padding: 5px;
+    border-radius: 5px;
+    color: orange;
+    background: blanchedalmond;
+    font-family: "Nunito Sans", sans-serif;
+}
+
+.recenter:hover{
+    cursor: pointer;
+    background-color: orange;
+    color: white;
 }
 
 @media only screen and (max-width: 767px){
