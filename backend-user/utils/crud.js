@@ -12,6 +12,17 @@ const getStationNameByID = async (stationID) => {
     }
 }
 
+const getStationPositionByID = async (stationID) => {
+    try{
+        const stationObj = await Station.findById(stationID);
+        const position = {latitude : stationObj.latitude, longitude : stationObj.longitude};
+        return position;
+    }
+    catch(err){
+        console.log(err);
+    }
+}
+
 const checkRoute = async (route) => {
     if (route.length == 0) {
         return false;
@@ -308,6 +319,7 @@ module.exports = {
     findOptions,
     getBusRoute,
     getStationNameByID,
+    getStationPositionByID,
     insertNewStationByIdOfRoutes,
     insertNewStationByNameOfRoutes,
     insertNewBusOnExistingRouteByName,

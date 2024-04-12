@@ -2,14 +2,19 @@ import Spinner from './Spinner';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import '../css/DetailedOptionCard.css'
 import { useState, useEffect } from 'react';
+import Map from './Map';
 import axios from 'axios';
 import env from 'react-dotenv';
+import mqtt from 'mqtt';
 const backendURL = env.BACKEND_API_URL;
+const brokerURL = env.MQTT_BROKER_URL;
+const client = mqtt.connect(brokerURL);
 
 function DetailedOptionCard(props) {
     // const [props.option, setOption] = useState(props.props.option);
     const [loading, setLoading] = useState(true);
     const [transitDetailsForBus, setTransitDetailsForBus] = useState([]);
+    const [busesToTrack, setBusesToTrack] = useState([]);
 
     const goBack = () => {
         setLoading(true);
@@ -29,7 +34,7 @@ function DetailedOptionCard(props) {
                 i++;
             }
 
-            if(i >= routeArray.length){
+            if (i >= routeArray.length) {
                 return 'journey end';
             }
 
@@ -40,6 +45,30 @@ function DetailedOptionCard(props) {
 
             const response = await axios.post(`${backendURL}stationNameFromID`, requestBody);
             return response.data.stationName;
+        }
+
+        const getNextStationPosition = async (bus) => {
+            const routeArray = bus.route;
+
+            let i = 0;
+            while (i < routeArray.length) {
+                if (!routeArray[i].crossed) {
+                    break;
+                }
+                i++;
+            }
+
+            if (i >= routeArray.length) {
+                return 'journey end';
+            }
+
+            const stationID = routeArray[i].station;
+            const requestBody = {
+                stationID: stationID
+            }
+
+            const response = await axios.post(`${backendURL}stationPosition`, requestBody);
+            return response.data.stationPosition;
         }
 
         const getPrevStation = async (bus) => {
@@ -71,18 +100,21 @@ function DetailedOptionCard(props) {
             setLoading(true);
             const updatedOptions = await Promise.all(props.option.map(async (transit) => {
                 const buses = transit.buses;
-    
+
                 const updatedBuses = await Promise.all(buses.map(async (bus) => {
                     const prevStation = await getPrevStation(bus);
                     const nextStation = await getNextStation(bus);
-    
+                    const nextStationPosition = await getNextStationPosition(bus);
+
                     return {
-                        ...bus, 
-                        prevStation : prevStation,
-                        nextStation : nextStation
+                        ...bus,
+                        prevStation: prevStation,
+                        nextStation: nextStation,
+                        nextStationLatitude: nextStationPosition.latitude,
+                        nexStationLongitude: nextStationPosition.longitude
                     }
                 }));
-    
+
                 return {
                     ...transit,
                     buses: updatedBuses
@@ -91,7 +123,7 @@ function DetailedOptionCard(props) {
 
             props.setDetailedOptionCard(updatedOptions);
             setLoading(false);
-        }        
+        }
 
         fetchAllData();
         console.log('useeffect', props.option);
@@ -125,21 +157,24 @@ function DetailedOptionCard(props) {
         setTransitDetailsForBus(ans);
     }
 
-    return(
+    return (
         <>
             {props.option.length > 0 && <div className="detailed-option-card">
-                    <ArrowBackIcon className="back-button" onClick={goBack}/>
-                {loading && <Spinner/>}
+                <ArrowBackIcon className="back-button" onClick={goBack} />
+                {loading && <Spinner />}
                 {!loading && props.option.map((transit) => {
                     console.log(transit);
                     const buses = transit.buses;
-                    console.log(buses);
+                    setBusesToTrack([...busesToTrack, buses]);
                     return (
                         <div className="transit-heading">
                             {transit.source} to {transit.destination}
                             <div className="transit-buses">
                                 {buses.map((bus) => {
                                     try {
+                                        client.subscribe(`location/${bus}`, () => {
+                                            console.log(`subscribed to bus location from ${bus}`);
+                                        });
                                         return (
                                             <div className="bus" key={bus.id} onClick={() => handleTransitDetailsClick(bus)}>
                                                 <div className="bus-number-detailed-option-card">{bus.id}</div>
@@ -157,7 +192,9 @@ function DetailedOptionCard(props) {
                     );
                 })}
             </div>}
-            
+
+            <Map busesToTrack={busesToTrack}></Map>
+
             {transitDetailsForBus.length > 1 && <div className="transit-details-for-bus">
                 Nothing
             </div>}

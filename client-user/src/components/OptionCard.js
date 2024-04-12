@@ -10,7 +10,7 @@ const client = mqtt.connect(brokerURL);
 
 
 function OptionCard(props) {
-    const buses = props.buses;
+    const stations = props.buses;
     const numOfChanges = props.numOfChanges;
     const onClick = props.onClick;
 
@@ -35,8 +35,8 @@ function OptionCard(props) {
                 <DirectionsBusIcon className='bus-icon' style={{ fontSize: 60 }} />
                 {(numOfChanges - 1 > 0) && (<div className="changes-count">{numOfChanges - 1} bus(s) to change </div>)}
             </div>
-            {buses.map((transit, index) => {
-                const uniqueBuses = new Set(transit.buses.map(element => element.id))
+            {stations.map((transit, index) => {
+                const uniqueBuses = new Set(transit.buses.map(element => element.id));
                 uniqueBuses.forEach(bus => {
                     client.subscribe(`location/${bus}`, () => {
                         console.log(`subscribed to bus location from ${bus}`);

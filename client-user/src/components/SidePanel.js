@@ -6,6 +6,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import DetailedOptionCard from './DetailedOptionCard';
 import allStations from '../stations'
 import OptionCard from './OptionCard';
+import Map from './Map';
 import axios from 'axios';
 import Spinner from './Spinner';
 import env from "react-dotenv";
