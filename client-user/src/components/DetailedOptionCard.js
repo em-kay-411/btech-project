@@ -16,6 +16,21 @@ function DetailedOptionCard(props) {
     const [transitDetailsForBus, setTransitDetailsForBus] = useState([]);
     const [busesToTrack, setBusesToTrack] = useState([]);
 
+    useEffect(() => {
+        const temp = [];
+        props.option.forEach(transit => {
+            console.log(transit);
+
+            transit.buses.forEach(bus => {
+                if(!temp.includes(bus)){
+                    temp.push(bus);
+                }
+            })
+        })
+
+        setBusesToTrack(temp);
+    }, [props.option])
+
     const goBack = () => {
         setLoading(true);
         props.setDetailedOptionCard([]);
@@ -68,7 +83,7 @@ function DetailedOptionCard(props) {
             }
 
             const response = await axios.post(`${backendURL}stationPosition`, requestBody);
-            return response.data.stationPosition;
+            return response.data.position;
         }
 
         const getPrevStation = async (bus) => {
@@ -165,16 +180,12 @@ function DetailedOptionCard(props) {
                 {!loading && props.option.map((transit) => {
                     console.log(transit);
                     const buses = transit.buses;
-                    setBusesToTrack([...busesToTrack, buses]);
                     return (
                         <div className="transit-heading">
                             {transit.source} to {transit.destination}
                             <div className="transit-buses">
                                 {buses.map((bus) => {
                                     try {
-                                        client.subscribe(`location/${bus}`, () => {
-                                            console.log(`subscribed to bus location from ${bus}`);
-                                        });
                                         return (
                                             <div className="bus" key={bus.id} onClick={() => handleTransitDetailsClick(bus)}>
                                                 <div className="bus-number-detailed-option-card">{bus.id}</div>
@@ -193,7 +204,7 @@ function DetailedOptionCard(props) {
                 })}
             </div>}
 
-            <Map busesToTrack={busesToTrack}></Map>
+            <Map busesToTrack={busesToTrack} ></Map>
 
             {transitDetailsForBus.length > 1 && <div className="transit-details-for-bus">
                 Nothing

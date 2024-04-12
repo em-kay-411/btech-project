@@ -28,6 +28,17 @@
     font-stretch: condensed;
 }
 
+.bus-marker{
+    width: 20px;
+    height: 20px;
+    background-color: orange;
+    border: 4px white;
+    text-align: center;
+    color: blue;
+    font-size: 13px;
+    font-stretch: condensed;
+}
+
 .hidden {
     opacity: 0;
     pointer-events: none;
