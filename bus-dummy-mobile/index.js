@@ -1,6 +1,6 @@
 const options = { enableHighAccuracy: true, timeout: 5000, maximumAge: 0 };
 const busIDElement = document.getElementById('busID');
-const brokerURL = 'ws://192.168.179.186:9001/';
+const brokerURL = 'ws://192.168.0.118:9001/';
 const mapDiv = document.getElementById("map");
 const subscribeButton = document.getElementById('subscribe');
 const sendMessageButton = document.getElementById('sendMessage');

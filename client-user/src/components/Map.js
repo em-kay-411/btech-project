@@ -60,26 +60,26 @@ function Map(props) {
     if(props.busesToTrack){
       console.log('props', props.busesToTrack);
       props.busesToTrack.forEach(bus => {
-        busMarkerReferences[bus.id] = React.createRef();
+        busMarkerReferences.current[bus.id] = React.createRef();
         client.subscribe(`location/${bus.id}`, () => {
             console.log(`subscribed to bus location from ${bus.id}`);
         });
       })
-    }    
+    }  
+    console.log(busMarkerReferences.current);  
   }, [props.busesToTrack]);
 
   useEffect(() => {
     const handleMessage = (topic, message) => {
         const bus = topic.split('/')[1];
         const location = JSON.parse(message);
-
-        new tt.Marker({element : busMarkerReferences.current[bus]}).setLngLat([userLocation.longitude, userLocation.latitude]).addTo(map);
+        const marker = new tt.Marker({element : busMarkerReferences.current[bus]}).setLngLat([location.longitude, location.latitude]).addTo(map);
     }
 
     client.on('message', handleMessage);
 
     return () => {
-        client.off('message', handleMessage);
+      client.off('message', handleMessage);
     }
 })
 
@@ -93,7 +93,7 @@ function Map(props) {
         id="user-location"
     ></div>
     {Object.keys(busMarkerReferences.current).map(busId => (
-      <div key={busId} ref={busMarkerReferences.current[busId]} className='bus-marker'></div>
+      <div key={busId} ref={busMarkerReferences.current[busId]} className='bus-marker'>{busId}</div>
     ))}
   </> 
 }
