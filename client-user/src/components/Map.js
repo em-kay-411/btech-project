@@ -96,15 +96,13 @@ function Map() {
 
   useEffect(() => {
     const handleMessage = (topic, message) => {
-      console.log(subscribedTopics.length, Object.keys(busMarkerReferences).length);
+      console.log(subscribedTopics, busMarkerReferences);
       if(subscribedTopics.length > 0 && Object.keys(busMarkerReferences).length > 0){
         const bus = topic.split('/')[1];
         const location = JSON.parse(message);
-        console.log('entered');
         // console.log(busMarkerReferences[bus].current);
-        if(busMarkerReferences[bus].current){
-          const marker = new tt.Marker({ element: busMarkerReferences[bus].current }).setLngLat([location.longitude, location.latitude]).addTo(map);
-        }  
+        const marker = new tt.Marker({ element: busMarkerReferences[bus].current }).setLngLat([location.longitude, location.latitude]).addTo(map);
+        console.log(busMarkerReferences[bus].current)        
       }          
     }
 
@@ -124,7 +122,7 @@ function Map() {
       ref={userLocationElement}
       id="user-location"
     ></div>
-    {busMarkerReferences.length >=1 && Object.keys(busMarkerReferences).map(busId => (
+    {Object.keys(busMarkerReferences).length > 0 && Object.keys(busMarkerReferences).map(busId => (
       <div key={busId} ref={busMarkerReferences[busId]} className='bus-marker'>{busId}</div>
     ))}
   </>
