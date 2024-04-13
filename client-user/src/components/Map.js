@@ -54,7 +54,7 @@ function Map() {
         key: key,
         container: 'map',
         center: [userLocation.longitude, userLocation.latitude],
-        zoom: 15,
+        zoom: 17,
       });
 
       setMap(mapInstance);
