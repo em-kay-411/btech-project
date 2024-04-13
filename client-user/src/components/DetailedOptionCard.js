@@ -2,10 +2,10 @@ import Spinner from './Spinner';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import '../css/DetailedOptionCard.css'
 import { useState, useEffect } from 'react';
-import Map from './Map';
 import axios from 'axios';
 import env from 'react-dotenv';
 import mqtt from 'mqtt';
+import { useBusesToTrack } from './BusesToTrackContext';
 const backendURL = env.BACKEND_API_URL;
 const brokerURL = env.MQTT_BROKER_URL;
 const client = mqtt.connect(brokerURL);
@@ -14,22 +14,23 @@ function DetailedOptionCard(props) {
     // const [props.option, setOption] = useState(props.props.option);
     const [loading, setLoading] = useState(true);
     const [transitDetailsForBus, setTransitDetailsForBus] = useState([]);
-    const [busesToTrack, setBusesToTrack] = useState([]);
+    const {busesToTrack, setBusesToTrack} = useBusesToTrack();
+    const [cardDetails, setCardDetails] = useState([]);
 
-    useEffect(() => {
-        const temp = [];
-        props.option.forEach(transit => {
-            console.log(transit);
+    // useEffect(() => {
+    //     const temp = [];
+    //     props.option.forEach(transit => {
+    //         console.log(transit);
 
-            transit.buses.forEach(bus => {
-                if(!temp.includes(bus)){
-                    temp.push(bus);
-                }
-            })
-        })
+    //         transit.buses.forEach(bus => {
+    //             if (!temp.includes(bus)) {
+    //                 temp.push(bus);
+    //             }
+    //         })
+    //     })
 
-        setBusesToTrack(temp);
-    }, [props.option])
+    //     setBusesToTrack(temp);
+    // }, [])
 
     const goBack = () => {
         setLoading(true);
@@ -112,36 +113,47 @@ function DetailedOptionCard(props) {
         }
 
         const fetchAllData = async () => {
-            setLoading(true);
-            const updatedOptions = await Promise.all(props.option.map(async (transit) => {
-                const buses = transit.buses;
+            if (props.option !== cardDetails) {
+                setLoading(true);
+                const temp = [];
+                const updatedOptions = await Promise.all(props.option.map(async (transit) => {
+                    const buses = transit.buses;
 
-                const updatedBuses = await Promise.all(buses.map(async (bus) => {
-                    const prevStation = await getPrevStation(bus);
-                    const nextStation = await getNextStation(bus);
-                    const nextStationPosition = await getNextStationPosition(bus);
+                    const updatedBuses = await Promise.all(buses.map(async (bus) => {
+                        const prevStation = await getPrevStation(bus);
+                        const nextStation = await getNextStation(bus);
+                        const nextStationPosition = await getNextStationPosition(bus);
+
+                        if (!temp.includes(bus)) {
+                            temp.push(bus);
+                        }
+
+                        return {
+                            ...bus,
+                            prevStation: prevStation,
+                            nextStation: nextStation,
+                            nextStationLatitude: nextStationPosition.latitude,
+                            nexStationLongitude: nextStationPosition.longitude
+                        }
+                    }));
 
                     return {
-                        ...bus,
-                        prevStation: prevStation,
-                        nextStation: nextStation,
-                        nextStationLatitude: nextStationPosition.latitude,
-                        nexStationLongitude: nextStationPosition.longitude
-                    }
-                }));
+                        ...transit,
+                        buses: updatedBuses
+                    };
+                }))
 
-                return {
-                    ...transit,
-                    buses: updatedBuses
-                };
-            }))
+                setBusesToTrack(temp);
 
-            props.setDetailedOptionCard(updatedOptions);
-            setLoading(false);
+                props.setDetailedOptionCard(updatedOptions);
+                setCardDetails(updatedOptions);
+                setLoading(false);
+            }
+            console.log('useeffect in detailed option card');
         }
 
         fetchAllData();
-        console.log('useeffect', props.option);
+        
     }, [])
 
     const handleTransitDetailsClick = async (bus) => {
@@ -174,10 +186,10 @@ function DetailedOptionCard(props) {
 
     return (
         <>
-            {props.option.length > 0 && <div className="detailed-option-card">
+            {cardDetails.length > 0 && <div className="detailed-option-card">
                 <ArrowBackIcon className="back-button" onClick={goBack} />
                 {loading && <Spinner />}
-                {!loading && props.option.map((transit) => {
+                {!loading && cardDetails.map((transit) => {
                     console.log(transit);
                     const buses = transit.buses;
                     return (
@@ -203,8 +215,6 @@ function DetailedOptionCard(props) {
                     );
                 })}
             </div>}
-
-            <Map busesToTrack={busesToTrack} ></Map>
 
             {transitDetailsForBus.length > 1 && <div className="transit-details-for-bus">
                 Nothing

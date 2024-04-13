@@ -19,7 +19,7 @@
 #user-location{
     width: 20px;
     height: 20px;
-    background-color: orange;
+    background-color: rgb(0, 166, 255);
     border: 4px white;
     border-radius: 50%;
     text-align: center;
@@ -29,12 +29,14 @@
 }
 
 .bus-marker{
-    width: 20px;
+    z-index: 1;
+    width: 30px;
+    border-radius: 5px;
     height: 20px;
     background-color: black;
     border: 4px white;
     text-align: center;
-    color: blue;
+    color: white;
     font-size: 13px;
     font-stretch: condensed;
 }
