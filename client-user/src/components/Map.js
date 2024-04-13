@@ -78,31 +78,27 @@ function Map() {
           tempSubscribedTopics.push(`location/${bus.id}`);
           console.log(`subscribed to bus location from ${bus.id}`);          
         });
-        // setBusMarkerReferences((prevMarkerReferences) => ({
-        //   ...prevMarkerReferences,
-        //   [bus.id]: tempMarkerReferences[bus.id],
-        // }));
-        // setSubscribedTopics((prevSubscribedTopics) => [...prevSubscribedTopics, `location/${bus.id}`]);
-        console.log(tempMarkerReferences);
+        // console.log(tempMarkerReferences);
         setBusMarkerReferences(tempMarkerReferences);
         setSubscribedTopics(tempSubscribedTopics);
 
-        console.log(subscribedTopics);
-        console.log(busMarkerReferences);
-        console.log(busesToTrack);
+        // console.log(subscribedTopics);
+        // console.log(busMarkerReferences);
+        // console.log(busesToTrack);
       })      
     }    
   }, [busesToTrack]);
 
   useEffect(() => {
     const handleMessage = (topic, message) => {
-      console.log(subscribedTopics, busMarkerReferences);
+      // console.log(subscribedTopics, busMarkerReferences);
       if(subscribedTopics.length > 0 && Object.keys(busMarkerReferences).length > 0){
         const bus = topic.split('/')[1];
         const location = JSON.parse(message);
-        // console.log(busMarkerReferences[bus].current);
+        // console.log(busMarkerReferences[bus].current);        
         const marker = new tt.Marker({ element: busMarkerReferences[bus].current }).setLngLat([location.longitude, location.latitude]).addTo(map);
-        console.log(busMarkerReferences[bus].current)        
+        busMarkerReferences[bus].current.style.display = 'block';
+        // console.log(busMarkerReferences[bus].current)        
       }          
     }
 
@@ -123,7 +119,7 @@ function Map() {
       id="user-location"
     ></div>
     {Object.keys(busMarkerReferences).length > 0 && Object.keys(busMarkerReferences).map(busId => (
-      <div key={busId} ref={busMarkerReferences[busId]} className='bus-marker'>{busId}</div>
+      <div style={{display:'none'}} key={busId} ref={busMarkerReferences[busId]} className='bus-marker'>{busId}</div>
     ))}
   </>
 }

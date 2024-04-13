@@ -19,7 +19,7 @@ function SidePanel() {
     const [detailedOptionCard, setDetailedOptionCard] = useState([]);
 
     const getOptions = async () => {
-        console.log(source, destination)
+        // console.log(source, destination)
         setLoading(true);
         setOptions([]);
         const requestBody = {
@@ -47,9 +47,9 @@ function SidePanel() {
     }
 
     const handleOptionCardClick = (option) => {
-        console.log(option);
+        // console.log(option);
         setDetailedOptionCard(option);
-        console.log('detailedOptionCard')
+        // console.log('detailedOptionCard')
     }
 
 
