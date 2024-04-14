@@ -6,6 +6,7 @@ const subscribeButton = document.getElementById('subscribe');
 const sendMessageButton = document.getElementById('sendMessage');
 const messageReceived = document.getElementById('message-received');
 const message = document.getElementById('message');
+const MAPS_API_KEY = 'YwnGgYME2e9Yhc5cENrbjM5NyRibrscM';
 let prevLatitude;
 let prevLongitude;
 let client;
@@ -75,15 +76,36 @@ const enableMQTT = () => {
     })
 }
 
+function convertSecondsToTime(seconds) {
+    var hours = Math.floor(seconds / 3600);
+    var minutes = Math.floor((seconds % 3600) / 60);
+    var remainingSeconds = seconds % 60;
+
+    var timeString = '';
+    if (hours > 0) {
+        timeString += hours + ' hour(s) ';
+    }
+    if (minutes > 0) {
+        timeString += minutes + ' minute(s) ';
+    }
+
+    return timeString.trim();
+}
+
 
 const updatePosition = async (position) => {
     const latitude = position.coords.latitude;
     const longitude = position.coords.longitude;
+    let response = await axios.get(`https://api.tomtom.com/search/2/reverseGeocode/${latitude},${longitude}.json?key=${MAPS_API_KEY}&radius=100`);
+    const address = response.data.addresses[0].address;
+    const location = `${address.street}, ${address.municipalitySecondarySubdivision}, ${address.municipalitySubdivision}`;
     const nextStation = {name : 'COEP Hostel', latitude : 18.5287368, longitude : 73.8504897};
-    const previousStation = {name : 'Shivajinagar', latitude : 18.5318164, longitude: 73.8450759};
-    const eta = 2;
-
-    const message = { latitude, longitude, nextStation, previousStation, eta };
+    const previousStation = {name : 'Shivajinagar', latitude : 18.528335, longitude: 73.8495611};
+    response = await axios.get(`https://api.tomtom.com/routing/1/calculateRoute/${latitude},${longitude}:${nextStation.latitude},${nextStation.longitude}/json?&sectionType=traffic&report=effectiveSettings&routeType=eco&traffic=true&avoid=unpavedRoads&travelMode=bus&vehicleMaxSpeed=80&vehicleCommercial=true&vehicleEngineType=combustion&key=${MAPS_API_KEY}`);                            
+    // console.log(response.data);
+    const etaInSeconds = response.data.routes[0].summary.travelTimeInSeconds;
+    const eta = convertSecondsToTime(etaInSeconds);
+    const message = { latitude, longitude, location, nextStation, previousStation, eta };
     const topic = `location/${busID}`;
 
     // Topic to send location everywhere

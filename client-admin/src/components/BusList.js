@@ -1,6 +1,6 @@
 import '../css/BusList.css'
 import { Snackbar, Button } from '@mui/material';
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import mqtt from 'mqtt';
 import env from 'react-dotenv';
 import axios from 'axios';
@@ -8,13 +8,21 @@ import BusDetails from './BusDetails'
 import CloseIcon from '@mui/icons-material/Close';
 import ChatBubbleIcon from '@mui/icons-material/ChatBubble';
 import Checkbox from '@mui/material/Checkbox';
+import { useBusesToTrack } from './BusesToTrackContext';
+import '../css/Map.css';
+import '@tomtom-international/web-sdk-maps/dist/maps.css';
+import tt from '@tomtom-international/web-sdk-maps';
 // console.log(env);
 const brokerURL = env.MQTT_BROKER_URL;
+const key = env.MAPS_API_KEY;
+const backendURL = env.BACKEND_API_URL;
 const client = mqtt.connect(brokerURL);
 
 function BusList() {
-    const backendURL = env.BACKEND_API_URL;
+    const [map, setMap] = useState(null);
     const [busCards, setBusCards] = useState({});
+    const { busesToTrack, setBusesToTrack } = useBusesToTrack();
+    const [busMarkerReferences, setBusMarkerReferences] = useState({});
     const [message, setMessage] = useState('');
     const [open, setOpen] = useState(false);
     const [detailsVisible, setDetailsVisible] = useState(false);
@@ -64,10 +72,10 @@ function BusList() {
     }
 
     const handleCheckboxMasterClick = (checked) => {
-        if(checked){
+        if (checked) {
             checkAllBuses();
         }
-        else{
+        else {
             uncheckAllBuses();
         }
     }
@@ -153,6 +161,7 @@ function BusList() {
 
                 if (command === 'connect') {
                     const busID = message.toString().split('/')[1];
+                    setBusesToTrack(prevState => ([...prevState, busID]));
                     setBusCards(prevState => {
                         const newB = {
                             ...prevState,
@@ -167,6 +176,13 @@ function BusList() {
                     });
                     client.subscribe(`busToAdmin/${busID}`, () => {
                         console.log(`subscribed to adminToBus/${busID}`);
+                    });
+                    const busMarkerRef = React.createRef();
+                    setBusMarkerReferences(prevState => {
+                        return {
+                            ...prevState,
+                            [busID]: busMarkerRef
+                        }
                     })
                     setMessage(`Bus ${busID} connected`);
                     setOpen(true);
@@ -180,10 +196,14 @@ function BusList() {
                 const data = JSON.parse(message);
                 const latitude = data.latitude;
                 const longitude = data.longitude;
+                const location = data.location;
                 const nextStation = data.nextStation;
                 const previousStation = data.previousStation;
                 const eta = data.eta;
                 // console.log(busCards);
+                const marker = new tt.Marker({ element: busMarkerReferences[busID].current }).setLngLat([longitude, latitude]).addTo(map);
+                busMarkerReferences[busID].current.style.display = 'block';
+                console.log(busMarkerReferences);
 
                 setBusCards(prevState => {
                     return {
@@ -191,6 +211,7 @@ function BusList() {
                         [busID]: {
                             latitude: latitude,
                             longitude: longitude,
+                            location : location,
                             nextStation: nextStation,
                             previousStation: previousStation,
                             eta: eta
@@ -216,63 +237,82 @@ function BusList() {
         }
     }, [busCards])
 
+    useEffect(() => {
+        if (!map) {
+            const mapInstance = tt.map({
+                key: key,
+                container: 'map',
+                center: [73.8567, 18.5204],
+                zoom: 12,
+            });
+
+            setMap(mapInstance);
+        }
+    }, [map]);
+
     return (
-        <div className="bus-list">
-            <Snackbar
-                open={open}
-                autoHideDuration={5000}
-                onClose={handleClose}
-                message={message}
-            />
-            {Object.keys(busCards).length > 1 && <>
-                    <Checkbox className='check-box-master' aria-label='Checkbox demo' onClick = {(event) => {event.stopPropagation(); handleCheckboxMasterClick(event.target.checked)}} />
+        <>
+            <div className='map-area' id="map"></div>
+            {Object.keys(busMarkerReferences).length > 0 && Object.keys(busMarkerReferences).map(busId => (
+                <div style={{ display: 'none' }} key={busId} ref={busMarkerReferences[busId]} className='bus-marker'>{busId}</div>
+            ))}
+            <div className="bus-list">
+                <Snackbar
+                    open={open}
+                    autoHideDuration={5000}
+                    onClose={handleClose}
+                    message={message}
+                />
+                {Object.keys(busCards).length > 1 && <>
+                    <Checkbox className='check-box-master' aria-label='Checkbox demo' onClick={(event) => { event.stopPropagation(); handleCheckboxMasterClick(event.target.checked) }} />
                     <ChatBubbleIcon className='chat-icon-master' onClick={(event) => { event.stopPropagation(); handleChatMasterClick() }} style={{ zIndex: 5, color: '#c79a46' }} />
-            </>}
-            {Object.keys(busCards).map((busID) => {
-                const { latitude, longitude, nextStation, previousStation, eta } = busCards[busID];
-                {/* console.log(latitude, longitude); */ }
-                return (
-                    <>
-                        <div className="busCard" onClick={() => { handleBusCardClick(busID) }}>
-                            <Checkbox aria-label='Checkbox demo' checked={checkedBuses[busID]} onClick={(event) => { event.stopPropagation(); handleCheckboxClick(busID) }} />
-                            <div className="bus-id">{busID}</div>
-                            <div className="station-info">
-                                <div className="crossed">Crossed {previousStation.name}</div>
-                                <div className="current-location">
-                                    Near ({latitude}, {longitude})
+                </>}
+                {Object.keys(busCards).map((busID) => {
+                    const { latitude, longitude, location, nextStation, previousStation, eta } = busCards[busID];
+                    {/* console.log(latitude, longitude); */ }
+                    return (
+                        <>
+                            <div className="busCard" onClick={() => { handleBusCardClick(busID) }}>
+                                <Checkbox aria-label='Checkbox demo' checked={checkedBuses[busID]} onClick={(event) => { event.stopPropagation(); handleCheckboxClick(busID) }} />
+                                <div className="bus-id">{busID}</div>
+                                <div className="station-info">
+                                    <div className="crossed">Crossed {previousStation.name}</div>
+                                    <div className="current-location">
+                                        At {location}
+                                    </div>
+                                    <div className="next">Arriving at {nextStation.name} in {eta} mins</div>
                                 </div>
-                                <div className="next">Arriving at {nextStation.name} in {eta} mins</div>
+                                <ChatBubbleIcon className='chat-icon' onClick={(event) => { event.stopPropagation(); handleChatClick(busID) }} style={{ zIndex: 5, color: '#c79a46' }} />
                             </div>
-                            <ChatBubbleIcon className='chat-icon' onClick={(event) => { event.stopPropagation(); handleChatClick(busID) }} style={{ zIndex: 5, color: '#c79a46' }} />
-                        </div>
 
 
-                        {detailsVisible && (
-                            <div className="bus-details-container">
-                                {/* {console.log(busCards[detailBus])} */}
-                                <BusDetails
-                                    route={route}
-                                    busID={detailBus}
-                                    latitude={busCards[detailBus].latitude}
-                                    longitude={busCards[detailBus].longitude}
-                                    nextStation={busCards[detailBus].nextStation}
-                                    previousStation={busCards[detailBus].previousStation}
-                                    eta={busCards[detailBus].eta}
-                                />
-                                <CloseIcon className='close-icon' color='#fff' onClick={handleDetailsClose} />
-                            </div>
-                        )}
-                    </>
-                )
-            })}
+                            {detailsVisible && (
+                                <div className="bus-details-container">
+                                    {/* {console.log(busCards[detailBus])} */}
+                                    <BusDetails
+                                        route={route}
+                                        busID={detailBus}
+                                        latitude={busCards[detailBus].latitude}
+                                        longitude={busCards[detailBus].longitude}
+                                        nextStation={busCards[detailBus].nextStation}
+                                        previousStation={busCards[detailBus].previousStation}
+                                        eta={busCards[detailBus].eta}
+                                    />
+                                    <CloseIcon className='close-icon' color='#fff' onClick={handleDetailsClose} />
+                                </div>
+                            )}
+                        </>
+                    )
+                })}
 
-            {((Object.keys(checkedBuses).length >= 1 || messageSingleBus !== '') && messageBoxOpen) && (<div className='message-box'>
-                <CloseIcon className='message-box-close-icon' color='#fff' onClick={handleMessageBoxClose} />
-                <textarea className="text-area" cols="30" rows="3" placeholder='enter message' onChange={handleTextMessageChange}></textarea>
-                {/* <TextareaAutosize aria-label="minimum height" minRows={3} placeholder="Enter Message" onChange={handleTextMessageChange} /> */}
-                <Button id='sendButton' onClick={handleSendMessage}>Send</Button>
-            </div>)}
-        </div>
+                {((Object.keys(checkedBuses).length >= 1 || messageSingleBus !== '') && messageBoxOpen) && (<div className='message-box'>
+                    <CloseIcon className='message-box-close-icon' color='#fff' onClick={handleMessageBoxClose} />
+                    <textarea className="text-area" cols="30" rows="3" placeholder='enter message' onChange={handleTextMessageChange}></textarea>
+                    {/* <TextareaAutosize aria-label="minimum height" minRows={3} placeholder="Enter Message" onChange={handleTextMessageChange} /> */}
+                    <Button id='sendButton' onClick={handleSendMessage}>Send</Button>
+                </div>)}
+            </div>
+        </>
     )
 }
 
