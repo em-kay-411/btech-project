@@ -1,6 +1,7 @@
 const Station = require('../models/station');
 const Bus = require('../models/bus');
 const fs = require('fs');
+const station = require('../models/station');
 
 const getStationNameByID = async (stationID) => {
     try{
@@ -46,7 +47,7 @@ const getBusRoute = async (busID) => {
         const route = [];
         for(let i=0; i<busObj.route.length; i++){
             const stationObj = await Station.findById(busObj.route[i].station);
-            route.push({ name : stationObj.name, crossed : busObj.route[i].crossed});
+            route.push({ name : stationObj.name, latitude: stationObj.latitude, longitude: stationObj.longitude, crossed : busObj.route[i].crossed});
         }
 
         return route;
