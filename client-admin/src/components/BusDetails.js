@@ -8,7 +8,7 @@ function BusDetails(props) {
             <div className="bus-details-id">{props.busID}</div>
             <div className="actual-details">
                 <div className="bus-details-station-info">
-                    <div className="crossed">Crossed {props.previousStation.name}</div>
+                    <div className="crossed">{props.previousStation.name ? `Crossed ${props.previousStation.name}` : "Began journey"}</div>
                     <div className="current-location">
                         Near ({props.latitude}, {props.longitude})
                     </div>
