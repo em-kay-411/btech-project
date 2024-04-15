@@ -1,12 +1,14 @@
 #include <TinyGPS++.h>
 #include <SoftwareSerial.h>
 #include <ESP8266WiFi.h>
+#include <WiFiClientSecure.h>
 #include <ESP8266HTTPClient.h>
 #include "PubSubClient.h"
 #include <ArduinoJson.h>
 TinyGPSPlus gps;         // The TinyGPS++ object
 SoftwareSerial ss(4, 5); // The serial connection to the GPS device
 const char *busID = "1";
+String busIDString = "1";
 const char *clientID = "1";
 const char *ssid = "M.A.S_Sheel_2.4ghZ";
 const char *password = "masyamatlal";
@@ -21,6 +23,7 @@ String reverseGeocodeEndpoint = "https://api.tomtom.com/search/2/reverseGeocode/
 String etaEndpoint = "https://api.tomtom.com/routing/1/calculateRoute/";
 const char *busRouteEndpoint = busRouteEndpointString.c_str();
 WiFiClient wifiClient;
+WiFiClientSecure wifiClientSecure;
 
 // 1883 is the listener port for the Broker
 PubSubClient client(server, 1883, wifiClient);
@@ -38,9 +41,10 @@ String getStationInfo(int index)
     // StaticJsonDocument<1024> jsonBuffer;
     // serializeJson(routeElement, jsonBuffer);
     // // Convert the buffer to a String
-    // String jsonString;
+    String jsonString = "{\"name\":\"" + String(routeElement["name"]) + "\", \"latitude\":\"" + String(routeElement["latitude"]) + "\", \"longitude\":\"" + String(routeElement["longitude"]) + "\"}";
     // serializeJson(jsonBuffer, jsonString);
-    return routeElement["name"];
+    Serial.println(jsonString);
+    return jsonString;
   }
 
   if (index < 0)
@@ -57,10 +61,10 @@ String getLocationAddress(double latitude, double longitude)
   String endpoint = reverseGeocodeEndpoint + String(latitude) + "," + String(longitude) + ".json?key=" + MAPS_API_KEY + "&radius=100";
   Serial.print("Hitting on ");
   Serial.println(endpoint);
-  http.begin(wifiClient, endpoint);
+  http.begin(wifiClientSecure, endpoint);
   int responseCode = http.GET();
-  Serial.print("response code");
-  Serial.println(http.getString());
+  Serial.print("response code ");
+  Serial.println(responseCode);
 
   if (responseCode > 0)
   {
@@ -70,11 +74,12 @@ String getLocationAddress(double latitude, double longitude)
     JsonArray addressArray = jsonDoc["addresses"].as<JsonArray>();
     JsonObject addressElement = addressArray[0].as<JsonObject>();
     JsonObject element = addressElement["address"].as<JsonObject>();
-    String locationAddress = String(element["street"]) + String(element["municipalitySecondarySubdivision"]) + String(element["municipalitySubdivision"]);
+    String locationAddress = String(element["street"]) + "," + String(element["municipalitySecondarySubdivision"]) + "," + String(element["municipalitySubdivision"]);
     Serial.println(locationAddress);
     return locationAddress;
   }
 
+  Serial.println(http.errorToString(responseCode));
   return "error";
 }
 
@@ -103,7 +108,7 @@ String getETA(double latitude, double longitude, String nextStationLatitude, Str
   String endpoint = etaEndpoint + String(latitude) + "," + String(longitude) + ":" + nextStationLatitude + "," + nextStationLongitude + "/json?&sectionType=traffic&report=effectiveSettings&routeType=eco&traffic=true&avoid=unpavedRoads&travelMode=bus&vehicleMaxSpeed=80&vehicleCommercial=true&vehicleEngineType=combustion&key=" + MAPS_API_KEY;
   Serial.print("Htting on ");
   Serial.println(endpoint);
-  http.begin(wifiClient, endpoint);
+  http.begin(wifiClientSecure, endpoint);
   int responseCode = http.GET();
   Serial.print("response code");
   Serial.println(responseCode);
@@ -119,6 +124,8 @@ String getETA(double latitude, double longitude, String nextStationLatitude, Str
     String eta = convertSecondsToTime(String(summary["travelTimeInSeconds"]));
     return eta;
   }
+
+  http.end();
 
   return "error";
 }
@@ -143,6 +150,8 @@ void setup()
   if (client.connect(clientID))
   {
     Serial.println("Connected to MQTT Broker !");
+    String command = "connect/" + busIDString;
+    client.publish("universal", command.c_str());
   }
   else
   {
@@ -164,7 +173,10 @@ void setup()
     deserializeJson(routeDoc, jsonString);
     route = routeDoc["route"].as<JsonArray>();
   }
+
+  http.end();
   client.connect(clientID);
+  wifiClientSecure.setInsecure();
 }
 
 void loop()
@@ -177,7 +189,13 @@ void loop()
   jsonDoc["location"] = getLocationAddress(latitude, longitude);
   jsonDoc["nextStation"] = getStationInfo(currentStationIndex + 1);
   jsonDoc["previousStation"] = getStationInfo(currentStationIndex - 1);
-  jsonDoc["eta"] = getETA(latitude, longitude, jsonDoc["nextStation"]["latitude"], jsonDoc["nextStation"]["longitude"]);
+  if(currentStationIndex < route.size()-1){
+    JsonObject nextStation = route[currentStationIndex + 1].as<JsonObject>();
+    jsonDoc["eta"] = getETA(latitude, longitude, nextStation["latitude"], nextStation["longitude"]);
+  }
+  else{
+    jsonDoc["eta"] = "Last station reached";    
+  } 
 
   // Convert JSON object to a string
   String jsonString;
