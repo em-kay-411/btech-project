@@ -8,12 +8,13 @@ TinyGPSPlus gps;         // The TinyGPS++ object
 SoftwareSerial ss(4, 5); // The serial connection to the GPS device
 const char *busID = "1";
 const char *clientID = "1";
-const char *ssid = "Galaxy M3194C2";
-const char *password = "eeyy6643";
-const char *server = "192.168.179.186";
+const char *ssid = "M.A.S_Sheel_2.4ghZ";
+const char *password = "masyamatlal";
+const char *server = "192.168.0.118";
 const char *backendPort = "3050";
 const char *MAPS_API_KEY = "YwnGgYME2e9Yhc5cENrbjM5NyRibrscM";
-const char *busRouteEndpoint = "http://" + server + ":" + backendPort + "/busRoute";
+String busRouteEndpointString = "http://" + String(server) + ":" + String(backendPort) + "/busRoute";
+const char *busRouteEndpoint = busRouteEndpointString.c_str();
 WiFiClient wifiClient;
 
 // 1883 is the listener port for the Broker
@@ -50,11 +51,12 @@ void setup()
     Serial.println("Connection to MQTT Broker failed…");
   }
 
-  String requestBody = "{\"bus\" : \"" + busID + "\""; 
+  String requestBody = "{\"bus\" : \"" + String(busID) + "\"}"; 
 
-  HTTPclient http;
-  Serial.println("Htting to ", busRouteEndpoint);
-  http.begin(busRouteEndpoint);
+  HTTPClient http;
+  Serial.print("Htting to ");
+  Serial.println(busRouteEndpoint);
+  http.begin(wifiClient, busRouteEndpointString);
   http.addHeader("Content-Type", "application/json");
   int httpResponseCode = http.POST(requestBody);
 
