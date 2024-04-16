@@ -51,7 +51,7 @@ String getStationInfo(int index) {
 
 String getLocationAddress(float latitude, float longitude) {
   HTTPClient http;
-  String endpoint = reverseGeocodeEndpoint + String(latitude) + "," + String(longitude) + ".json?key=" + MAPS_API_KEY + "&radius=100";
+  String endpoint = reverseGeocodeEndpoint + String(latitude, 6) + "," + String(longitude, 6) + ".json?key=" + MAPS_API_KEY + "&radius=100";
   Serial.print("Hitting on ");
   Serial.println(endpoint);
   http.begin(wifiClientSecure, endpoint);
@@ -143,13 +143,14 @@ void setup() {
   // Print the IP address
   Serial.println(WiFi.localIP());
   wifiClientSecure.setInsecure();
-  if (client.connect(clientID)) {
-    Serial.println("Connected to MQTT Broker !");
-    String command = "connect/" + busIDString;
-    client.publish("universal", command.c_str());
-  } else {
-    Serial.println("Connection to MQTT Broker failed…");
+  while (!client.connect(clientID)) {    
+    delay(500); 
+    Serial.println("Connection to MQTT Broker failed…");       
   }
+  
+  Serial.println("Connected to MQTT Broker !");
+  String command = "connect/" + busIDString;
+  client.publish("universal", command.c_str());
 
   String requestBody = "{\"bus\" : \"" + String(busID) + "\"}";
 
@@ -251,5 +252,5 @@ void loop() {
       }
     }
   jsonDoc.clear();
-  delay(10000);
+  delay(1000);
 }
