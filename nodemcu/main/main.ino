@@ -54,12 +54,12 @@ String getStationInfo(int index) {
 String getLocationAddress(float latitude, float longitude) {
   HTTPClient http;
   String endpoint = reverseGeocodeEndpoint + String(latitude, 6) + "," + String(longitude, 6) + ".json?key=" + MAPS_API_KEY + "&radius=100";
-  Serial.print("Hitting on ");
-  Serial.println(endpoint);
+  // Serial.print("Hitting on ");
+  // Serial.println(endpoint);
   http.begin(wifiClientSecure, endpoint);
   int responseCode = http.GET();
-  Serial.print("response code ");
-  Serial.println(responseCode);
+  // Serial.print("response code ");
+  // Serial.println(responseCode);
 
   if (responseCode > 0) {
     String jsonString = http.getString();
@@ -69,7 +69,7 @@ String getLocationAddress(float latitude, float longitude) {
     JsonObject addressElement = addressArray[0].as<JsonObject>();
     JsonObject element = addressElement["address"].as<JsonObject>();
     String locationAddress = String(element["street"]) + "," + String(element["municipalitySecondarySubdivision"]) + "," + String(element["municipalitySubdivision"]);
-    Serial.println(locationAddress);
+    // Serial.println(locationAddress);
     jsonDoc.clear();
     return locationAddress;
   }
@@ -97,12 +97,12 @@ String convertSecondsToTime(String time) {
 String getETA(String latitude, String longitude, String nextStationLatitude, String nextStationLongitude) {
   HTTPClient http;
   String endpoint = etaEndpoint + latitude + "," + longitude + ":" + nextStationLatitude + "," + nextStationLongitude + "/json?&sectionType=traffic&report=effectiveSettings&routeType=eco&traffic=true&avoid=unpavedRoads&travelMode=bus&vehicleMaxSpeed=80&vehicleCommercial=true&vehicleEngineType=combustion&key=" + MAPS_API_KEY;
-  Serial.print("Htting on ");
-  Serial.println(endpoint);
+  // Serial.print("Htting on ");
+  // Serial.println(endpoint);
   http.begin(wifiClientSecure, endpoint);
   int responseCode = http.GET();
-  Serial.print("response code");
-  Serial.println(responseCode);
+  // Serial.print("response code");
+  // Serial.println(responseCode);
 
   if (responseCode > 0) {
     String jsonString = http.getString();
@@ -111,8 +111,8 @@ String getETA(String latitude, String longitude, String nextStationLatitude, Str
     JsonArray routes = jsonDoc["routes"].as<JsonArray>();
     JsonObject requiredRoute = routes[0].as<JsonObject>();
     JsonObject summary = requiredRoute["summary"].as<JsonObject>();
-    Serial.print("Travel time");
-    Serial.println(summary["travelTimeInSeconds"].as<String>());
+    // Serial.print("Travel time");
+    // Serial.println(summary["travelTimeInSeconds"].as<String>());
     String eta = convertSecondsToTime(String(summary["travelTimeInSeconds"]));
     jsonDoc.clear();
     return eta;
@@ -125,7 +125,7 @@ String getETA(String latitude, String longitude, String nextStationLatitude, Str
 
 void callback(char *topic, byte *payload, unsigned int length) {
   payload[length] = '\0';
-  Serial.println((char)*payload);
+  Serial.println("(char)*payload");
 }
 
 void setup() {
@@ -158,8 +158,8 @@ void setup() {
 
 
   HTTPClient http;
-  Serial.print("Htting to ");
-  Serial.println(busRouteEndpoint);
+  // Serial.print("Htting to ");
+  // Serial.println(busRouteEndpoint);
   http.begin(wifiClient, busRouteEndpointString);
   http.addHeader("Content-Type", "application/json");
   int httpResponseCode = http.POST(requestBody);
@@ -206,17 +206,17 @@ void loop() {
   String jsonString;
   serializeJson(jsonDoc, jsonString);
 
-  Serial.println(jsonString);
+  // Serial.println(jsonString);
 
   // Publish the stringified JSON
   if (client.publish(locationTopic.c_str(), jsonString.c_str())) {
     Serial.println("Location sent!");
   } else {
-    Serial.println("Temperature failed to send.Reconnecting to MQTT Broker and trying again");
+    Serial.println("Location failed to send.Reconnecting to MQTT Broker and trying again");
     if (client.connect(clientID)) {
       delay(50);  // This delay ensures that client.publish doesn’t clash with the client.connect call
-      Serial.print("SIze");
-      Serial.println(jsonString.length());
+      // Serial.print("SIze");
+      // Serial.println(jsonString.length());
       client.subscribe(adminToBusTopic.c_str());
       delay(50);
       client.setCallback(callback);
