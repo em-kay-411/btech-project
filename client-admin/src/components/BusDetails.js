@@ -8,11 +8,11 @@ function BusDetails(props) {
             <div className="bus-details-id">{props.busID}</div>
             <div className="actual-details">
                 <div className="bus-details-station-info">
-                    <div className="crossed">{props.previousStation.name ? `Crossed ${props.previousStation.name}` : "Began journey"}</div>
+                    <div className="crossed">{props.previousStation == 'Began journey' ? `Began journey` : `Crossed ${props.previousStation}`}</div>
                     <div className="current-location">
                         Near ({props.latitude}, {props.longitude})
                     </div>
-                    <div className="next">Arriving at {props.nextStation.name} in {props.eta} mins</div>
+                    <div className="next">Arriving at {props.nextStation} in {props.eta} mins</div>
                 </div>
                 <div className="bus-details-route">
                     {props.route.map((station) => {

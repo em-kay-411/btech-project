@@ -82,11 +82,13 @@ function BusList() {
 
     const handleSendMessage = () => {
         if (messageSingleBus !== '') {
+            console.log('sending message');
             client.publish(`adminToBus/${messageSingleBus}`, textMessage);
         }
         else {
             for (const [checkedBusKey, checkedBusValue] of Object.entries(checkedBuses)) {
                 if (checkedBusValue) {
+                    console.log(checkedBusKey);
                     client.publish(`adminToBus/${checkedBusKey}`, textMessage);
                 }
             }
@@ -165,7 +167,7 @@ function BusList() {
                     setBusCards(prevState => {
                         const newB = {
                             ...prevState,
-                            [busID]: { latitude: 0, longitude: 0, nextStation: { name: '', latitude: 0, longitude: 0 }, previousStation: { name: '', latitude: '', longitude: '' }, eta: 0 }
+                            [busID]: { latitude: 0, longitude: 0, nextStation: '', previousStation: '', eta: 0 }
                         };
                         console.log(newB);
                         return newB;
@@ -200,6 +202,7 @@ function BusList() {
                 const nextStation = data.nextStation;
                 const previousStation = data.previousStation;
                 const eta = data.eta;
+                // console.log(data);
                 // console.log(busCards);
                 const marker = new tt.Marker({ element: busMarkerReferences[busID].current }).setLngLat([longitude, latitude]).addTo(map);
                 busMarkerReferences[busID].current.style.display = 'block';
@@ -232,6 +235,7 @@ function BusList() {
         client.on('message', handleMessage);
 
         return () => {
+            client.off('connect', handleConnect);
             client.off('message', handleMessage);
             document.body.removeEventListener('click', clickAnywhere);
         }
@@ -276,11 +280,11 @@ function BusList() {
                                 <Checkbox aria-label='Checkbox demo' checked={checkedBuses[busID]} onClick={(event) => { event.stopPropagation(); handleCheckboxClick(busID) }} />
                                 <div className="bus-id">{busID}</div>
                                 <div className="station-info">
-                                    <div className="crossed">Crossed {previousStation.name}</div>
+                                    <div className="crossed">{previousStation !=='' && previousStation == 'Began journey' ? `Began journey` : `Crossed ${previousStation}`}</div>
                                     <div className="current-location">
-                                        At {location}
+                                        {location && `At ${location}`}
                                     </div>
-                                    <div className="next">Arriving at {nextStation.name} in {eta} mins</div>
+                                    <div className="next">{nextStation && `Arriving at ${nextStation}`} {eta && `in ${eta} mins`}</div>
                                 </div>
                                 <ChatBubbleIcon className='chat-icon' onClick={(event) => { event.stopPropagation(); handleChatClick(busID) }} style={{ zIndex: 5, color: '#c79a46' }} />
                             </div>
