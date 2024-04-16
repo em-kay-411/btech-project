@@ -5,8 +5,8 @@
 #include <ESP8266HTTPClient.h>
 #include "PubSubClient.h"
 #include <ArduinoJson.h>
-TinyGPSPlus gps;         // The TinyGPS++ object
-SoftwareSerial ss(4, 5); // The serial connection to the GPS device
+TinyGPSPlus gps;          // The TinyGPS++ object
+SoftwareSerial ss(4, 5);  // The serial connection to the GPS device
 const char *busID = "1";
 String busIDString = "1";
 const char *clientID = "1";
@@ -28,38 +28,28 @@ WiFiClientSecure wifiClientSecure;
 // 1883 is the listener port for the Broker
 PubSubClient client(server, 1883, wifiClient);
 
-double latitude, longitude;
+float latitude, longitude;
 int year, month, date, hour, minute, second;
 String date_str, time_str, lat_str, lng_str;
 int pm;
 
-String getStationInfo(int index)
-{
-  if (index >= 0 && index < route.size())
-  {
+String getStationInfo(int index) {
+  if (index >= 0 && index < route.size()) {
     JsonObject routeElement = route[index].as<JsonObject>();
-    StaticJsonDocument<256> doc;
+    // StaticJsonDocument<256> doc;
     // serializeJson(routeElement, jsonBuffer);
     // // Convert the buffer to a String
-    doc["name"] = routeElement["name"].as<String>();
-    doc["latitude"] = routeElement["latitude"].as<String>();
-    doc["longitude"] = routeElement["longitude"].as<String>();
-    String jsonString;
-    serializeJson(doc, jsonString);
-    Serial.println(jsonString);
-    return jsonString;
+    return routeElement["name"];
   }
 
-  if (index < 0)
-  {
+  if (index < 0) {
     return "Began journey";
   }
 
   return "Last station";
 }
 
-String getLocationAddress(double latitude, double longitude)
-{
+String getLocationAddress(float latitude, float longitude) {
   HTTPClient http;
   String endpoint = reverseGeocodeEndpoint + String(latitude) + "," + String(longitude) + ".json?key=" + MAPS_API_KEY + "&radius=100";
   Serial.print("Hitting on ");
@@ -69,8 +59,7 @@ String getLocationAddress(double latitude, double longitude)
   Serial.print("response code ");
   Serial.println(responseCode);
 
-  if (responseCode > 0)
-  {
+  if (responseCode > 0) {
     String jsonString = http.getString();
     DynamicJsonDocument jsonDoc(256);
     deserializeJson(jsonDoc, jsonString);
@@ -79,6 +68,7 @@ String getLocationAddress(double latitude, double longitude)
     JsonObject element = addressElement["address"].as<JsonObject>();
     String locationAddress = String(element["street"]) + "," + String(element["municipalitySecondarySubdivision"]) + "," + String(element["municipalitySubdivision"]);
     Serial.println(locationAddress);
+    jsonDoc.clear();
     return locationAddress;
   }
 
@@ -86,29 +76,25 @@ String getLocationAddress(double latitude, double longitude)
   return "error";
 }
 
-String convertSecondsToTime(String time)
-{
+String convertSecondsToTime(String time) {
   int seconds = time.toInt();
   int hours = (seconds / 3600);
   int minutes = ((seconds % 3600) / 60);
 
   String timeString = "";
-  if (hours > 0)
-  {
-    timeString += hours + " hour(s) ";
+  if (hours > 0) {
+    timeString += String(hours) + " hour(s) ";
   }
-  if (minutes > 0)
-  {
-    timeString += minutes + " minute(s) ";
+  if (minutes > 0) {
+    timeString += String(minutes) + " minute(s) ";
   }
 
   return timeString;
 }
 
-String getETA(double latitude, double longitude, String nextStationLatitude, String nextStationLongitude)
-{
+String getETA(String latitude, String longitude, String nextStationLatitude, String nextStationLongitude) {
   HTTPClient http;
-  String endpoint = etaEndpoint + String(latitude) + "," + String(longitude) + ":" + nextStationLatitude + "," + nextStationLongitude + "/json?&sectionType=traffic&report=effectiveSettings&routeType=eco&traffic=true&avoid=unpavedRoads&travelMode=bus&vehicleMaxSpeed=80&vehicleCommercial=true&vehicleEngineType=combustion&key=" + MAPS_API_KEY;
+  String endpoint = etaEndpoint + latitude + "," + longitude + ":" + nextStationLatitude + "," + nextStationLongitude + "/json?&sectionType=traffic&report=effectiveSettings&routeType=eco&traffic=true&avoid=unpavedRoads&travelMode=bus&vehicleMaxSpeed=80&vehicleCommercial=true&vehicleEngineType=combustion&key=" + MAPS_API_KEY;
   Serial.print("Htting on ");
   Serial.println(endpoint);
   http.begin(wifiClientSecure, endpoint);
@@ -116,15 +102,17 @@ String getETA(double latitude, double longitude, String nextStationLatitude, Str
   Serial.print("response code");
   Serial.println(responseCode);
 
-  if (responseCode > 0)
-  {
+  if (responseCode > 0) {
     String jsonString = http.getString();
-    DynamicJsonDocument jsonDoc(128);
+    DynamicJsonDocument jsonDoc(jsonString.length());
     deserializeJson(jsonDoc, jsonString);
     JsonArray routes = jsonDoc["routes"].as<JsonArray>();
     JsonObject requiredRoute = routes[0].as<JsonObject>();
     JsonObject summary = requiredRoute["summary"].as<JsonObject>();
+    Serial.print("Travel time");
+    Serial.println(summary["travelTimeInSeconds"].as<String>());
     String eta = convertSecondsToTime(String(summary["travelTimeInSeconds"]));
+    jsonDoc.clear();
     return eta;
   }
 
@@ -133,17 +121,20 @@ String getETA(double latitude, double longitude, String nextStationLatitude, Str
   return "error";
 }
 
-void setup()
-{
-  
+void callback(char *topic, byte *payload, unsigned int length) {
+  payload[length] = '\0';
+  Serial.println((char)*payload);
+}
+
+void setup() {
+
   Serial.begin(115200);
   ss.begin(9600);
   Serial.println();
   Serial.print("Connecting to ");
   Serial.println(ssid);
   WiFi.begin(ssid, password);
-  while (WiFi.status() != WL_CONNECTED)
-  {
+  while (WiFi.status() != WL_CONNECTED) {
     delay(500);
     Serial.print(".");
   }
@@ -152,14 +143,11 @@ void setup()
   // Print the IP address
   Serial.println(WiFi.localIP());
   wifiClientSecure.setInsecure();
-  if (client.connect(clientID))
-  {
+  if (client.connect(clientID)) {
     Serial.println("Connected to MQTT Broker !");
     String command = "connect/" + busIDString;
     client.publish("universal", command.c_str());
-  }
-  else
-  {
+  } else {
     Serial.println("Connection to MQTT Broker failed…");
   }
 
@@ -173,8 +161,7 @@ void setup()
   http.addHeader("Content-Type", "application/json");
   int httpResponseCode = http.POST(requestBody);
 
-  if (httpResponseCode > 0)
-  {
+  if (httpResponseCode > 0) {
     String jsonString = http.getString();
     deserializeJson(routeDoc, jsonString);
     route = routeDoc["route"].as<JsonArray>();
@@ -183,23 +170,23 @@ void setup()
   http.end();
 }
 
-void loop()
-{
-  StaticJsonDocument<100> jsonDoc;
+void loop() {
+  DynamicJsonDocument jsonDoc(128);
   latitude = 18.5296012;
   longitude = 73.8312071;
-  jsonDoc["latitude"] = String(latitude);
-  jsonDoc["longitude"] = String(longitude);
+  String latitude_string = String(latitude, 6);
+  String longitude_string = String(longitude, 6);
+  jsonDoc["latitude"] = latitude_string;
+  jsonDoc["longitude"] = longitude_string;
   jsonDoc["location"] = getLocationAddress(latitude, longitude);
   jsonDoc["nextStation"] = getStationInfo(currentStationIndex + 1);
   jsonDoc["previousStation"] = getStationInfo(currentStationIndex - 1);
-  if(currentStationIndex < route.size()-1){
+  if (currentStationIndex < route.size() - 1) {
     JsonObject nextStation = route[currentStationIndex + 1].as<JsonObject>();
-    jsonDoc["eta"] = getETA(latitude, longitude, nextStation["latitude"], nextStation["longitude"]);
+    jsonDoc["eta"] = getETA(latitude_string, longitude_string, nextStation["latitude"], nextStation["longitude"]);
+  } else {
+    jsonDoc["eta"] = "Last station reached";
   }
-  else{
-    jsonDoc["eta"] = "Last station reached";    
-  } 
 
   // Convert JSON object to a string
   String jsonString;
@@ -208,35 +195,31 @@ void loop()
   Serial.println(jsonString);
 
   // Publish the stringified JSON
-  if (client.publish("location/1", jsonString.c_str()))
-  {
+  if (client.publish("location/1", jsonString.c_str())) {
     Serial.println("Location sent!");
-  }
-  else
-  {
+  } else {
     Serial.println("Temperature failed to send.Reconnecting to MQTT Broker and trying again");
-    if(client.connect(clientID)){      
-      delay(100); // This delay ensures that client.publish doesn’t clash with the client.connect call
+    if (client.connect(clientID)) {
+      delay(50);  // This delay ensures that client.publish doesn’t clash with the client.connect call
       Serial.print("SIze");
       Serial.println(jsonString.length());
-      if( client.publish("location/1", jsonString.c_str())){
+      client.subscribe("adminToBus/1");
+      delay(50);
+      client.setCallback(callback);
+      delay(50);
+      if (client.publish("location/1", jsonString.c_str())) {
         Serial.println("connected and sent");
-      }
-      else{
+      } else {
         Serial.println("unable to send");
       }
-    }
-    else{
+    } else {
       Serial.println("unable to connect");
     }
-   
   }
 
   while (ss.available() > 0)
-    if (gps.encode(ss.read()))
-    {
-      if (gps.location.isValid())
-      {
+    if (gps.encode(ss.read())) {
+      if (gps.location.isValid()) {
         latitude = gps.location.lat();
         lat_str = String(latitude, 6);
         longitude = gps.location.lng();
@@ -255,19 +238,18 @@ void loop()
         Serial.println(jsonString);
 
         // Publish the stringified JSON
-        if (client.publish("location/1", jsonString.c_str()))
-        {
+        if (client.publish("location/1", jsonString.c_str())) {
           client.connect(clientID);
           Serial.println("Location sent!");
-        }
-        else
-        {
+        } else {
           Serial.println("Temperature failed to send.Reconnecting to MQTT Broker and trying again");
           client.connect(clientID);
-          delay(10); // This delay ensures that client.publish doesn’t clash with the client.connect call
+          delay(10);  // This delay ensures that client.publish doesn’t clash with the client.connect call
+          client.setCallback(callback);
           client.publish("location/1", jsonString.c_str());
         }
       }
     }
+  jsonDoc.clear();
   delay(10000);
 }
