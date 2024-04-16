@@ -21,6 +21,8 @@ int currentStationIndex = 0;
 String busRouteEndpointString = "http://" + String(server) + ":" + String(backendPort) + "/busRoute";
 String reverseGeocodeEndpoint = "https://api.tomtom.com/search/2/reverseGeocode/";
 String etaEndpoint = "https://api.tomtom.com/routing/1/calculateRoute/";
+String locationTopic = "location/" + busIDString;
+String adminToBusTopic = "adminToBus/" + busIDString;
 const char *busRouteEndpoint = busRouteEndpointString.c_str();
 WiFiClient wifiClient;
 WiFiClientSecure wifiClientSecure;
@@ -196,7 +198,7 @@ void loop() {
   Serial.println(jsonString);
 
   // Publish the stringified JSON
-  if (client.publish("location/1", jsonString.c_str())) {
+  if (client.publish(locationTopic.c_str(), jsonString.c_str())) {
     Serial.println("Location sent!");
   } else {
     Serial.println("Temperature failed to send.Reconnecting to MQTT Broker and trying again");
@@ -204,11 +206,11 @@ void loop() {
       delay(50);  // This delay ensures that client.publish doesn’t clash with the client.connect call
       Serial.print("SIze");
       Serial.println(jsonString.length());
-      client.subscribe("adminToBus/1");
+      client.subscribe(adminToBusTopic.c_str());
       delay(50);
       client.setCallback(callback);
       delay(50);
-      if (client.publish("location/1", jsonString.c_str())) {
+      if (client.publish(locationTopic.c_str(), jsonString.c_str())) {
         Serial.println("connected and sent");
       } else {
         Serial.println("unable to send");
@@ -239,7 +241,7 @@ void loop() {
         Serial.println(jsonString);
 
         // Publish the stringified JSON
-        if (client.publish("location/1", jsonString.c_str())) {
+        if (client.publish(locationTopic.c_str(), jsonString.c_str())) {
           client.connect(clientID);
           Serial.println("Location sent!");
         } else {
@@ -247,7 +249,7 @@ void loop() {
           client.connect(clientID);
           delay(10);  // This delay ensures that client.publish doesn’t clash with the client.connect call
           client.setCallback(callback);
-          client.publish("location/1", jsonString.c_str());
+          client.publish(locationTopic.c_str(), jsonString.c_str());
         }
       }
     }
