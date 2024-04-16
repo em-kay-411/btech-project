@@ -171,6 +171,17 @@ void setup() {
   }
   client.setBufferSize(512);
   http.end();
+
+  while(currentStationIndex < route.size()){
+    JsonObject temp = route[currentStationIndex].as<JsonObject>();
+    if(!temp["crossed"]){
+      break;
+    }
+    currentStationIndex++;
+  }
+
+  Serial.print("Current station index set to ");
+  Serial.println(currentStationIndex);
 }
 
 void loop() {
@@ -182,7 +193,7 @@ void loop() {
   jsonDoc["latitude"] = latitude_string;
   jsonDoc["longitude"] = longitude_string;
   jsonDoc["location"] = getLocationAddress(latitude, longitude);
-  jsonDoc["nextStation"] = getStationInfo(currentStationIndex + 1);
+  jsonDoc["nextStation"] = getStationInfo(currentStationIndex);
   jsonDoc["previousStation"] = getStationInfo(currentStationIndex - 1);
   if (currentStationIndex < route.size() - 1) {
     JsonObject nextStation = route[currentStationIndex + 1].as<JsonObject>();
