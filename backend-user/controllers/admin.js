@@ -9,6 +9,7 @@ const TWILIO_SERVICE_ID = process.env.TWILIO_SERVICE_SID;
 const client = twilio(TWILIO_ACCOUNT_SID, TWILIO_ACCOUNT_AUTH_TOKEN);
 
 const users = [];
+const busesConnected = [];
 
 const verifyAdmin = async (req, res) => {
     const mobileNo = req.body.mobileNo;
@@ -62,6 +63,9 @@ const addBus = async(req, res) => {
 
 const getRouteForBus = async (req, res) => {
     const bus = req.body.bus;
+    if(!busesConnected.includes(bus)){
+        busesConnected.push(bus);
+    }    
 
     try{
         const busRoute = await getBusRoute(bus);
@@ -70,6 +74,10 @@ const getRouteForBus = async (req, res) => {
     catch(err){
         res.status(500).json({message : err.message});
     }
+}
+
+const getConnectedBuses = async(req, res) => {
+    res.status(200).json({ busesConnected : busesConnected});
 }
 
 const getStationNameFromID = async(req, res) => {
@@ -103,5 +111,6 @@ module.exports = {
     addBus,
     getStationPositionFromID,
     getRouteForBus,
-    getStationNameFromID
+    getStationNameFromID,
+    getConnectedBuses
 }

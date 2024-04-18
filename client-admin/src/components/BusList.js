@@ -148,6 +148,47 @@ function BusList() {
     }
 
     useEffect(() => {
+        const getConnectedBuses = async () => {
+            const response = await axios.get(`${backendURL}/getConnectedBuses`);
+            const busesConnected = response.data.busesConnected;
+            console.log(busesConnected);
+
+            if (busesConnected) {
+                busesConnected.forEach(busID => {
+                    setBusesToTrack(prevState => ([...prevState, busID]));
+                    setBusCards(prevState => {
+                        const newB = {
+                            ...prevState,
+                            [busID]: { latitude: 0, longitude: 0, nextStation: '', previousStation: '', eta: 0 }
+                        };
+                        console.log(newB);
+                        return newB;
+                    });
+                    addCardToCheckedMap(busID);
+                    client.subscribe(`location/${busID}`, () => {
+                        console.log(`subscribed to bus location from ${busID}`);
+                    });
+                    client.subscribe(`busToAdmin/${busID}`, () => {
+                        console.log(`subscribed to adminToBus/${busID}`);
+                    });
+                    const busMarkerRef = React.createRef();
+                    setBusMarkerReferences(prevState => {
+                        return {
+                            ...prevState,
+                            [busID]: busMarkerRef
+                        }
+                    })
+                    setMessage(`Bus ${busID} connected`);
+                    setOpen(true);
+                })
+            }
+        }
+
+        getConnectedBuses();
+
+    }, [])
+
+    useEffect(() => {
         const handleConnect = () => {
             client.subscribe('universal', () => {
                 console.log('subscribed to universal topic');
@@ -214,7 +255,7 @@ function BusList() {
                         [busID]: {
                             latitude: latitude,
                             longitude: longitude,
-                            location : location,
+                            location: location,
                             nextStation: nextStation,
                             previousStation: previousStation,
                             eta: eta
@@ -280,7 +321,7 @@ function BusList() {
                                 <Checkbox aria-label='Checkbox demo' checked={checkedBuses[busID]} onClick={(event) => { event.stopPropagation(); handleCheckboxClick(busID) }} />
                                 <div className="bus-id">{busID}</div>
                                 <div className="station-info">
-                                    <div className="crossed">{previousStation !=='' && previousStation == 'Began journey' ? `Began journey` : `Crossed ${previousStation}`}</div>
+                                    <div className="crossed">{previousStation !== '' && previousStation == 'Began journey' ? `Began journey` : `Crossed ${previousStation}`}</div>
                                     <div className="current-location">
                                         {location && `At ${location}`}
                                     </div>
