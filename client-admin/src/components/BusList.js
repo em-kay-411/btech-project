@@ -242,7 +242,7 @@ function BusList() {
                 const location = data.location;
                 const nextStation = data.nextStation;
                 const previousStation = data.previousStation;
-                const eta = data.eta;
+                const eta = data.eta ? data.eta : busCards[busID].eta;
                 // console.log(data);
                 // console.log(busCards);
                 const marker = new tt.Marker({ element: busMarkerReferences[busID].current }).setLngLat([longitude, latitude]).addTo(map);
