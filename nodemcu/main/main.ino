@@ -125,7 +125,7 @@ String getETA(String latitude, String longitude, String nextStationLatitude, Str
 
 void callback(char *topic, byte *payload, unsigned int length) {
   payload[length] = '\0';
-  Serial.println("(char)*payload");
+  Serial.println("Message Receoved");
 }
 
 void setup() {
@@ -185,6 +185,7 @@ void setup() {
 }
 
 void loop() {
+  client.loop();
   DynamicJsonDocument jsonDoc(128);
   latitude = 18.5296012;
   longitude = 73.8312071;
@@ -217,7 +218,15 @@ void loop() {
       delay(50);  // This delay ensures that client.publish doesn’t clash with the client.connect call
       // Serial.print("SIze");
       // Serial.println(jsonString.length());
-      client.subscribe(adminToBusTopic.c_str());
+      client.setBufferSize(512);
+      delay(50);
+      if(client.subscribe(adminToBusTopic.c_str())){
+        Serial.print("Subscribed to topic");
+        Serial.println(adminToBusTopic);
+      }
+      else{
+        Serial.println("Subscrbe failed");
+      }      
       delay(50);
       client.setCallback(callback);
       delay(50);
@@ -258,6 +267,7 @@ void loop() {
         } else {
           Serial.println("Temperature failed to send.Reconnecting to MQTT Broker and trying again");
           client.connect(clientID);
+          client.setBufferSize(512);
           delay(10);  // This delay ensures that client.publish doesn’t clash with the client.connect call
           client.setCallback(callback);
           client.publish(locationTopic.c_str(), jsonString.c_str());
