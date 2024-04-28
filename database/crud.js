@@ -254,7 +254,7 @@ const populateBusesData = async(buses) =>{
 
 const getCommonBuses = async (source, destination) => {
     const sourceObj = await Station.findOne({ name: source });
-    console.log('solved');
+    // console.log('solved');
     const destinationObj = await Station.findOne({ name: destination });
     const buses = intersection(sourceObj.buses, destinationObj.buses);
     const busObjects = populateBusesData(buses);
@@ -292,7 +292,7 @@ const findOptions = async (source, destination) => {
         }        
     }
 
-    console.log(options);
+    // console.log(options);
     return options;
 }
 

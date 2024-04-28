@@ -21,7 +21,9 @@ const main = async() => {
 
     // const route = ["Shivajinagar", "C.O.E.P.Hostel (Towards Shivaji Maharaj Road)", "Chhatrapati Shivaji Maharaj Putala Ma.Na.Pa.", "Manapa Bhavan - Dengle Pul"];
     // insertNewBusOnExistingRouteByName('6540', ["Shivajinagar", "C.O.E.P.Hostel (Towards Shivaji Maharaj Road)"]);
-    // const options = await findOptions('Pune Railway Station', 'Vetalbaba Chowk');
+    console.time("route");
+    const options = await findOptions('Pune Railway Station', 'Vetalbaba Chowk');
+    console.timeEnd("route");
     // // console.log(options);
     // // const obj = await Bus.findById('65f285a1c37e741ba8a2ac75');
     // options.forEach((option) => {
