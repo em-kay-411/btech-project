@@ -6,6 +6,10 @@ import allStations from '../stations';
 import axios from 'axios'
 import '../css/RouteArray.css'
 import env from 'react-dotenv'
+import mqtt from 'mqtt';
+
+const brokerURL = env.MQTT_BROKER_URL;
+const client = mqtt.connect(brokerURL);
 
 function RouteArray(props) {
     const bus = props.bus;
@@ -81,6 +85,7 @@ function RouteArray(props) {
         const response = await axios.post(`${backendURL}/addBus`, requestBody);
         setMessage(response.data.message);
         setOpen(true);
+        client.publish(`adminToBus/${bus}`, "Route Changed");
     }
 
     return (
