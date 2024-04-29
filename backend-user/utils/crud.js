@@ -88,6 +88,12 @@ const insertNewBusOnExistingRouteById = async (id, route) => {
 }
 
 const insertNewBusOnExistingRouteByName = async (id, routeByName) => {
+    const busObj = await Bus.findOne({id : id});
+    if(busObj){
+        updateExistingBusRoute(id, routeByName);
+        return;
+    }
+
     const route = await getStationIdsByName(routeByName);
     console.log(route);
 
@@ -96,7 +102,7 @@ const insertNewBusOnExistingRouteByName = async (id, routeByName) => {
             station : element,
             crossed : false
         })
-    })
+    })    
 
     try {
         const busObj = new Bus({
