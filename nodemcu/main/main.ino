@@ -272,6 +272,7 @@ void loop() {
       }
     }
     jsonDoc["eta"] = getETA(latitude_string, longitude_string, nextStation["latitude"], nextStation["longitude"]);
+    nextStation.clear();
   } else {
     jsonDoc["eta"] = "Last station reached";
   }
