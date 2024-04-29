@@ -316,6 +316,27 @@ const findOptions = async (source, destination) => {
     return options;
 }
 
+const markNextStationCrossedForBus = async(busID) => {
+    const busObj = await Bus.findOne({ id : busID });
+
+    const route = busObj.route;
+    console.log(route);
+    let i = 0;
+    for(i=0; i<route.length; i++){
+        if(!route[i].station.crossed){
+            break;
+        }
+    }
+
+    if(i === route.length){
+        return error;
+    }
+
+    route[i].crossed = true;
+    await busObj.save();
+    return;
+}
+
 module.exports = {
     findOptions,
     getBusRoute,
@@ -328,5 +349,6 @@ module.exports = {
     updateExistingBusRoute,
     deleteBus,
     deleteStationByName,
-    deleteStationById
+    deleteStationById,
+    markNextStationCrossedForBus
 };

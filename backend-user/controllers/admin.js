@@ -2,7 +2,7 @@ const dotenv = require('dotenv');
 dotenv.config();
 const twilio = require('twilio');
 const crypto = require('crypto');
-const {insertNewBusOnExistingRouteByName, getBusRoute, getStationNameByID, getStationPositionByID} = require('../utils/crud')
+const {insertNewBusOnExistingRouteByName, getBusRoute, getStationNameByID, getStationPositionByID, markNextStationCrossedForBus} = require('../utils/crud')
 const TWILIO_ACCOUNT_AUTH_TOKEN = process.env.TWILIO_ACCOUNT_AUTH_TOKEN;
 const TWILIO_ACCOUNT_SID = process.env.TWILIO_ACCOUNT_SID;
 const TWILIO_SERVICE_ID = process.env.TWILIO_SERVICE_SID;
@@ -103,6 +103,18 @@ const getStationPositionFromID = async (req, res) => {
     }
 }
 
+const markNextStationCrossed = async(req, res) => {
+    const busID = req.body.busID;
+
+    try{
+        await markNextStationCrossedForBus(busID);
+        res.status(200).json({message : 'marked crossed'});
+    }
+    catch(err){
+        console.log(err);
+    }
+}
+
 // For every new route, send mobile no or hash it to a cookie with every request as it serves authentication
 
 module.exports = {
@@ -112,5 +124,6 @@ module.exports = {
     getStationPositionFromID,
     getRouteForBus,
     getStationNameFromID,
-    getConnectedBuses
+    getConnectedBuses,
+    markNextStationCrossed
 }
