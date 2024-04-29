@@ -7,8 +7,8 @@
 #include <ArduinoJson.h>
 TinyGPSPlus gps;          // The TinyGPS++ object
 SoftwareSerial ss(4, 5);  // The serial connection to the GPS device
-const char *busID = "1";
-String busIDString = "1";
+const char *busID = "12345";
+String busIDString = "12345";
 const char *clientID = "1";
 const char *ssid = "M.A.S_Sheel_2.4ghZ";
 const char *password = "masyamatlal";
