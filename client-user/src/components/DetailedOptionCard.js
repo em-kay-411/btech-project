@@ -171,11 +171,11 @@ function DetailedOptionCard(props) {
                                         return (
                                             <div className="bus" key={bus.id} onClick={() => handleTransitDetailsClick(bus)}>
                                                 <div className="bus-number-detailed-option-card">{bus.id}</div>
-                                                <div className="prev-station-detailed-option-card">{previousStation !== '' && previousStation == 'Began journey' ? `Began journey` : `Crossed ${previousStation}`}</div>
+                                                <div className="prev-station-detailed-option-card">{previousStation !== '' && (previousStation == 'Began journey' ? `Began journey` : `Crossed ${previousStation}`)}</div>
                                                 <div className="current-location-detailed-option-card">
                                                     {location && `At ${location}`}
                                                 </div>
-                                                <div className="next-station-detailed-option-card">{nextStation && `Arriving at ${nextStation}`} {eta && `in ${eta} mins`}</div>
+                                                <div className="next-station-detailed-option-card">{nextStation && `Arriving at ${nextStation}`} {eta && `in ${eta}`}</div>
                                             </div>
                                         );
                                     } catch (err) {

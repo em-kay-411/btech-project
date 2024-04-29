@@ -321,7 +321,7 @@ function BusList() {
                                 <Checkbox aria-label='Checkbox demo' checked={checkedBuses[busID]} onClick={(event) => { event.stopPropagation(); handleCheckboxClick(busID) }} />
                                 <div className="bus-id">{busID}</div>
                                 <div className="station-info">
-                                    <div className="crossed">{previousStation !== '' && previousStation == 'Began journey' ? `Began journey` : `Crossed ${previousStation}`}</div>
+                                    <div className="crossed">{previousStation !== '' && (previousStation == 'Began journey' ? `Began journey` : `Crossed ${previousStation}`)}</div>
                                     <div className="current-location">
                                         {location && `At ${location}`}
                                     </div>
