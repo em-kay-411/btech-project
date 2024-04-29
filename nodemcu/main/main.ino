@@ -5,6 +5,10 @@
 #include <ESP8266HTTPClient.h>
 #include "PubSubClient.h"
 #include <ArduinoJson.h>
+#include <math.h>
+
+#define EARTH_RADIUS 6371000
+
 TinyGPSPlus gps;          // The TinyGPS++ object
 SoftwareSerial ss(4, 5);  // The serial connection to the GPS device
 const char *busID = "12345";
@@ -35,6 +39,28 @@ float latitude, longitude;
 int year, month, date, hour, minute, second;
 String date_str, time_str, lat_str, lng_str;
 int pm;
+
+float calculateHaversineDistance(String lat1_string, String long1_string, String lat2_string, String long2_string){
+  float lat1 = atof(lat1_string.c_str());
+  float long1 = atof(long1_string.c_str());
+  float lat2 = atof(lat2_string.c_str());
+  float long2 = atof(long2_string.c_str());
+
+  float x1 = lat1 * M_PI / 180;
+  float y1 = long1 * M_PI / 180;
+  float x2 = lat2 * M_PI / 180;
+  float y2 = long2 * M_PI / 180;
+
+  float dLat = x2 - x1;
+  float dLon = y2 - y1;
+
+  float a = sin(dLat/2) * sin(dLat/2) + cos(lat1) * cos(lat2) * sin(dLon/2) * sin(dLon/2);
+  float c = 2 * atan2(sqrt(a), sqrt(1-a));
+
+  float distance = EARTH_RADIUS * c;
+
+  return distance;
+}
 
 String getStationInfo(int index) {
   if (index >= 0 && index < route.size()) {
@@ -137,6 +163,16 @@ void callback(char *topic, byte *payload, unsigned int length) {
   }
 }
 
+void markCrossed(){
+  String requestBody = "{\"busID\" : \"" + String(busID) + "\"}";
+  http.begin(wifiClientSecure, markNextStationCrossedEndpoint);
+  int responseCode = http.POST(requestBody);
+
+  if(responseCode > 0){
+    Serial.println("Marked Crossed");
+  }
+}
+
 void setup() {
 
   Serial.begin(115200);
@@ -207,10 +243,20 @@ void loop() {
   jsonDoc["previousStation"] = getStationInfo(currentStationIndex - 1);
   if (currentStationIndex < route.size() - 1) {
     JsonObject nextStation = route[currentStationIndex + 1].as<JsonObject>();
+    if(calculateHaversineDistance(latitude_string, longitude_string, nextStation["latitude"], nextStation["longitude"]) < 100){
+      currentStationIndex++;
+      markCrossed();
+
+      if(currentStationIndex == route.size() - 1){
+        reverseArray(route);
+      }
+    }
     jsonDoc["eta"] = getETA(latitude_string, longitude_string, nextStation["latitude"], nextStation["longitude"]);
   } else {
     jsonDoc["eta"] = "Last station reached";
   }
+
+  
 
   // Convert JSON object to a string
   String jsonString;
