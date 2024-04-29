@@ -46,6 +46,11 @@ float calculateHaversineDistance(String lat1_string, String long1_string, String
   float lat2 = atof(lat2_string.c_str());
   float long2 = atof(long2_string.c_str());
 
+  Serial.println(lat1);
+  Serial.println(lat2);
+  Serial.println(long1);
+  Serial.println(long2);
+
   float x1 = lat1 * M_PI / 180;
   float y1 = long1 * M_PI / 180;
   float x2 = lat2 * M_PI / 180;
@@ -54,10 +59,11 @@ float calculateHaversineDistance(String lat1_string, String long1_string, String
   float dLat = x2 - x1;
   float dLon = y2 - y1;
 
-  float a = sin(dLat/2) * sin(dLat/2) + cos(lat1) * cos(lat2) * sin(dLon/2) * sin(dLon/2);
+  float a = sin(dLat/2) * sin(dLat/2) + cos(x1) * cos(x2) * sin(dLon/2) * sin(dLon/2);
   float c = 2 * atan2(sqrt(a), sqrt(1-a));
 
   float distance = EARTH_RADIUS * c;
+  Serial.println(distance);
 
   return distance;
 }
@@ -164,12 +170,30 @@ void callback(char *topic, byte *payload, unsigned int length) {
 }
 
 void markCrossed(){
+  HTTPClient http;
   String requestBody = "{\"busID\" : \"" + String(busID) + "\"}";
   http.begin(wifiClientSecure, markNextStationCrossedEndpoint);
   int responseCode = http.POST(requestBody);
 
   if(responseCode > 0){
     Serial.println("Marked Crossed");
+    currentStationIndex++;
+  }
+
+  http.end();
+}
+
+void reverseArray(){
+  int i = 0;
+  int j = route.size() - 1;
+
+  while(i < j){
+    JsonObject temp = route[i].as<JsonObject>();
+    route[i] = route[j];
+    route[j] = temp;
+
+    i++;
+    j--;
   }
 }
 
@@ -232,8 +256,8 @@ void setup() {
 void loop() {
   client.loop();
   DynamicJsonDocument jsonDoc(128);
-  latitude = 18.5296012;
-  longitude = 73.8312071;
+  latitude = 18.61074;
+  longitude = 73.74401;
   String latitude_string = String(latitude, 6);
   String longitude_string = String(longitude, 6);
   jsonDoc["latitude"] = latitude_string;
@@ -244,11 +268,10 @@ void loop() {
   if (currentStationIndex < route.size() - 1) {
     JsonObject nextStation = route[currentStationIndex + 1].as<JsonObject>();
     if(calculateHaversineDistance(latitude_string, longitude_string, nextStation["latitude"], nextStation["longitude"]) < 100){
-      currentStationIndex++;
       markCrossed();
 
       if(currentStationIndex == route.size() - 1){
-        reverseArray(route);
+        reverseArray();
       }
     }
     jsonDoc["eta"] = getETA(latitude_string, longitude_string, nextStation["latitude"], nextStation["longitude"]);
