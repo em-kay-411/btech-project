@@ -46,11 +46,6 @@ float calculateHaversineDistance(String lat1_string, String long1_string, String
   float lat2 = atof(lat2_string.c_str());
   float long2 = atof(long2_string.c_str());
 
-  Serial.println(lat1);
-  Serial.println(lat2);
-  Serial.println(long1);
-  Serial.println(long2);
-
   float x1 = lat1 * M_PI / 180;
   float y1 = long1 * M_PI / 180;
   float x2 = lat2 * M_PI / 180;
@@ -172,8 +167,10 @@ void callback(char *topic, byte *payload, unsigned int length) {
 void markCrossed(){
   HTTPClient http;
   String requestBody = "{\"busID\" : \"" + String(busID) + "\"}";
-  http.begin(wifiClientSecure, markNextStationCrossedEndpoint);
+  http.begin(wifiClient, markNextStationCrossedEndpoint);
+  http.addHeader("Content-Type", "application/json");
   int responseCode = http.POST(requestBody);
+  Serial.println(responseCode);
 
   if(responseCode > 0){
     Serial.println("Marked Crossed");
@@ -266,7 +263,7 @@ void loop() {
   jsonDoc["nextStation"] = getStationInfo(currentStationIndex);
   jsonDoc["previousStation"] = getStationInfo(currentStationIndex - 1);
   if (currentStationIndex < route.size() - 1) {
-    JsonObject nextStation = route[currentStationIndex + 1].as<JsonObject>();
+    JsonObject nextStation = route[currentStationIndex].as<JsonObject>();
     if(calculateHaversineDistance(latitude_string, longitude_string, nextStation["latitude"], nextStation["longitude"]) < 100){
       markCrossed();
 
