@@ -14,8 +14,9 @@ function DetailedOptionCard(props) {
     // const [props.option, setOption] = useState(props.props.option);
     const [loading, setLoading] = useState(true);
     const [transitDetailsForBus, setTransitDetailsForBus] = useState([]);
-    const {busesToTrack, setBusesToTrack} = useBusesToTrack();
+    const { busesToTrack, setBusesToTrack } = useBusesToTrack();
     const [cardDetails, setCardDetails] = useState([]);
+    const [busInfo, setBusInfo] = useState({});
 
     // useEffect(() => {
     //     const temp = [];
@@ -39,109 +40,41 @@ function DetailedOptionCard(props) {
     }
 
     useEffect(() => {
-        const getNextStation = async (bus) => {
-            const routeArray = bus.route;
-
-            let i = 0;
-            while (i < routeArray.length) {
-                if (!routeArray[i].crossed) {
-                    break;
-                }
-                i++;
-            }
-
-            if (i >= routeArray.length) {
-                return 'journey end';
-            }
-
-            const stationID = routeArray[i].station;
-            const requestBody = {
-                stationID: stationID
-            }
-
-            const response = await axios.post(`${backendURL}stationNameFromID`, requestBody);
-            return response.data.stationName;
-        }
-
-        const getNextStationPosition = async (bus) => {
-            const routeArray = bus.route;
-
-            let i = 0;
-            while (i < routeArray.length) {
-                if (!routeArray[i].crossed) {
-                    break;
-                }
-                i++;
-            }
-
-            if (i >= routeArray.length) {
-                return 'journey end';
-            }
-
-            const stationID = routeArray[i].station;
-            const requestBody = {
-                stationID: stationID
-            }
-
-            const response = await axios.post(`${backendURL}stationPosition`, requestBody);
-            return response.data.position;
-        }
-
-        const getPrevStation = async (bus) => {
-            const routeArray = bus.route;
-
-            let i = 0;
-            while (i < routeArray.length) {
-                if (!routeArray[i].crossed) {
-                    break;
-                }
-                i++;
-            }
-
-            i--;
-            if (i < 0) {
-                return 'began';
-            }
-            const stationID = routeArray[i].station;
-            const requestBody = {
-                stationID: stationID
-            }
-
-            const response = await axios.post(`${backendURL}stationNameFromID`, requestBody);
-            // console.log(response.data.stationName);
-            return response.data.stationName;
-        }
-
         const fetchAllData = async () => {
             if (props.option !== cardDetails) {
                 setLoading(true);
                 const temp = [];
-                const updatedOptions = await Promise.all(props.option.map(async (transit) => {
+                const updatedOptions = props.option.map((transit) => {
                     const buses = transit.buses;
 
-                    const updatedBuses = await Promise.all(buses.map(async (bus) => {
-                        const prevStation = await getPrevStation(bus);
-                        const nextStation = await getNextStation(bus);
-                        const nextStationPosition = await getNextStationPosition(bus);
+                    buses.forEach((bus) => {
 
                         if (!temp.includes(bus)) {
                             temp.push(bus);
+                            client.subscribe(`location/${bus.id}`, () => {
+                                console.log('subscribed from detailed option card to ', bus.id);
+                            });
+
+                            setBusInfo(prevState => {
+                                const newB = {
+                                    ...prevState,
+                                    [bus.id]: { latitude: 0, longitude: 0, nextStation: '', previousStation: '', eta: 0 }
+                                }
+
+                                return newB;
+                            })
                         }
 
                         return {
                             ...bus,
-                            prevStation: prevStation,
-                            nextStation: nextStation,
-                            nextStationLatitude: nextStationPosition.latitude,
-                            nexStationLongitude: nextStationPosition.longitude
                         }
-                    }));
+                    });
 
                     return {
                         ...transit,
-                        buses: updatedBuses
+                        buses: buses
                     };
-                }))
+                })
 
                 setBusesToTrack(temp);
 
@@ -149,12 +82,48 @@ function DetailedOptionCard(props) {
                 setCardDetails(updatedOptions);
                 setLoading(false);
             }
-            console.log('useeffect in detailed option card');
+            // console.log('useeffect in detailed option card');
         }
 
         fetchAllData();
-        
-    }, [])
+
+    }, []);
+
+    useEffect(() => {
+        const handleMessage = (topic, message) => {
+            const mqttTopic = topic.split('/')[0];
+            const busID = topic.split('/')[1];
+            if (mqttTopic === 'location') {
+                const data = JSON.parse(message);
+                const latitude = data.latitude;
+                const longitude = data.longitude;
+                const location = data.location;
+                const nextStation = data.nextStation;
+                const previousStation = data.previousStation;
+                const eta = data.eta ? data.eta : busInfo[busID].eta;
+
+                setBusInfo(prevState => {
+                    return {
+                        ...prevState,
+                        [busID]: {
+                            latitude: latitude,
+                            longitude: longitude,
+                            location: location,
+                            nextStation: nextStation,
+                            previousStation: previousStation,
+                            eta: eta
+                        }
+                    }
+                })
+            }
+        }
+
+        client.on('message', handleMessage);
+
+        return () => {
+            client.off('message', handleMessage);
+        }
+    }, [busInfo])
 
     const handleTransitDetailsClick = async (bus) => {
         const stationPromises = bus.route.map(async (station) => {
@@ -197,12 +166,16 @@ function DetailedOptionCard(props) {
                             {transit.source} to {transit.destination}
                             <div className="transit-buses">
                                 {buses.map((bus) => {
+                                    const { latitude, longitude, location, nextStation, previousStation, eta } = busInfo[bus.id];
                                     try {
                                         return (
                                             <div className="bus" key={bus.id} onClick={() => handleTransitDetailsClick(bus)}>
                                                 <div className="bus-number-detailed-option-card">{bus.id}</div>
-                                                <div className="prev-station-detailed-option-card">{bus.prevStation === 'began' ? ('Began journey') : (`Crossed ${bus.prevStation}`)}</div>
-                                                <div className="next-station-detailed-option-card">Arriving at {bus.nextStation === 'journey end' ? ('end of the jounrey') : bus.nextStation} in (Calculate ETA)</div>
+                                                <div className="prev-station-detailed-option-card">{previousStation !== '' && previousStation == 'Began journey' ? `Began journey` : `Crossed ${previousStation}`}</div>
+                                                <div className="current-location-detailed-option-card">
+                                                    {location && `At ${location}`}
+                                                </div>
+                                                <div className="next-station-detailed-option-card">{nextStation && `Arriving at ${nextStation}`} {eta && `in ${eta} mins`}</div>
                                             </div>
                                         );
                                     } catch (err) {
