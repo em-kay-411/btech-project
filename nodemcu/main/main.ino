@@ -23,6 +23,7 @@ String reverseGeocodeEndpoint = "https://api.tomtom.com/search/2/reverseGeocode/
 String etaEndpoint = "https://api.tomtom.com/routing/1/calculateRoute/";
 String locationTopic = "location/" + busIDString;
 String adminToBusTopic = "adminToBus/" + busIDString;
+String markNextStationCrossedEndpoint = "http://" + String(server) + ":" + String(backendPort) + "/markNextStationCrossed";
 const char *busRouteEndpoint = busRouteEndpointString.c_str();
 WiFiClient wifiClient;
 WiFiClientSecure wifiClientSecure;
@@ -126,6 +127,14 @@ String getETA(String latitude, String longitude, String nextStationLatitude, Str
 void callback(char *topic, byte *payload, unsigned int length) {
   payload[length] = '\0';
   Serial.println("Message Receoved");
+
+  if(strcmp((char*)payload, "Route Changed") == 0){
+    ESP.restart();
+  }
+  else{
+    Serial.print("Message received from control centre - ");
+    Serial.println((char*)payload);
+  }
 }
 
 void setup() {
