@@ -57,9 +57,10 @@ function BusList() {
 
         socket.onmessage = (event) => {
             // console.log(event);
-            const base64text = event.data;
+            // const base64text = event.data;
+            console.log(event.data);
             // console.log(event.data);
-            playPCM(base64text);
+            // playPCM(base64text);
         };
 
         socket.onopen = (event) => {
