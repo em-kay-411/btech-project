@@ -9,7 +9,6 @@ import CloseIcon from '@mui/icons-material/Close';
 import ChatBubbleIcon from '@mui/icons-material/ChatBubble';
 import Checkbox from '@mui/material/Checkbox';
 import { useBusesToTrack } from './BusesToTrackContext';
-import io from 'socket.io-client';
 import '../css/Map.css';
 import '@tomtom-international/web-sdk-maps/dist/maps.css';
 import tt from '@tomtom-international/web-sdk-maps';
@@ -18,7 +17,7 @@ const brokerURL = env.MQTT_BROKER_URL;
 const key = env.MAPS_API_KEY;
 const backendURL = env.BACKEND_API_URL;
 const client = mqtt.connect(brokerURL);
-const socketURL = env.SOCKET_URL;
+const socket = new WebSocket('ws://192.168.1.100:81'); 
 
 function BusList() {
     const [map, setMap] = useState(null);
@@ -35,31 +34,24 @@ function BusList() {
     const [textMessage, setTextMessage] = useState('');
     const [messageBoxOpen, setMessageBoxOpen] = useState(false);
     const [isMarkingMode, setIsMarkingMode] = useState(false);
-    const [soundValue, setSoundValue] = useState(0);
-    const socket = io(socketURL);
-    const audioContext = new (window.AudioContext)();
-
+    
     useEffect(() => {
-        socket.on('sound-data', (data) => {
-            setSoundValue(data);
-            playSound(data);
-        });
-
-        return () => {
-            socket.disconnect();
+        const playPCM = (pcmData) => {
+            const audioContext = new AudioContext();
+            const audioBuffer = audioContext.createBuffer(1, pcmData.length, sampleRate); // Create mono audio buffer
+            audioBuffer.getChannelData(0).set(pcmData); // Set PCM data to audio buffer
+    
+            const source = audioContext.createBufferSource();
+            source.buffer = audioBuffer;
+            source.connect(audioContext.destination);
+            source.start(); // Start playback
         };
-    }, []);
 
-    const playSound = (data) => {
-        const buffer = new Uint8Array([data]); // Assuming data is in range 0-255
-        const audioBuffer = audioContext.createBuffer(1, buffer.length, audioContext.sampleRate);
-        audioBuffer.getChannelData(0).set(buffer);
-
-        const source = audioContext.createBufferSource();
-        source.buffer = audioBuffer;
-        source.connect(audioContext.destination);
-        source.start();
-    };
+        socket.onmessage = (event) => {
+            const pcmData = new Int16Array(event.data); 
+            playPCM(pcmData); 
+        };        
+    }, [socket])
 
     const handleClose = (event, reason) => {
         setOpen(false);
