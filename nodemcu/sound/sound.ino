@@ -26,6 +26,8 @@ void setup() {
     Serial.print(".");
   }
   Serial.println("WiFi connected");
+  Serial.println(WiFi.localIP());
+  delay(5000);
   pinMode(microphonePin, INPUT);
 
   // Start WebSocket server
@@ -40,8 +42,10 @@ void loop() {
   int16_t pcmData[numSamplesPerPacket];
   for (int i = 0; i < numSamplesPerPacket; i++) {
     pcmData[i] = analogRead(microphonePin); // Read sample from microphone
+    Serial.println(pcmData[i]);
   }
-  webSocket.broadcastBIN((uint8_t *)pcmData, numSamplesPerPacket * sizeof(int16_t)); // Broadcast PCM data as binary
+  webSocket.broadcastBIN((uint8_t *)pcmData, numSamplesPerPacket * sizeof(int16_t), false); // Broadcast PCM data as binary
+  // webSocket.broadcastTXT("sent", 4, false);
   delay(5); // Adjust delay as needed
 }
 
