@@ -17,7 +17,7 @@ const brokerURL = env.MQTT_BROKER_URL;
 const key = env.MAPS_API_KEY;
 const backendURL = env.BACKEND_API_URL;
 const client = mqtt.connect(brokerURL);
-const socket = new WebSocket('ws://192.168.1.100:81'); 
+const socket = new WebSocket('ws://192.168.0.101:81'); 
 const sampleRate = 5000;
 
 function BusList() {
@@ -39,6 +39,9 @@ function BusList() {
     useEffect(() => {
         const playPCM = (pcmData) => {
             const audioContext = new AudioContext();
+            if(pcmData.length <= 0){
+                return;
+            }
             const audioBuffer = audioContext.createBuffer(1, pcmData.length, sampleRate); // Create mono audio buffer
             audioBuffer.getChannelData(0).set(pcmData); // Set PCM data to audio buffer
     
@@ -49,9 +52,15 @@ function BusList() {
         };
 
         socket.onmessage = (event) => {
-            const pcmData = new Int16Array(event.data); 
-            playPCM(pcmData); 
-        };        
+            // console.log(event);
+            // const pcmData = new Int16Array(event.data); 
+            console.log(event.data);
+            // playPCM(pcmData); 
+        };   
+        
+        socket.onopen = (event) => {
+            console.log('connected to socket');
+        }
     }, [socket])
 
     const handleClose = (event, reason) => {
