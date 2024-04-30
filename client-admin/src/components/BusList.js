@@ -18,6 +18,7 @@ const key = env.MAPS_API_KEY;
 const backendURL = env.BACKEND_API_URL;
 const client = mqtt.connect(brokerURL);
 const socket = new WebSocket('ws://192.168.1.100:81'); 
+const sampleRate = 5000;
 
 function BusList() {
     const [map, setMap] = useState(null);
