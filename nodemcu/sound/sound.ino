@@ -38,22 +38,24 @@ void setup()
     webSocket.onEvent(webSocketEvent);
 }
 
+void convertIntArrayToBinary(int* intArray, uint8_t* binaryData, size_t arrayLength) {
+    // Copy the integer array into the binary data buffer
+    memcpy(binaryData, intArray, arrayLength * sizeof(int));
+}
+
 void loop()
 {
     webSocket.loop(); // Handle WebSocket events
-
-    // Read samples from the microphone, encode as PCM, and send as WebSocket stream
-    int16_t pcmData[numSamplesPerPacket];
-    for (int i = 0; i < numSamplesPerPacket; i++)
-    {
-        pcmData[i] = analogRead(microphonePin); // Read sample from microphone
-        Serial.println(pcmData[i]);
+    int analogValues[numSamplesPerPacket];
+    for(int i=0; i<numSamplesPerPacket; i++){
+      int sensorValue = analogRead(microphonePin);
+      analogValues[i] = sensorValue;
     }
-    char base64Data[Base64.encodedLength(numSamplesPerPacket * sizeof(int16_t))];
-    Base64.encode(base64Data, (const uint8_t *)pcmData, numSamplesPerPacket * sizeof(int16_t));
-
+    uint8_t* binaryData = (uint8_t *)malloc(sizeof(analogValues));
+    convertIntArrayToBinary(analogValues, binaryData, sizeof(analogValues) / sizeof(int));
+    free(binaryData);
     // Send Base64 encoded data as text
-    webSocket.broadcastTXT(base64Data, strlen(base64Data), false);
+    webSocket.broadcastBIN(binaryData, sizeof(binaryData));
     // webSocket.broadcastTXT("sent", 4, false);
     delay(5); // Adjust delay as needed
 }
