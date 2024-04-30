@@ -17,10 +17,10 @@ const brokerURL = env.MQTT_BROKER_URL;
 const key = env.MAPS_API_KEY;
 const backendURL = env.BACKEND_API_URL;
 const client = mqtt.connect(brokerURL);
-const socket = new WebSocket('ws://192.168.0.101:81'); 
 const sampleRate = 5000;
 
 function BusList() {
+    const socket = new WebSocket('ws://192.168.0.101:81');
     const [map, setMap] = useState(null);
     const [busCards, setBusCards] = useState({});
     const { busesToTrack, setBusesToTrack } = useBusesToTrack();
@@ -35,29 +35,33 @@ function BusList() {
     const [textMessage, setTextMessage] = useState('');
     const [messageBoxOpen, setMessageBoxOpen] = useState(false);
     const [isMarkingMode, setIsMarkingMode] = useState(false);
-    
+
     useEffect(() => {
-        const playPCM = (pcmData) => {
-            const audioContext = new AudioContext();
-            if(pcmData.length <= 0){
-                return;
+        function base64ToUint8Array(base64) {
+            const binaryString = window.atob(base64);
+            const len = binaryString.length;
+            const bytes = new Uint8Array(len);
+            for (let i = 0; i < len; i++) {
+                bytes[i] = binaryString.charCodeAt(i);
             }
-            const audioBuffer = audioContext.createBuffer(1, pcmData.length, sampleRate); // Create mono audio buffer
-            audioBuffer.getChannelData(0).set(pcmData); // Set PCM data to audio buffer
-    
-            const source = audioContext.createBufferSource();
-            source.buffer = audioBuffer;
-            source.connect(audioContext.destination);
-            source.start(); // Start playback
+            return bytes;
+        }
+
+        const playPCM = (base64Text) => {
+            const binaryData = base64ToUint8Array(base64Text);
+            const blob = new Blob([binaryData], { type: 'audio/wav' }); 
+            const url = URL.createObjectURL(blob);
+            const audio = new Audio(url);
+            audio.play();
         };
 
         socket.onmessage = (event) => {
             // console.log(event);
-            // const pcmData = new Int16Array(event.data); 
-            console.log(event.data);
-            // playPCM(pcmData); 
-        };   
-        
+            const base64text = event.data;
+            // console.log(event.data);
+            playPCM(base64text);
+        };
+
         socket.onopen = (event) => {
             console.log('connected to socket');
         }
