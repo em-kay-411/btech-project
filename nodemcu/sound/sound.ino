@@ -88,7 +88,7 @@ void loop() {
     for (int i = 0; i < numSamplesPerPacket; i++) {
       int sensorValue = analogRead(microphonePin);
       analogValues[i] = sensorValue;
-      // Serial.println(sensorValue);
+      Serial.println(sensorValue);
     }
     webSocket.broadcastBIN((uint8_t*)(analogValues), numSamplesPerPacket * sizeof(int16_t));
   }
