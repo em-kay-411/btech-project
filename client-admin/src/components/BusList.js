@@ -56,17 +56,19 @@ function BusList() {
             audio.play();
         };
 
-        socket.onmessage = (event) => {
-            // console.log(event);
-            // const base64text = event.data;
-            console.log(event.data);
-            // console.log(event.data);
-            // playPCM(base64text);
-        };
-
-        socket.onopen = (event) => {
-            console.log('connected to socket');
-        }
+        if(socket){
+            socket.onmessage = (event) => {
+                // console.log(event);
+                // const base64text = event.data;
+                console.log(event.data);
+                // console.log(event.data);
+                // playPCM(base64text);
+            };
+    
+            socket.onopen = (event) => {
+                console.log('connected to socket');
+            }
+        }        
     }, [socket])
 
     const handleClose = (event, reason) => {
