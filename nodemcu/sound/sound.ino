@@ -7,8 +7,10 @@
 
 WiFiClient wifiClient;
 const char  * busID = "12345";
+const char * clientID = busID;
 String busIDString = "12345";
 String busToAdminTopic = "busToAdmin/" + busIDString;
+bool flag = false;
 
 
 // Replace with your network credentials
@@ -67,8 +69,20 @@ void loop() {
   webSocket.loop();  // Handle WebSocket events
   button_state = digitalRead(buttonPin);
   if (prev_button_state == HIGH && button_state == LOW) {
-    String IPString = "connect-voice/" + busIDString;
-    client.publish(busToAdminTopic.c_str(), IPString.c_str());
+    Serial.println("button pressed");
+    if(!flag){
+      String IPString = "connect-voice/" + busIDString;
+      client.publish(busToAdminTopic.c_str(), IPString.c_str());
+      flag = true;
+    };
+  } else if (prev_button_state == LOW && button_state == HIGH) {
+    Serial.println("button released");
+    client.publish(busToAdminTopic.c_str(), "disconnect-voice/");
+    flag = false;
+  }
+  delay(5);  // Adjust delay as needed
+
+  if(flag){   
     int16_t analogValues[numSamplesPerPacket];
 
     for (int i = 0; i < numSamplesPerPacket; i++) {
@@ -77,11 +91,8 @@ void loop() {
       // Serial.println(sensorValue);
     }
     webSocket.broadcastBIN((uint8_t*)(analogValues), numSamplesPerPacket * sizeof(int16_t));
-    prev_button_state = button_state;
-  } else if (prev_button_state == LOW && button_state == HIGH) {
-    client.publish(busToAdminTopic.c_str(), "disconnect-voice/");
   }
-  delay(5);  // Adjust delay as needed
+  prev_button_state = button_state;
 }
 
 void webSocketEvent(uint8_t num, WStype_t type, uint8_t *payload, size_t length) {
