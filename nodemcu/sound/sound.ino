@@ -46,17 +46,13 @@ void convertIntArrayToBinary(int* intArray, uint8_t* binaryData, size_t arrayLen
 void loop()
 {
     webSocket.loop(); // Handle WebSocket events
-    int analogValues[numSamplesPerPacket];
+    int16_t analogValues[numSamplesPerPacket];
+
     for(int i=0; i<numSamplesPerPacket; i++){
       int sensorValue = analogRead(microphonePin);
       analogValues[i] = sensorValue;
     }
-    uint8_t* binaryData = (uint8_t *)malloc(sizeof(analogValues));
-    convertIntArrayToBinary(analogValues, binaryData, sizeof(analogValues) / sizeof(int));
-    free(binaryData);
-    // Send Base64 encoded data as text
-    webSocket.broadcastBIN(binaryData, sizeof(binaryData));
-    // webSocket.broadcastTXT("sent", 4, false);
+    webSocket.broadcastBIN((uint8_t*)(analogValues), numSamplesPerPacket * sizeof(int16_t));
     delay(5); // Adjust delay as needed
 }
 
