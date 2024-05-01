@@ -10,52 +10,60 @@ const char *password = "masyamatlal";
 
 // Replace with your microphone pin
 const int microphonePin = A0;
+const int buttonPin = D7;
 
-WebSocketsServer webSocket = WebSocketsServer(81); // WebSocket server on port 81
+int prev_button_state = LOW;
+int button_state;
 
-const int sampleRate = 8000;         // Sample rate for PCM encoding
-const int numSamplesPerPacket = 256; // Number of samples to send per WebSocket packet
+WebSocketsServer webSocket = WebSocketsServer(81);  // WebSocket server on port 81
 
-void setup()
-{
-    Serial.begin(115200);
+const int sampleRate = 8000;          // Sample rate for PCM encoding
+const int numSamplesPerPacket = 256;  // Number of samples to send per WebSocket packet
 
-    // Connect to Wi-Fi
-    WiFi.begin(ssid, password);
-    Serial.print("Connecting to WiFi");
-    while (WiFi.status() != WL_CONNECTED)
-    {
-        delay(500);
-        Serial.print(".");
-    }
-    Serial.println("WiFi connected");
-    Serial.println(WiFi.localIP());
-    delay(5000);
-    pinMode(microphonePin, INPUT);
+void setup() {
+  Serial.begin(115200);
 
-    // Start WebSocket server
-    webSocket.begin();
-    webSocket.onEvent(webSocketEvent);
+  // Connect to Wi-Fi
+  WiFi.begin(ssid, password);
+  Serial.print("Connecting to WiFi");
+  while (WiFi.status() != WL_CONNECTED) {
+    delay(500);
+    Serial.print(".");
+  }
+  Serial.println("WiFi connected");
+  Serial.println(WiFi.localIP());
+  delay(5000);
+  pinMode(microphonePin, INPUT);
+  pinMode(buttonPin, INPUT_PULLUP);
+
+  // Start WebSocket server
+  webSocket.begin();
+  webSocket.onEvent(webSocketEvent);
 }
 
-void convertIntArrayToBinary(int* intArray, uint8_t* binaryData, size_t arrayLength) {
-    // Copy the integer array into the binary data buffer
-    memcpy(binaryData, intArray, arrayLength * sizeof(int));
+void convertIntArrayToBinary(int *intArray, uint8_t *binaryData, size_t arrayLength) {
+  // Copy the integer array into the binary data buffer
+  memcpy(binaryData, intArray, arrayLength * sizeof(int));
 }
 
-void loop()
-{
-    webSocket.loop(); // Handle WebSocket events
+void loop() {
+  webSocket.loop();  // Handle WebSocket events
+  button_state = digitalRead(buttonPin);
+  if (prev_button_state == HIGH && button_state == LOW) {
     int16_t analogValues[numSamplesPerPacket];
 
-    for(int i=0; i<numSamplesPerPacket; i++){
+    for (int i = 0; i < numSamplesPerPacket; i++) {
       int sensorValue = analogRead(microphonePin);
       analogValues[i] = sensorValue;
+      // Serial.println(sensorValue);
     }
     webSocket.broadcastBIN((uint8_t*)(analogValues), numSamplesPerPacket * sizeof(int16_t));
-    delay(5); // Adjust delay as needed
+    prev_button_state = button_state;
+  } else if (prev_button_state == LOW && button_state == HIGH) {
+    // Serial.println("button released");
+  }
+  delay(5);  // Adjust delay as needed
 }
 
-void webSocketEvent(uint8_t num, WStype_t type, uint8_t *payload, size_t length)
-{
+void webSocketEvent(uint8_t num, WStype_t type, uint8_t *payload, size_t length) {
 }
