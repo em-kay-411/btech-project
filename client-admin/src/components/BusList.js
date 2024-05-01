@@ -34,7 +34,7 @@ function BusList() {
     const [messageSingleBus, setMessageSingleBus] = useState('');
     const [textMessage, setTextMessage] = useState('');
     const [messageBoxOpen, setMessageBoxOpen] = useState(false);
-    const [busIPs, setBusIPs] = useState({});
+    const [busIPs, setBusIPs] = useState({"12345" : '192.168.0.101'});  // Just for testing purposes
     const [isMarkingMode, setIsMarkingMode] = useState(false);
 
     useEffect(() => {
@@ -206,7 +206,7 @@ function BusList() {
                         console.log(`subscribed to bus location from ${busID}`);
                     });
                     client.subscribe(`busToAdmin/${busID}`, () => {
-                        console.log(`subscribed to adminToBus/${busID}`);
+                        console.log(`subscribed to busToAdmin/${busID}`);
                     });
                     const busMarkerRef = React.createRef();
                     setBusMarkerReferences(prevState => {
@@ -318,6 +318,7 @@ function BusList() {
                 }
                 
                 if(command === 'connect-voice'){
+                    console.log("received connect-voice from bus 12345");
                     setMessage(`${busID} has started voice call. Connecting....`);
                     setOpen(true);
                     const busIP = busIPs[busID];
@@ -328,6 +329,7 @@ function BusList() {
                 }
 
                 if(command === 'disconnect-voice'){
+                    console.log("received disconnect-voice from bus 12345");
                     setSocket(null);
                 }
             }
