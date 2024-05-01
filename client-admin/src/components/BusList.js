@@ -20,7 +20,7 @@ const client = mqtt.connect(brokerURL);
 const sampleRate = 5000;
 
 function BusList() {
-    const socket = new WebSocket('ws://192.168.0.101:81');
+    const [socket, setSocket] = useState(null);
     const [map, setMap] = useState(null);
     const [busCards, setBusCards] = useState({});
     const { busesToTrack, setBusesToTrack } = useBusesToTrack();
@@ -34,6 +34,7 @@ function BusList() {
     const [messageSingleBus, setMessageSingleBus] = useState('');
     const [textMessage, setTextMessage] = useState('');
     const [messageBoxOpen, setMessageBoxOpen] = useState(false);
+    const [busIPs, setBusIPs] = useState({});
     const [isMarkingMode, setIsMarkingMode] = useState(false);
 
     useEffect(() => {
@@ -238,6 +239,7 @@ function BusList() {
 
                 if (command === 'connect') {
                     const busID = message.toString().split('/')[1];
+                    const busIP = message.toString().split('/')[2];
                     setBusesToTrack(prevState => ([...prevState, busID]));
                     setBusCards(prevState => {
                         const newB = {
@@ -259,6 +261,12 @@ function BusList() {
                         return {
                             ...prevState,
                             [busID]: busMarkerRef
+                        }
+                    })
+                    setBusIPs(prevState => {
+                        return {
+                            ...prevState,
+                            [busID] : busIP
                         }
                     })
                     setMessage(`Bus ${busID} connected`);
@@ -300,8 +308,26 @@ function BusList() {
 
             if (mqttTopic === 'busToAdmin') {
                 const busID = topic.split('/')[1];
-                setMessage(`${busID} sent a message`);
-                setOpen(true);
+                const command = message.toString().split('/')[0];
+
+                if(command === 'message'){
+                    setMessage(`${busID} sent a message : ${message}`);
+                    setOpen(true);
+                }
+                
+                if(command === 'connect-voice'){
+                    setMessage(`${busID} has started voice call. Connecting....`);
+                    setOpen(true);
+                    const busIP = busIPs[busID];
+
+                    const socketTemp = new WebSocket(`ws://${busIP}:81`);
+                    setSocket(socketTemp);
+                    setMessage(`Connected to ${busID}`);
+                }
+
+                if(command === 'disconnect-voice'){
+                    setSocket(null);
+                }
             }
         }
 

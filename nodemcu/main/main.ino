@@ -217,7 +217,7 @@ void setup() {
   }
   
   Serial.println("Connected to MQTT Broker !");
-  String command = "connect/" + busIDString;
+  String command = "connect/" + busIDString + "/" + WiFi.localIP();
   client.publish("universal", command.c_str());
 
   String requestBody = "{\"bus\" : \"" + String(busID) + "\"}";

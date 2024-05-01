@@ -3,10 +3,21 @@
 #include <ESP8266WebServer.h>
 #include <WebSocketsServer.h>
 #include <Base64.h>
+#include "PubSubClient.h"
+
+WiFiClient wifiClient;
+const char  * busID = "12345";
+String busIDString = "12345";
+String busToAdminTopic = "busToAdmin/" + busIDString;
+
 
 // Replace with your network credentials
 const char *ssid = "M.A.S_Sheel_2.4ghZ";
 const char *password = "masyamatlal";
+const char *server = "192.168.0.118";
+
+PubSubClient client(server, 1883, wifiClient);
+
 
 // Replace with your microphone pin
 const int microphonePin = A0;
@@ -32,6 +43,12 @@ void setup() {
   }
   Serial.println("WiFi connected");
   Serial.println(WiFi.localIP());
+
+  while (!client.connect(clientID)) {    
+    delay(500); 
+    Serial.println("Connection to MQTT Broker failed…");       
+  }
+
   delay(5000);
   pinMode(microphonePin, INPUT);
   pinMode(buttonPin, INPUT_PULLUP);
@@ -50,6 +67,8 @@ void loop() {
   webSocket.loop();  // Handle WebSocket events
   button_state = digitalRead(buttonPin);
   if (prev_button_state == HIGH && button_state == LOW) {
+    String IPString = "connect-voice/" + busIDString;
+    client.publish(busToAdminTopic.c_str(), IPString.c_str());
     int16_t analogValues[numSamplesPerPacket];
 
     for (int i = 0; i < numSamplesPerPacket; i++) {
@@ -60,7 +79,7 @@ void loop() {
     webSocket.broadcastBIN((uint8_t*)(analogValues), numSamplesPerPacket * sizeof(int16_t));
     prev_button_state = button_state;
   } else if (prev_button_state == LOW && button_state == HIGH) {
-    // Serial.println("button released");
+    client.publish(busToAdminTopic.c_str(), "disconnect-voice/");
   }
   delay(5);  // Adjust delay as needed
 }
