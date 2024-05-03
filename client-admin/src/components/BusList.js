@@ -36,7 +36,7 @@ function BusList() {
     const [messageSingleBus, setMessageSingleBus] = useState('');
     const [textMessage, setTextMessage] = useState('');
     const [messageBoxOpen, setMessageBoxOpen] = useState(false);
-    const [busIPs, setBusIPs] = useState({"12345" : "192.168.0.101"});  // Just for testing purposes
+    const [busIPs, setBusIPs] = useState({ "12345": "192.168.0.101" });  // Just for testing purposes
     const [isMarkingMode, setIsMarkingMode] = useState(false);
     const [dataArray, setDataArray] = useState([]);
     const [audioStream, setAudioStream] = useState(null);
@@ -95,8 +95,17 @@ function BusList() {
 
             socket.onopen = (event) => {
                 console.log('connected to socket');
+                console.log(socket);
             }
 
+            socket.onclose = (event) => {
+                setDataArray([]);
+            }
+        }
+    }, [socket]);
+
+    useEffect(() => {
+        if (socket && onACall) {
             navigator.mediaDevices.getUserMedia({ audio: true })
                 .then(stream => {
                     console.log('entered in navogatr API')
@@ -107,26 +116,32 @@ function BusList() {
                     recorder.ondataavailable = event => {
                         if (socket && socket.readyState === WebSocket.OPEN) {
                             // Send audio data to the WebSocket server
+                            console.log('sending', event.data);
                             socket.send(event.data);
                         }
                     };
+
+                    recorder.start();
                 })
                 .catch(error => {
                     console.error('Microphone permissions not granted', error);
                 });
+
+
+
+            return () => {
+                if (mediaRecorder && mediaRecorder.state === 'recording') {
+                    console.log('entered');
+                }
+                if (audioStream) {
+                    audioStream.getTracks().forEach(track => {
+                        track.stop();
+                    });
+                }
+            }
         }
 
-        return () => {
-            if (mediaRecorder && mediaRecorder.state === 'recording') {
-                mediaRecorder.stop();
-            }
-            if (audioStream) {
-                audioStream.getTracks().forEach(track => {
-                    track.stop();
-                });
-            }
-        }
-    }, [socket])
+    })
 
     useEffect(() => {
         const ctx = document.getElementById('myChart').getContext('2d');
@@ -272,23 +287,28 @@ function BusList() {
     }
 
     const handleCallClick = (busID) => {
-        if(!onACall){
-            const socketConst = new WebSocket(`ws://${busIPs[busID]}`);
+        console.log('before click', onACall)
+        if (!onACall) {
+            const socketConst = new WebSocket(`ws://${busIPs[busID]}:81`);
             setSocket(socketConst);
             setOnACall(true);
 
-            if(mediaRecorder){
+            if (mediaRecorder && mediaRecorder.state === 'inactive') {
                 mediaRecorder.start();
+                setMediaRecorder(mediaRecorder);
             }
-        }        
-        else{
+        }
+        else {
             setSocket(null);
             setOnACall(false);
 
-            if(mediaRecorder){
+            if (mediaRecorder && mediaRecorder.state == 'recording') {
+                console.log('stopped it')
                 mediaRecorder.stop();
+                setMediaRecorder(mediaRecorder);
             }
         }
+        console.log('after click', onACall)
     }
 
     useEffect(() => {
@@ -501,7 +521,7 @@ function BusList() {
                                     <div className="next">{nextStation && `Arriving at ${nextStation}`} {eta && `in ${eta} mins`}</div>
                                 </div>
                                 <ChatBubbleIcon className='chat-icon' onClick={(event) => { event.stopPropagation(); handleChatClick(busID) }} style={{ zIndex: 5, color: '#c79a46' }} />
-                                <CallIcon className='chat-icon' onClick = {(event) => {event.stopPropagation(); handleCallClick(busID)}} style={{ zIndex: 5, color: '#c79a46' }}/>
+                                <CallIcon className='chat-icon' onClick={(event) => { event.stopPropagation(); handleCallClick(busID) }} style={{ zIndex: 5, color: '#c79a46' }} />
                             </div>
 
 
