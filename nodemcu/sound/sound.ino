@@ -78,6 +78,7 @@ void loop() {
   } else if (prev_button_state == LOW && button_state == HIGH) {
     Serial.println("button released");
     client.publish(busToAdminTopic.c_str(), "disconnect-voice/");
+    delay(500);
     flag = false;
   }
   delay(5);  // Adjust delay as needed
@@ -96,4 +97,11 @@ void loop() {
 }
 
 void webSocketEvent(uint8_t num, WStype_t type, uint8_t *payload, size_t length) {
+  switch(type){
+    case WStype_BIN:
+      for(int i=0; i<length; i++){
+        Serial.println(payload[i]);
+      }
+      break;
+  }
 }

@@ -14,9 +14,9 @@ SoftwareSerial ss(4, 5);  // The serial connection to the GPS device
 const char *busID = "12345";
 String busIDString = "12345";
 const char *clientID = "12345";
-const char *ssid = "M.A.S_Sheel_2.4ghZ";
-const char *password = "masyamatlal";
-const char *server = "192.168.0.118";
+const char *ssid = "Galaxy M3194C2";
+const char *password = "eeyy6643";
+const char *server = "192.168.199.186";
 const char *backendPort = "3050";
 const char *MAPS_API_KEY = "YwnGgYME2e9Yhc5cENrbjM5NyRibrscM";
 DynamicJsonDocument routeDoc(64);
@@ -210,14 +210,30 @@ void setup() {
   Serial.println("WiFi connected");
   // Print the IP address
   Serial.println(WiFi.localIP());
+
   wifiClientSecure.setInsecure();
   while (!client.connect(clientID)) {    
     delay(500); 
-    Serial.println("Connection to MQTT Broker failed…");       
+    Serial.println("Connection to MQTT Broker failed…");     
+    Serial.println(client.state());  
   }
   
   Serial.println("Connected to MQTT Broker !");
-  String command = "connect/" + busIDString + "/" + WiFi.localIP();
+
+  IPAddress localIP = WiFi.localIP();
+
+  String ipAddress = "";
+
+  for(int i=0; i<4
+  ; i++){
+    ipAddress += String(localIP[i]);
+    if(i < 3){
+      ipAddress += ".";
+    }
+  }
+
+  
+  String command = "connect/" + busIDString + "/" + ipAddress;
   client.publish("universal", command.c_str());
 
   String requestBody = "{\"bus\" : \"" + String(busID) + "\"}";
