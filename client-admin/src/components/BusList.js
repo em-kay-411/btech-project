@@ -7,6 +7,7 @@ import axios from 'axios';
 import BusDetails from './BusDetails'
 import CloseIcon from '@mui/icons-material/Close';
 import ChatBubbleIcon from '@mui/icons-material/ChatBubble';
+import CallIcon from '@mui/icons-material/Call';
 import Checkbox from '@mui/material/Checkbox';
 import { useBusesToTrack } from './BusesToTrackContext';
 import '../css/Map.css';
@@ -35,9 +36,12 @@ function BusList() {
     const [messageSingleBus, setMessageSingleBus] = useState('');
     const [textMessage, setTextMessage] = useState('');
     const [messageBoxOpen, setMessageBoxOpen] = useState(false);
-    const [busIPs, setBusIPs] = useState({ "12345": '192.168.0.101' });  // Just for testing purposes
+    const [busIPs, setBusIPs] = useState({"12345" : "192.168.0.101"});  // Just for testing purposes
     const [isMarkingMode, setIsMarkingMode] = useState(false);
     const [dataArray, setDataArray] = useState([]);
+    const [audioStream, setAudioStream] = useState(null);
+    const [mediaRecorder, setMediaRecorder] = useState(null);
+    const [onACall, setOnACall] = useState(false);
 
     useEffect(() => {
         function base64ToUint8Array(base64) {
@@ -91,6 +95,35 @@ function BusList() {
 
             socket.onopen = (event) => {
                 console.log('connected to socket');
+            }
+
+            navigator.mediaDevices.getUserMedia({ audio: true })
+                .then(stream => {
+                    console.log('entered in navogatr API')
+                    setAudioStream(stream);
+                    const recorder = new MediaRecorder(stream);
+                    setMediaRecorder(recorder);
+
+                    recorder.ondataavailable = event => {
+                        if (socket && socket.readyState === WebSocket.OPEN) {
+                            // Send audio data to the WebSocket server
+                            socket.send(event.data);
+                        }
+                    };
+                })
+                .catch(error => {
+                    console.error('Microphone permissions not granted', error);
+                });
+        }
+
+        return () => {
+            if (mediaRecorder && mediaRecorder.state === 'recording') {
+                mediaRecorder.stop();
+            }
+            if (audioStream) {
+                audioStream.getTracks().forEach(track => {
+                    track.stop();
+                });
             }
         }
     }, [socket])
@@ -238,6 +271,26 @@ function BusList() {
         })
     }
 
+    const handleCallClick = (busID) => {
+        if(!onACall){
+            const socketConst = new WebSocket(`ws://${busIPs[busID]}`);
+            setSocket(socketConst);
+            setOnACall(true);
+
+            if(mediaRecorder){
+                mediaRecorder.start();
+            }
+        }        
+        else{
+            setSocket(null);
+            setOnACall(false);
+
+            if(mediaRecorder){
+                mediaRecorder.stop();
+            }
+        }
+    }
+
     useEffect(() => {
         const getConnectedBuses = async () => {
             const response = await axios.get(`${backendURL}/getConnectedBuses`);
@@ -378,7 +431,7 @@ function BusList() {
                     const busIP = busIPs[busID];
 
                     // const socketTemp = new WebSocket(`ws://${busIP}:81`);
-                    const socketTemp = new WebSocket(`ws://192.168.0.101:81`);
+                    const socketTemp = new WebSocket(`ws://${busIP}:81`);
                     setSocket(socketTemp);
                     setMessage(`Connected to ${busID}`);
                 }
@@ -448,6 +501,7 @@ function BusList() {
                                     <div className="next">{nextStation && `Arriving at ${nextStation}`} {eta && `in ${eta} mins`}</div>
                                 </div>
                                 <ChatBubbleIcon className='chat-icon' onClick={(event) => { event.stopPropagation(); handleChatClick(busID) }} style={{ zIndex: 5, color: '#c79a46' }} />
+                                <CallIcon className='chat-icon' onClick = {(event) => {event.stopPropagation(); handleCallClick(busID)}} style={{ zIndex: 5, color: '#c79a46' }}/>
                             </div>
 
 
