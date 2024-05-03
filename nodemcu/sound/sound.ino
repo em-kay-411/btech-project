@@ -67,6 +67,12 @@ void convertIntArrayToBinary(int *intArray, uint8_t *binaryData, size_t arrayLen
 
 void loop() {
   webSocket.loop();  // Handle WebSocket events
+  if(!client.connected()){
+    while (!client.connect(clientID)) {    
+      delay(500); 
+      Serial.println("Connection to MQTT Broker failed…");       
+    }
+  }
   button_state = digitalRead(buttonPin);
   if (prev_button_state == HIGH && button_state == LOW) {
     Serial.println("button pressed");
@@ -99,7 +105,7 @@ void loop() {
 void webSocketEvent(uint8_t num, WStype_t type, uint8_t *payload, size_t length) {
   switch(type){
     case WStype_BIN:
-      for(int i=0; i<length; i++){
+      for(size_t i=0; i<length; i++){
         Serial.println(payload[i]);
       }
       break;
