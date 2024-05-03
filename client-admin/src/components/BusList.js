@@ -12,6 +12,7 @@ import { useBusesToTrack } from './BusesToTrackContext';
 import '../css/Map.css';
 import '@tomtom-international/web-sdk-maps/dist/maps.css';
 import tt from '@tomtom-international/web-sdk-maps';
+import Chart from 'chart.js/auto';
 // console.log(env);
 const brokerURL = env.MQTT_BROKER_URL;
 const key = env.MAPS_API_KEY;
@@ -34,8 +35,9 @@ function BusList() {
     const [messageSingleBus, setMessageSingleBus] = useState('');
     const [textMessage, setTextMessage] = useState('');
     const [messageBoxOpen, setMessageBoxOpen] = useState(false);
-    const [busIPs, setBusIPs] = useState({"12345" : '192.168.0.101'});  // Just for testing purposes
+    const [busIPs, setBusIPs] = useState({ "12345": '192.168.0.101' });  // Just for testing purposes
     const [isMarkingMode, setIsMarkingMode] = useState(false);
+    const [dataArray, setDataArray] = useState([]);
 
     useEffect(() => {
         function base64ToUint8Array(base64) {
@@ -50,26 +52,78 @@ function BusList() {
 
         const playPCM = (base64Text) => {
             const binaryData = base64ToUint8Array(base64Text);
-            const blob = new Blob([binaryData], { type: 'audio/wav' }); 
+            const blob = new Blob([binaryData], { type: 'audio/wav' });
             const url = URL.createObjectURL(blob);
             const audio = new Audio(url);
             audio.play();
         };
 
-        if(socket){
+        if (socket) {
             socket.onmessage = (event) => {
                 // console.log(event);
                 // const base64text = event.data;
-                console.log(event.data);
+                let reader = new FileReader();
+
+                // Define a function to handle the onload event when the data is successfully read
+                reader.onload = function (event) {
+                    let dataArrayBuffer = event.target.result;
+                    let uint8Array = new Uint8Array(dataArrayBuffer);
+                    for (let i = 0; i < uint8Array.length; i++) {
+                        console.log(uint8Array[i]);
+                    }
+
+                    const filteredDataArray = uint8Array.filter(value => value !== 0);
+
+                    const newDataArray = [...dataArray, ...filteredDataArray];
+                    console.log(newDataArray);
+                    setDataArray(newDataArray);
+
+                    // Update chart data
+                    const chart = Chart.getChart('myChart');
+                    chart.data.labels = Array.from({ length: newDataArray.length }, (_, i) => i);
+                    chart.data.datasets[0].data = newDataArray;
+                    chart.update();
+                };
+                reader.readAsArrayBuffer(event.data);
                 // console.log(event.data);
                 // playPCM(base64text);
             };
-    
+
             socket.onopen = (event) => {
                 console.log('connected to socket');
             }
-        }        
+        }
     }, [socket])
+
+    useEffect(() => {
+        const ctx = document.getElementById('myChart').getContext('2d');
+        const chart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: [],
+                datasets: [{
+                    label: 'Data',
+                    data: [],
+                    borderColor: 'rgb(75, 192, 192)',
+                    tension: 0.1
+                }]
+            },
+            options: {
+                scales: {
+                    x: {
+                        type: 'linear',
+                        position: 'bottom'
+                    },
+                    y: {
+                        beginAtZero: false,
+                        suggestedMin: 50
+                    }
+                }
+            }
+        });
+
+        return () => chart.destroy(); // Clean up chart instance
+    }, []);
 
     const handleClose = (event, reason) => {
         setOpen(false);
@@ -256,7 +310,7 @@ function BusList() {
                         console.log(`subscribed to bus location from ${busID}`);
                     });
                     client.subscribe(`busToAdmin/${busID}`, () => {
-                        console.log(`subscribed to adminToBus/${busID}`);
+                        console.log(`subscribed to busToAdmin/${busID}`);
                     });
                     const busMarkerRef = React.createRef();
                     setBusMarkerReferences(prevState => {
@@ -268,7 +322,7 @@ function BusList() {
                     setBusIPs(prevState => {
                         return {
                             ...prevState,
-                            [busID] : busIP
+                            [busID]: busIP
                         }
                     })
                     setMessage(`Bus ${busID} connected`);
@@ -312,24 +366,26 @@ function BusList() {
                 const busID = topic.split('/')[1];
                 const command = message.toString().split('/')[0];
 
-                if(command === 'message'){
+                if (command === 'message') {
                     setMessage(`${busID} sent a message : ${message}`);
                     setOpen(true);
                 }
-                
-                if(command === 'connect-voice'){
+
+                if (command === 'connect-voice') {
                     console.log("received connect-voice from bus 12345");
                     setMessage(`${busID} has started voice call. Connecting....`);
                     setOpen(true);
                     const busIP = busIPs[busID];
 
-                    const socketTemp = new WebSocket(`ws://${busIP}:81`);
+                    // const socketTemp = new WebSocket(`ws://${busIP}:81`);
+                    const socketTemp = new WebSocket(`ws://192.168.0.101:81`);
                     setSocket(socketTemp);
                     setMessage(`Connected to ${busID}`);
                 }
 
-                if(command === 'disconnect-voice'){
+                if (command === 'disconnect-voice') {
                     console.log("received disconnect-voice from bus 12345");
+                    setDataArray([]);
                     setSocket(null);
                 }
             }
@@ -421,6 +477,7 @@ function BusList() {
                     <Button id='sendButton' onClick={handleSendMessage}>Send</Button>
                 </div>)}
             </div>
+            <canvas id="myChart" width="400" height="400"></canvas>
         </>
     )
 }
