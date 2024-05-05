@@ -4,7 +4,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import { useState } from 'react';
 import BusList from './BusList';
 
-function LeftPanel() {    
+function LeftPanel({emergency, setEmergency}) {    
     const [location, setLocation] = useState('');
 
     const handleLocationChange = (event, value) => {
@@ -25,7 +25,7 @@ function LeftPanel() {
                     <SearchIcon /> find buses
                 </Button>                
             </div>
-            <BusList/>
+            <BusList emergency={emergency} setEmergency={setEmergency}/>
         </div>
     )
 }

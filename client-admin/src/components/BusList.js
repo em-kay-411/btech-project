@@ -21,7 +21,7 @@ const backendURL = env.BACKEND_API_URL;
 const client = mqtt.connect(brokerURL);
 const sampleRate = 5000;
 
-function BusList() {
+function BusList({emergency, setEmergency}) {
     const [socket, setSocket] = useState(null);
     const [map, setMap] = useState(null);
     const [busCards, setBusCards] = useState({});
@@ -472,6 +472,45 @@ function BusList() {
                     console.log("received disconnect-voice from bus 12345");
                     setDataArray([]);
                     setSocket(null);
+                }
+
+                if(command === 'emergency'){
+                    const type = message.toString().split('/')[1];
+                    if(type === 'fire'){
+                        setEmergency(prevState => {
+                            return {
+                                ...prevState,
+                                [busID] : {
+                                    typeOfEmergency : 'fire'
+                                }
+                            }
+                             
+                        });
+                    }
+                    
+                    if(type === 'accident'){
+                        setEmergency(prevState => {
+                            return {
+                                ...prevState,
+                                [busID] : {
+                                    typeOfEmergency : 'accident'
+                                }
+                            }
+                             
+                        });
+                    }
+
+                    if(type === 'FireAndAccident'){
+                        setEmergency(prevState => {
+                            return {
+                                ...prevState,
+                                [busID] : {
+                                    typeOfEmergency : 'FireAndAccident'
+                                }
+                            }
+                             
+                        });
+                    }
                 }
             }
         }
