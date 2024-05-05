@@ -54,13 +54,23 @@ function BusList() {
             return bytes;
         }
 
-        const playPCM = (base64Text) => {
-            const binaryData = base64ToUint8Array(base64Text);
-            const blob = new Blob([binaryData], { type: 'audio/wav' });
-            const url = URL.createObjectURL(blob);
-            const audio = new Audio(url);
-            audio.play();
-        };
+        const playAudioBlob = (blob) => {
+            let audio = new Audio();
+            audio.src = URL.createObjectURL(blob);
+            try{
+                audio.play();
+                console.log('playing audio');
+            }
+            catch{
+                console.log('error loading audio');
+            }
+            
+        
+            // Remove the Blob and revoke URL when audio ends
+            audio.onended = function() {
+                URL.revokeObjectURL(audio.src);
+            };
+        }
 
         if (socket) {
             socket.onmessage = (event) => {
@@ -71,10 +81,12 @@ function BusList() {
                 // Define a function to handle the onload event when the data is successfully read
                 reader.onload = function (event) {
                     let dataArrayBuffer = event.target.result;
+                    let blob = new Blob([dataArrayBuffer], { type: 'audio/wav' }); // Adjust the type as needed
+                    // playAudioBlob(blob);
                     let uint8Array = new Uint8Array(dataArrayBuffer);
-                    for (let i = 0; i < uint8Array.length; i++) {
-                        console.log(uint8Array[i]);
-                    }
+                    // for (let i = 0; i < uint8Array.length; i++) {
+                    //     // console.log(uint8Array[i]);
+                    // }
 
                     const filteredDataArray = uint8Array.filter(value => value !== 0);
 
