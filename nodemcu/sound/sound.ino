@@ -24,9 +24,13 @@ PubSubClient client(server, 1883, wifiClient);
 // Replace with your microphone pin
 const int microphonePin = A0;
 const int buttonPin = D7;
+const int fireSensor = D0;
+const int vibrationSensor = D1;
 
 int prev_button_state = LOW;
 int button_state;
+int present_condition = 0;
+int previous_condition = 0;
 
 WebSocketsServer webSocket = WebSocketsServer(81);  // WebSocket server on port 81
 
@@ -54,6 +58,8 @@ void setup() {
   delay(5000);
   pinMode(microphonePin, INPUT);
   pinMode(buttonPin, INPUT_PULLUP);
+  pinMode(fireSensor, INPUT);
+  pinMode(vibrationSensor, INPUT);
 
   // Start WebSocket server
   webSocket.begin();
@@ -73,7 +79,31 @@ void loop() {
       Serial.println("Connection to MQTT Broker failed…");       
     }
   }
+
+  present_condition = previous_condition;
+
   button_state = digitalRead(buttonPin);
+  int fire = digitalRead(fireSensor);
+  present_condition = digitalRead(vibrationSensor);
+
+  if(previous_condition != present_condition && fire == 0){
+    Serial.println("Accident and fire detected");
+    String message = "emergency/FireAndAccident";
+    client.publish(busToAdminTopic.c_str(), message.c_str());
+  }
+  else if(previous_condition != present_condition){
+    Serial.println("Accident detected");
+    String message = "emergency/accident";
+    client.publish(busToAdminTopic.c_str(), message.c_str());
+  }
+  else if(fire == 0){
+    Serial.println("FIre detected");
+    String message = "emergency/fire";
+    client.publish(busToAdminTopic.c_str(), message.c_str());
+  }
+
+  delay(50);
+
   if (prev_button_state == HIGH && button_state == LOW) {
     Serial.println("button pressed");
     if(!flag){
@@ -84,7 +114,7 @@ void loop() {
   } else if (prev_button_state == LOW && button_state == HIGH) {
     Serial.println("button released");
     client.publish(busToAdminTopic.c_str(), "disconnect-voice/");
-    delay(500);
+    delay(50);
     flag = false;
   }
   delay(5);  // Adjust delay as needed
