@@ -3,9 +3,10 @@ import LocalFireDepartmentIcon from '@mui/icons-material/LocalFireDepartment';
 import CarCrashIcon from '@mui/icons-material/CarCrash';
 import {Button } from '@mui/material';
 
-function RightPanel({ emergency }) {
-    const handleAddressed = () => {
-        // to be erittwn
+function RightPanel({ emergency, setEmergency }) {
+    const handleAddressed = (busID) => {
+        const { toDelete, ...rest } = Object.fromEntries(Object.entries(emergency).filter(([bus]) => bus !== busID));
+        setEmergency(rest);
     }
 
     return (

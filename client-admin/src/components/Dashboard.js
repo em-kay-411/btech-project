@@ -11,7 +11,7 @@ function Dashboard () {
         <BusesProvider>
             <FootPanel/>
             <LeftPanel emergency={emergency} setEmergency={setEmergency}/>
-            <RightPanel emergency={emergency}/>
+            <RightPanel emergency={emergency} setEmergency={setEmergency}/>
         </BusesProvider>
     )    
 }
