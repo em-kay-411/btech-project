@@ -236,7 +236,7 @@ void setup() {
   String command = "connect/" + busIDString + "/" + ipAddress;
   client.publish("universal", command.c_str());
 
-  String requestBody = "{\"bus\" : \"" + String(busID) + "\"}";
+  String requestBody = "{\"bus\" : \"" + String(busID) + "\", fromBus : true }";
 
 
   HTTPClient http;
