@@ -21,6 +21,7 @@ function Map() {
   const [busMarkerReferences, setBusMarkerReferences] = useState({});
   const { busesToTrack, setBusesToTrack } = useBusesToTrack();
   const [routes, setRoutes] = useState({});
+  const [layers, setLayers] = useState([]);
 
   const handleRecenterMap = () => {
     map.setCenter([userLocation.longitude, userLocation.latitude]);
@@ -100,6 +101,11 @@ function Map() {
     }
 
     const storeRoutes = async () => {
+      setRoutes({});
+      for(let layer of layers){
+        map.removeLayer(layer);
+      }
+      setLayers([]);
       for (const bus of busesToTrack) {
         if (!routes[bus.id]) {
           await storeBusRoute(bus.id);
@@ -133,8 +139,10 @@ function Map() {
   useEffect(() => {
 
     const displayRoute = (geo, color) => {
+      const id = JSON.stringify(geo);
+      setLayers([...layers, id]);
       const routeLayer = map.addLayer({
-        id: 'route',
+        id: id,
         type: 'line',
         source: {
           type: 'geojson',
@@ -150,51 +158,27 @@ function Map() {
     const createRoute = async (busID) => {
 
       const route = routes[busID].route;
-      const idx = routes[busID].index;
 
       if (route) {
         console.log('creating route for', busID);
-        const travelledMarkers = [];
-        const untravelledMarkers = [];
+        const markers = [];
 
         let i;
-        for (i = 0; i < idx; i++) {
-          console.log(route[i]);
-          const popup = new tt.Popup({closeButton : false}).setText(route[i].name);
+
+        for (i = 0; i < route.length; i++) {
+          const popup = new tt.Popup({ closeButton: false }).setText(route[i].name);
           const marker = new tt.Marker().setLngLat([route[i].longitude, route[i].latitude]).setPopup(popup).addTo(map);
-          travelledMarkers.push(marker);
+          markers.push(marker);
         }
 
-        for (i = idx; i < route.length; i++) {
-          const popup = new tt.Popup({closeButton : false}).setText(route[i].name);
-          const marker = new tt.Marker().setLngLat([route[i].longitude, route[i].latitude]).setPopup(popup).addTo(map);
-          untravelledMarkers.push(marker);
-        }
+        console.log(markers);
 
-        console.log(untravelledMarkers);
+        if (markers.length) {
+          const locations = markers.map(marker => marker.getLngLat());
+          const response = await services.calculateRoute({ key, locations })
+          const geo = response.toGeoJson();
+          displayRoute(geo, "orange");
 
-        if (travelledMarkers.length) {
-          const locations = travelledMarkers.map(marker => marker.getLngLat());
-
-          try{
-            const response = await services.calculateRoute({ key, locations })
-            const geo = response.toGeoJson();
-            displayRoute(geo, "#ffc65f");
-          } catch(err){
-            console.log(err);
-          }     
-
-        }
-
-        if (untravelledMarkers.length) {
-          const locations = untravelledMarkers.map(marker => marker.getLngLat());
-          try{
-            const response = await services.calculateRoute({ key, locations })
-            const geo = response.toGeoJson();
-            displayRoute(geo, "orange");
-          } catch(err){
-            console.log(err);
-          }          
         }
       }
     }

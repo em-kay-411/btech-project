@@ -366,7 +366,7 @@ function BusList({ emergency, setEmergency }) {
     useEffect(() => {
 
         const displayRoute = (geo, color) => {
-            const id = geo.toString();
+            const id = JSON.stringify(geo);
             const routeLayer = map.addLayer({
                 id: id,
                 type: 'line',
@@ -388,38 +388,24 @@ function BusList({ emergency, setEmergency }) {
 
             if (route) {
                 console.log('creating route for', busID);
-                const travelledMarkers = [];
-                const untravelledMarkers = [];
+                const markers = [];
 
                 let i;
-                for (i = 0; i < idx; i++) {
-                    console.log(route[i]);
+
+                for (i = 0; i < route.length; i++) {
                     const popup = new tt.Popup({closeButton : false}).setText(route[i].name);
                     const marker = new tt.Marker().setLngLat([route[i].longitude, route[i].latitude]).setPopup(popup).addTo(map);
-                    travelledMarkers.push(marker);
+                    markers.push(marker);
                 }
 
-                for (i = idx; i < route.length; i++) {
-                    const popup = new tt.Popup({closeButton : false}).setText(route[i].name);
-                    const marker = new tt.Marker().setLngLat([route[i].longitude, route[i].latitude]).setPopup(popup).addTo(map);
-                    untravelledMarkers.push(marker);
-                }
+                console.log(markers);
 
-                console.log(untravelledMarkers);
-
-                if (travelledMarkers.length) {
-                    const locations = travelledMarkers.map(marker => marker.getLngLat());
-                    const response = await services.calculateRoute({ key, locations })
-                    const geo = response.toGeoJson();
-                    displayRoute(geo, "#ffc65f");
-
-                }
-
-                if (untravelledMarkers.length) {
-                    const locations = untravelledMarkers.map(marker => marker.getLngLat());
+                if (markers.length) {
+                    const locations = markers.map(marker => marker.getLngLat());
                     const response = await services.calculateRoute({ key, locations })
                     const geo = response.toGeoJson();
                     displayRoute(geo, "orange");
+
                 }
             }
         }

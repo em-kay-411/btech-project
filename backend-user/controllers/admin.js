@@ -64,6 +64,7 @@ const addBus = async(req, res) => {
 const getRouteForBus = async (req, res) => {
     const bus = req.body.bus;
     if(!busesConnected.includes(bus) && req.body.fromBus){
+        console.log('adding bus')
         busesConnected.push(bus);
     }    
 
