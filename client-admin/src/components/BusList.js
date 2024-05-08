@@ -366,8 +366,9 @@ function BusList({ emergency, setEmergency }) {
     useEffect(() => {
 
         const displayRoute = (geo, color) => {
+            const id = geo.toString();
             const routeLayer = map.addLayer({
-                id: 'route',
+                id: id,
                 type: 'line',
                 source: {
                     type: 'geojson',
@@ -393,12 +394,14 @@ function BusList({ emergency, setEmergency }) {
                 let i;
                 for (i = 0; i < idx; i++) {
                     console.log(route[i]);
-                    const marker = new tt.Marker().setLngLat([route[i].longitude, route[i].latitude]).addTo(map);
+                    const popup = new tt.Popup({closeButton : false}).setText(route[i].name);
+                    const marker = new tt.Marker().setLngLat([route[i].longitude, route[i].latitude]).setPopup(popup).addTo(map);
                     travelledMarkers.push(marker);
                 }
 
                 for (i = idx; i < route.length; i++) {
-                    const marker = new tt.Marker().setLngLat([route[i].longitude, route[i].latitude]).addTo(map);
+                    const popup = new tt.Popup({closeButton : false}).setText(route[i].name);
+                    const marker = new tt.Marker().setLngLat([route[i].longitude, route[i].latitude]).setPopup(popup).addTo(map);
                     untravelledMarkers.push(marker);
                 }
 

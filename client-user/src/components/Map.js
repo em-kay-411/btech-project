@@ -160,12 +160,14 @@ function Map() {
         let i;
         for (i = 0; i < idx; i++) {
           console.log(route[i]);
-          const marker = new tt.Marker().setLngLat([route[i].longitude, route[i].latitude]).addTo(map);
+          const popup = new tt.Popup({closeButton : false}).setText(route[i].name);
+          const marker = new tt.Marker().setLngLat([route[i].longitude, route[i].latitude]).setPopup(popup).addTo(map);
           travelledMarkers.push(marker);
         }
 
         for (i = idx; i < route.length; i++) {
-          const marker = new tt.Marker().setLngLat([route[i].longitude, route[i].latitude]).addTo(map);
+          const popup = new tt.Popup({closeButton : false}).setText(route[i].name);
+          const marker = new tt.Marker().setLngLat([route[i].longitude, route[i].latitude]).setPopup(popup).addTo(map);
           untravelledMarkers.push(marker);
         }
 

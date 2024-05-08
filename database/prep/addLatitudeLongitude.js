@@ -10,7 +10,7 @@ const main = async () => {
         useUnifiedTopology: true,
     });
 
-    const encodedName = encodeURIComponent(`Sasoon Hospital, Pune`);
+    const encodedName = encodeURIComponent(`Manapa Nava Pul (Mangala Takies), Pune`);
     console.log(encodedName);
     const apiEndpoint = `https://maps.googleapis.com/maps/api/geocode/json?address=${encodedName}&key=AIzaSyB2zhvHVb_IKgDBRMCwr3-taL8K8lK8-90`;
     const response = await axios.get(apiEndpoint);
@@ -27,7 +27,7 @@ const main = async () => {
         i++;
     }
     console.log('Position', position);
-    const station = await Station.updateOne({ name: 'Sasoon Hospital' }, { $set: { latitude: position.lat, longitude: position.lng } });
+    const station = await Station.updateOne({ name: 'Manapa Nava Pul (Mangala Takies)' }, { $set: { latitude: position.lat, longitude: position.lng } });
     console.log(station);
     console.log('Station location updated successfully for ', 'Sasoon Hospital');
 
