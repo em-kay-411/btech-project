@@ -14,9 +14,9 @@ bool flag = false;
 
 
 // Replace with your network credentials
-const char *ssid = "M.A.S_Sheel_2.4ghZ";
-const char *password = "masyamatlal";
-const char *server = "192.168.0.118";
+const char *ssid = "Galaxy M3194C2";
+const char *password = "eeyy6643";
+const char *server = "192.168.199.186";
 
 PubSubClient client(server, 1883, wifiClient);
 
@@ -64,6 +64,25 @@ void setup() {
   // Start WebSocket server
   webSocket.begin();
   webSocket.onEvent(webSocketEvent);
+
+  IPAddress localIP = WiFi.localIP();
+
+  String ipAddress = "";
+
+  for(int i=0; i<4; i++){
+    ipAddress += String(localIP[i]);
+    if(i < 3){
+      ipAddress += ".";
+    }
+  }
+
+  
+  String command = "connect-ip/" + busIDString + "/" + ipAddress;
+  while(!client.publish("universal", command.c_str())){
+    Serial.println(client.state());
+    Serial.println("unable to publish");
+  }
+  
 }
 
 void convertIntArrayToBinary(int *intArray, uint8_t *binaryData, size_t arrayLength) {

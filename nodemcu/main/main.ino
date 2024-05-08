@@ -220,22 +220,6 @@ void setup() {
   
   Serial.println("Connected to MQTT Broker !");
 
-  IPAddress localIP = WiFi.localIP();
-
-  String ipAddress = "";
-
-  for(int i=0; i<4
-  ; i++){
-    ipAddress += String(localIP[i]);
-    if(i < 3){
-      ipAddress += ".";
-    }
-  }
-
-  
-  String command = "connect/" + busIDString + "/" + ipAddress;
-  client.publish("universal", command.c_str());
-
   String requestBody = "{\"bus\" : \"" + String(busID) + "\"}";
 
 
