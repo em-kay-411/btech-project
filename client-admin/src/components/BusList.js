@@ -13,6 +13,7 @@ import { useBusesToTrack } from './BusesToTrackContext';
 import '../css/Map.css';
 import '@tomtom-international/web-sdk-maps/dist/maps.css';
 import tt from '@tomtom-international/web-sdk-maps';
+import { services } from '@tomtom-international/web-sdk-services'
 import Chart from 'chart.js/auto';
 // console.log(env);
 const brokerURL = env.MQTT_BROKER_URL;
@@ -21,7 +22,7 @@ const backendURL = env.BACKEND_API_URL;
 const client = mqtt.connect(brokerURL);
 const sampleRate = 5000;
 
-function BusList() {
+function BusList({ emergency, setEmergency }) {
     const [socket, setSocket] = useState(null);
     const [map, setMap] = useState(null);
     const [busCards, setBusCards] = useState({});
@@ -42,6 +43,7 @@ function BusList() {
     const [audioStream, setAudioStream] = useState(null);
     const [mediaRecorder, setMediaRecorder] = useState(null);
     const [onACall, setOnACall] = useState(false);
+    const [routes, setRoutes] = useState({});
 
     useEffect(() => {
         function base64ToUint8Array(base64) {
@@ -57,17 +59,17 @@ function BusList() {
         const playAudioBlob = (blob) => {
             let audio = new Audio();
             audio.src = URL.createObjectURL(blob);
-            try{
+            try {
                 audio.play();
                 console.log('playing audio');
             }
-            catch{
+            catch {
                 console.log('error loading audio');
             }
-            
-        
+
+
             // Remove the Blob and revoke URL when audio ends
-            audio.onended = function() {
+            audio.onended = function () {
                 URL.revokeObjectURL(audio.src);
             };
         }
@@ -84,9 +86,9 @@ function BusList() {
                     let blob = new Blob([dataArrayBuffer], { type: 'audio/wav' }); // Adjust the type as needed
                     // playAudioBlob(blob);
                     let uint8Array = new Uint8Array(dataArrayBuffer);
-                    // for (let i = 0; i < uint8Array.length; i++) {
-                    //     // console.log(uint8Array[i]);
-                    // }
+                    for (let i = 0; i < uint8Array.length; i++) {
+                        // console.log(uint8Array[i]);
+                    }
 
                     const filteredDataArray = uint8Array.filter(value => value !== 0);
 
@@ -324,13 +326,121 @@ function BusList() {
     }
 
     useEffect(() => {
+        const storeBusRoute = async (busID) => {
+            const requestBody = {
+                bus: busID
+            }
+            const response = await axios.post(`${backendURL}/busRoute`, requestBody);
+            const routeArray = response.data.route;
+
+            let index;
+            for (index = 0; index < routeArray.length; index++) {
+                if (!routeArray[index].crossed) {
+                    break;
+                }
+            }
+
+            setRoutes(prevState => {
+                return {
+                    ...prevState,
+                    [busID]: {
+                        route: routeArray,
+                        index: index
+                    }
+                }
+            })
+        }
+
+        const storeRoutes = async () => {
+            for (const busID of busesToTrack) {
+                if (!routes[busID]) {
+                    await storeBusRoute(busID);
+                    console.log("storing");
+                }
+            }
+        }
+
+        storeRoutes();
+    }, [busesToTrack])
+
+    useEffect(() => {
+
+        const displayRoute = (geo, color) => {
+            const id = geo.toString();
+            const routeLayer = map.addLayer({
+                id: id,
+                type: 'line',
+                source: {
+                    type: 'geojson',
+                    data: geo
+                },
+                paint: {
+                    'line-color': color,
+                    'line-width': 3
+                }
+            })
+        }
+
+        const createRoute = async (busID) => {
+
+            const route = routes[busID].route;
+            const idx = routes[busID].index;
+
+            if (route) {
+                console.log('creating route for', busID);
+                const travelledMarkers = [];
+                const untravelledMarkers = [];
+
+                let i;
+                for (i = 0; i < idx; i++) {
+                    console.log(route[i]);
+                    const popup = new tt.Popup({closeButton : false}).setText(route[i].name);
+                    const marker = new tt.Marker().setLngLat([route[i].longitude, route[i].latitude]).setPopup(popup).addTo(map);
+                    travelledMarkers.push(marker);
+                }
+
+                for (i = idx; i < route.length; i++) {
+                    const popup = new tt.Popup({closeButton : false}).setText(route[i].name);
+                    const marker = new tt.Marker().setLngLat([route[i].longitude, route[i].latitude]).setPopup(popup).addTo(map);
+                    untravelledMarkers.push(marker);
+                }
+
+                console.log(untravelledMarkers);
+
+                if (travelledMarkers.length) {
+                    const locations = travelledMarkers.map(marker => marker.getLngLat());
+                    const response = await services.calculateRoute({ key, locations })
+                    const geo = response.toGeoJson();
+                    displayRoute(geo, "#ffc65f");
+
+                }
+
+                if (untravelledMarkers.length) {
+                    const locations = untravelledMarkers.map(marker => marker.getLngLat());
+                    const response = await services.calculateRoute({ key, locations })
+                    const geo = response.toGeoJson();
+                    displayRoute(geo, "orange");
+                }
+            }
+        }
+
+        for (const [key] of Object.entries(routes)) {
+            console.log('checking', routes);
+            if (routes[key]) {
+                createRoute(key);
+            }
+        }
+
+    }, [routes])
+
+    useEffect(() => {
         const getConnectedBuses = async () => {
             const response = await axios.get(`${backendURL}/getConnectedBuses`);
             const busesConnected = response.data.busesConnected;
             console.log(busesConnected);
 
             if (busesConnected) {
-                busesConnected.forEach(busID => {
+                busesConnected.forEach(async (busID) => {
                     setBusesToTrack(prevState => ([...prevState, busID]));
                     setBusCards(prevState => {
                         const newB = {
@@ -380,7 +490,6 @@ function BusList() {
 
                 if (command === 'connect') {
                     const busID = message.toString().split('/')[1];
-                    const busIP = message.toString().split('/')[2];
                     setBusesToTrack(prevState => ([...prevState, busID]));
                     setBusCards(prevState => {
                         const newB = {
@@ -397,6 +506,7 @@ function BusList() {
                     client.subscribe(`busToAdmin/${busID}`, () => {
                         console.log(`subscribed to busToAdmin/${busID}`);
                     });
+                    // storeBusRoute(busID);
                     const busMarkerRef = React.createRef();
                     setBusMarkerReferences(prevState => {
                         return {
@@ -404,14 +514,21 @@ function BusList() {
                             [busID]: busMarkerRef
                         }
                     })
+                    setMessage(`Bus ${busID} connected`);
+                    setOpen(true);
+                }
+
+                if (command === 'connect-ip') {
+                    console.log('entered');
+                    const busID = message.toString().split('/')[1];
+                    const busIP = message.toString().split('/')[2];
+
                     setBusIPs(prevState => {
                         return {
                             ...prevState,
                             [busID]: busIP
                         }
                     })
-                    setMessage(`Bus ${busID} connected`);
-                    setOpen(true);
                 }
             }
 
@@ -429,8 +546,8 @@ function BusList() {
                 // console.log(data);
                 // console.log(busCards);
                 const marker = new tt.Marker({ element: busMarkerReferences[busID].current }).setLngLat([longitude, latitude]).addTo(map);
+                console.log(typeof marker.getLngLat());
                 busMarkerReferences[busID].current.style.display = 'block';
-                console.log(busMarkerReferences);
 
                 setBusCards(prevState => {
                     return {
@@ -461,6 +578,7 @@ function BusList() {
                     setMessage(`${busID} has started voice call. Connecting....`);
                     setOpen(true);
                     const busIP = busIPs[busID];
+                    console.log(busIPs);
 
                     // const socketTemp = new WebSocket(`ws://${busIP}:81`);
                     const socketTemp = new WebSocket(`ws://${busIP}:81`);
@@ -472,6 +590,45 @@ function BusList() {
                     console.log("received disconnect-voice from bus 12345");
                     setDataArray([]);
                     setSocket(null);
+                }
+
+                if (command === 'emergency') {
+                    const type = message.toString().split('/')[1];
+                    if (type === 'fire') {
+                        setEmergency(prevState => {
+                            return {
+                                ...prevState,
+                                [busID]: {
+                                    typeOfEmergency: 'fire'
+                                }
+                            }
+
+                        });
+                    }
+
+                    if (type === 'accident') {
+                        setEmergency(prevState => {
+                            return {
+                                ...prevState,
+                                [busID]: {
+                                    typeOfEmergency: 'accident'
+                                }
+                            }
+
+                        });
+                    }
+
+                    if (type === 'FireAndAccident') {
+                        setEmergency(prevState => {
+                            return {
+                                ...prevState,
+                                [busID]: {
+                                    typeOfEmergency: 'FireAndAccident'
+                                }
+                            }
+
+                        });
+                    }
                 }
             }
         }

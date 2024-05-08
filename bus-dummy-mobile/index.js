@@ -1,6 +1,6 @@
 const options = { enableHighAccuracy: true, timeout: 5000, maximumAge: 0 };
 const busIDElement = document.getElementById('busID');
-const brokerURL = 'ws://192.168.199.186:9001/';
+const brokerURL = 'ws://192.168.0.118:9001/';
 const mapDiv = document.getElementById("map");
 const subscribeButton = document.getElementById('subscribe');
 const sendMessageButton = document.getElementById('sendMessage');
@@ -99,12 +99,14 @@ const updatePosition = async (position) => {
     let response = await axios.get(`https://api.tomtom.com/search/2/reverseGeocode/${latitude},${longitude}.json?key=${MAPS_API_KEY}&radius=100`);
     const address = response.data.addresses[0].address;
     const location = `${address.street}, ${address.municipalitySecondarySubdivision}, ${address.municipalitySubdivision}`;
-    const nextStation = {name : 'COEP Hostel', latitude : 18.5287368, longitude : 73.8504897};
-    const previousStation = {name : 'Shivajinagar', latitude : 18.528335, longitude: 73.8495611};
+    let nextStation = {name : 'COEP Hostel', latitude : 18.5287368, longitude : 73.8504897};
+    let previousStation = {name : 'Shivajinagar', latitude : 18.528335, longitude: 73.8495611};
     response = await axios.get(`https://api.tomtom.com/routing/1/calculateRoute/${latitude},${longitude}:${nextStation.latitude},${nextStation.longitude}/json?&sectionType=traffic&report=effectiveSettings&routeType=eco&traffic=true&avoid=unpavedRoads&travelMode=bus&vehicleMaxSpeed=80&vehicleCommercial=true&vehicleEngineType=combustion&key=${MAPS_API_KEY}`);                            
     // console.log(response.data);
     const etaInSeconds = response.data.routes[0].summary.travelTimeInSeconds;
     const eta = convertSecondsToTime(etaInSeconds);
+    nextStation = nextStation.name;
+    previousStation = previousStation.name;
     const message = { latitude, longitude, location, nextStation, previousStation, eta };
     const topic = `location/${busID}`;
 

@@ -10,67 +10,67 @@ const main = async () => {
         useUnifiedTopology: true,
     });
 
-    // const encodedName = encodeURIComponent(`Shivajinagar Bus, Pune`);
-    // console.log(encodedName);
-    // const apiEndpoint = `https://api.tomtom.com/search/2/geocode/${encodedName}.json?key=YwnGgYME2e9Yhc5cENrbjM5NyRibrscM`;
-    // const response = await axios.get(apiEndpoint);
+    const encodedName = encodeURIComponent(`Manapa Nava Pul (Mangala Takies), Pune`);
+    console.log(encodedName);
+    const apiEndpoint = `https://maps.googleapis.com/maps/api/geocode/json?address=${encodedName}&key=AIzaSyB2zhvHVb_IKgDBRMCwr3-taL8K8lK8-90`;
+    const response = await axios.get(apiEndpoint);
 
-    // const possiblePositions = response.data.results;
+    const possiblePositions = response.data.results;
 
-    // let position;
-    // let i = 0;
+    let position;
+    let i = 0;
 
-    // while (i < possiblePositions.length) {
-    //     if (possiblePositions[i].position.lat >= 18 && possiblePositions[i].position.lat < 19) {
-    //         position = possiblePositions[i].position;
-    //     }
-    //     i++;
-    // }
-    // console.log('Position', position);
-    // const station = await Station.updateOne({ name: 'Shivajinagar' }, { $set: { latitude: position.lat, longitude: position.lon } });
-    // console.log(station);
-    // console.log('Station location updated successfully for ', 'Shivajinagar');
+    while (i < possiblePositions.length) {
+        if ((possiblePositions[i].geometry.location.lat >= 18.165 && possiblePositions[i].geometry.location.lat < 19.2) && (possiblePositions[i].geometry.location.lng >= 73.336 && possiblePositions[i].geometry.location.lng < 74.22)) {
+            position = possiblePositions[i].geometry.location;
+        }
+        i++;
+    }
+    console.log('Position', position);
+    const station = await Station.updateOne({ name: 'Manapa Nava Pul (Mangala Takies)' }, { $set: { latitude: position.lat, longitude: position.lng } });
+    console.log(station);
+    console.log('Station location updated successfully for ', 'Sasoon Hospital');
 
-    fs.readFile('stations.txt', 'utf8', (err, data) => {
-        const stationNames = data.split('\n');
-        let count = 0;
+    // fs.readFile('stations.txt', 'utf8', (err, data) => {
+    //     const stationNames = data.split('\n');
+    //     let count = 0;
 
-        stationNames.forEach(async (name) => {
-            try {
-                const stationObj = await Station.findOne({name : name});
-                if(!stationObj.latitude && !stationObj.longitude){
-                    const encodedName = encodeURIComponent(`${name} Bus, Pune`);
-                    const apiEndpoint = `https://api.tomtom.com/search/2/geocode/${encodedName}.json?key=YwnGgYME2e9Yhc5cENrbjM5NyRibrscM`;
-                    const response = await axios.get(apiEndpoint);
+    //     stationNames.forEach(async (name) => {
+    //         try {
+    //             // const stationObj = await Station.findOne({ name: name });
+    //             // if ((!stationObj.latitude && !stationObj.longitude) || (stationObj.latitude < 18.165 && stationObj.latitude) > 19.2 || (stationObj.longitude < 73.336 && stationObj.longitude > 74.22)) {
+    //                 const encodedName = encodeURIComponent(`${name}, Pune`);
+    //                 const apiEndpoint = `https://maps.googleapis.com/maps/api/geocode/json?address=${encodedName}&key=AIzaSyB2zhvHVb_IKgDBRMCwr3-taL8K8lK8-90`;
+    //                 const response = await axios.get(apiEndpoint);
 
-                    const possiblePositions = response.data.results;
+    //                 const possiblePositions = response.data.results;
 
-                    let position;
-                    let i =0;
+    //                 let position;
+    //                 let i = 0;
 
-                    while(i < possiblePositions.length){
-                        if(possiblePositions[i].position.lat >= 18 && possiblePositions[i].position.lat < 19){
-                            position = possiblePositions[i].position;
-                        }
-                        i++;
-                    }
-                    console.log('Position', position);
-                    const station = await Station.updateOne({name : name}, {$set : {latitude : position.lat, longitude : position.lon}});
-                    console.log(station);
-                    console.log('Station location updated successfully for ', name);
-                }
-                else{
-                    console.log('already present');
-                    count++;
-                }
+    //                 while (i < possiblePositions.length) {
+    //                     if ((possiblePositions[i].geometry.location.lat >= 18.165 && possiblePositions[i].geometry.location.lat < 19.2) && (possiblePositions[i].geometry.location.lng >= 73.336 && possiblePositions[i].geometry.location.lng < 74.22)) {
+    //                         position = possiblePositions[i].geometry.location;
+    //                     }
+    //                     i++;
+    //                 }
+    //                 console.log('Position', position);
+    //                 const station = await Station.updateOne({ name: name }, { $set: { latitude: position.lat, longitude: position.lon } });
+    //                 console.log(station);
+    //                 console.log('Station location updated successfully for ', name);
+    //             // }
+    //             // else {
+    //             //     console.log('already present');
+    //             //     count++;
+    //             // }
 
-            } catch (error) {
-                console.error(error.message);
-            }
-        })
+    //         } catch (error) {
+    //             console.error(error.message);
+    //         }
+    //     })
 
-        console.log('Already present ', count);
-    })
+    //     console.log('Already present ', count);
+    // })
 
     return 0;
 }

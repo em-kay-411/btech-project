@@ -1,9 +1,77 @@
-.right-panel{
-    z-index: -1;
+.right-panel {
+    z-index: 0;
     top: 0;
     width: 20%;
     height: 70%;
     right: 0;
     position: fixed;
     background-color: rgb(255, 247, 231);
+    overflow-y: scroll;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+}
+
+.emergency-card {
+    border: rgb(244, 208, 155) 1px solid;
+    border-radius: 5px;
+    background-color: blanchedalmond;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px;
+    display: flex;
+    flex-direction: column;
+    margin: 5px 0;
+    animation: animate 1s linear infinite;
+}
+
+@keyframes animate {
+    0% {
+        opacity: 0.2;
+    }
+
+    50% {
+        opacity: 1;
+        background: red;
+    }
+
+    100% {
+        opacity: 0.2;
+    }
+}
+
+
+
+.busid {
+    position: relative;
+    left: 0.5%;
+    border-radius: 5px;
+    padding: 5px;
+    background-color: orange;
+    color: white;
+}
+
+.info {
+    padding: 10px;
+    font-size: 12px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+}
+
+.type-info {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+}
+
+.addressed {
+    margin-bottom: 5px;
+    border-color: #ffa500;
+    color: white;
+    font-family: "Nunito Sans", sans-serif;
+}
+
+.addressed:hover {
+    color: #ffa500;
 }
