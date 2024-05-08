@@ -175,17 +175,26 @@ function Map() {
 
         if (travelledMarkers.length) {
           const locations = travelledMarkers.map(marker => marker.getLngLat());
-          const response = await services.calculateRoute({ key, locations })
-          const geo = response.toGeoJson();
-          displayRoute(geo, "#ffc65f");
+
+          try{
+            const response = await services.calculateRoute({ key, locations })
+            const geo = response.toGeoJson();
+            displayRoute(geo, "#ffc65f");
+          } catch(err){
+            console.log(err);
+          }     
 
         }
 
         if (untravelledMarkers.length) {
           const locations = untravelledMarkers.map(marker => marker.getLngLat());
-          const response = await services.calculateRoute({ key, locations })
-          const geo = response.toGeoJson();
-          displayRoute(geo, "orange");
+          try{
+            const response = await services.calculateRoute({ key, locations })
+            const geo = response.toGeoJson();
+            displayRoute(geo, "orange");
+          } catch(err){
+            console.log(err);
+          }          
         }
       }
     }

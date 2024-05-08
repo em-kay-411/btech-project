@@ -14,9 +14,9 @@ bool flag = false;
 
 
 // Replace with your network credentials
-const char *ssid = "Galaxy M3194C2";
-const char *password = "eeyy6643";
-const char *server = "192.168.199.186";
+const char *ssid = "M.A.S_Sheel_2.4ghZ";
+const char *password = "masyamatlal";
+const char *server = "192.168.0.118";
 
 PubSubClient client(server, 1883, wifiClient);
 

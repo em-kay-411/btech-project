@@ -14,9 +14,9 @@ SoftwareSerial ss(4, 5);  // The serial connection to the GPS device
 const char *busID = "12345";
 String busIDString = "12345";
 const char *clientID = "12345";
-const char *ssid = "Galaxy M3194C2";
-const char *password = "eeyy6643";
-const char *server = "192.168.199.186";
+const char *ssid = "M.A.S_Sheel_2.4ghZ";
+const char *password = "masyamatlal";
+const char *server = "192.168.0.118";
 const char *backendPort = "3050";
 const char *MAPS_API_KEY = "YwnGgYME2e9Yhc5cENrbjM5NyRibrscM";
 DynamicJsonDocument routeDoc(64);
@@ -220,9 +220,11 @@ void setup() {
   
   Serial.println("Connected to MQTT Broker !");
 
-  String requestBody = "{\"bus\" : \"" + String(busID) + "\"}";
+  
+  String command = "connect/" + busIDString;
+  client.publish("universal", command.c_str());
 
-
+  String requestBody = "{\"bus\" : \"" + String(busID) + "\", \"fromBus\" : \"true\" }";
   HTTPClient http;
   // Serial.print("Htting to ");
   // Serial.println(busRouteEndpoint);
