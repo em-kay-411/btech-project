@@ -16,7 +16,7 @@ String busIDString = "12345";
 const char *clientID = "12345";
 const char *ssid = "M.A.S_Sheel_2.4ghZ";
 const char *password = "masyamatlal";
-const char *server = "192.168.0.118";
+const char *server = "192.168.0.102";
 const char *backendPort = "3050";
 const char *MAPS_API_KEY = "YwnGgYME2e9Yhc5cENrbjM5NyRibrscM";
 DynamicJsonDocument routeDoc(64);
@@ -39,6 +39,7 @@ float latitude, longitude;
 int year, month, date, hour, minute, second;
 String date_str, time_str, lat_str, lng_str;
 int pm;
+JsonObject nextStation;
 
 float calculateHaversineDistance(String lat1_string, String long1_string, String lat2_string, String long2_string){
   float lat1 = atof(lat1_string.c_str());
@@ -255,8 +256,8 @@ void setup() {
 void loop() {
   client.loop();
   DynamicJsonDocument jsonDoc(128);
-  latitude = 18.61074;
-  longitude = 73.74401;
+  latitude = 18.5350;
+  longitude = 73.8762;
   String latitude_string = String(latitude, 6);
   String longitude_string = String(longitude, 6);
   jsonDoc["latitude"] = latitude_string;
@@ -264,8 +265,15 @@ void loop() {
   jsonDoc["location"] = getLocationAddress(latitude, longitude);
   jsonDoc["nextStation"] = getStationInfo(currentStationIndex);
   jsonDoc["previousStation"] = getStationInfo(currentStationIndex - 1);
+
+  // for(int i=0; i<route.size(); i++){
+  //   JsonObject iter = route[i].as<JsonObject>();
+  //   Serial.println(String(iter["name"]));
+  // }
+
   if (currentStationIndex < route.size() - 1) {
-    JsonObject nextStation = route[currentStationIndex].as<JsonObject>();
+    nextStation = route[currentStationIndex].as<JsonObject>();
+    // Serial.println(String(nextStation["name"]));
     if(calculateHaversineDistance(latitude_string, longitude_string, nextStation["latitude"], nextStation["longitude"]) < 100){
       markCrossed();
 
@@ -274,7 +282,6 @@ void loop() {
       }
     }
     jsonDoc["eta"] = getETA(latitude_string, longitude_string, nextStation["latitude"], nextStation["longitude"]);
-    nextStation.clear();
   } else {
     jsonDoc["eta"] = "Last station reached";
   }
