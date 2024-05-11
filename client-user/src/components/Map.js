@@ -166,19 +166,26 @@ function Map() {
         let i;
 
         for (i = 0; i < route.length; i++) {
-          const popup = new tt.Popup({ closeButton: false }).setText(route[i].name);
-          const marker = new tt.Marker().setLngLat([route[i].longitude, route[i].latitude]).setPopup(popup).addTo(map);
-          markers.push(marker);
+          try{
+            const popup = new tt.Popup({ closeButton: false }).setText(route[i].name);
+            const marker = new tt.Marker().setLngLat([route[i].longitude, route[i].latitude]).setPopup(popup).addTo(map);
+            markers.push(marker);
+          } catch(err){
+            console.log(err);
+          }          
         }
 
         console.log(markers);
 
         if (markers.length) {
-          const locations = markers.map(marker => marker.getLngLat());
-          const response = await services.calculateRoute({ key, locations })
-          const geo = response.toGeoJson();
-          displayRoute(geo, "orange");
-
+          try{
+            const locations = markers.map(marker => marker.getLngLat());
+            const response = await services.calculateRoute({ key, locations })
+            const geo = response.toGeoJson();
+            displayRoute(geo, "orange");
+          } catch(err){
+            console.log(err);
+          }
         }
       }
     }

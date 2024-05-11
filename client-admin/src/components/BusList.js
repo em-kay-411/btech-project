@@ -673,7 +673,7 @@ function BusList({ emergency, setEmergency }) {
                                     <div className="current-location">
                                         {location && `At ${location}`}
                                     </div>
-                                    <div className="next">{nextStation && `Arriving at ${nextStation}`} {eta && `in ${eta} mins`}</div>
+                                    <div className="next">{nextStation && `Arriving at ${nextStation}`} {eta !== 'error' && `in ${eta} mins`}</div>
                                 </div>
                                 <ChatBubbleIcon className='chat-icon' onClick={(event) => { event.stopPropagation(); handleChatClick(busID) }} style={{ zIndex: 5, color: '#c79a46' }} />
                                 <CallIcon className='chat-icon' onClick={(event) => { event.stopPropagation(); handleCallClick(busID) }} style={{ zIndex: 5, color: '#c79a46' }} />
