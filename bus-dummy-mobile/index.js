@@ -6,7 +6,7 @@ const subscribeButton = document.getElementById('subscribe');
 const sendMessageButton = document.getElementById('sendMessage');
 const messageReceived = document.getElementById('message-received');
 const message = document.getElementById('message');
-const MAPS_API_KEY = 'YwnGgYME2e9Yhc5cENrbjM5NyRibrscM';
+const MAPS_API_KEY = 'RmzArsSVUBU4VK33WQDGQJWo2m2IDRwb';
 let prevLatitude;
 let prevLongitude;
 let client;

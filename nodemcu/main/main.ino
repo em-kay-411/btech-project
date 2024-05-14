@@ -18,7 +18,7 @@ const char *ssid = "Galaxy M3194C2";
 const char *password = "eeyy6643";
 const char *server = "192.168.199.186";
 const char *backendPort = "3050";
-const char *MAPS_API_KEY = "YwnGgYME2e9Yhc5cENrbjM5NyRibrscM";
+const char *MAPS_API_KEY = "RmzArsSVUBU4VK33WQDGQJWo2m2IDRwb";
 DynamicJsonDocument routeDoc(64);
 JsonArray route;
 int currentStationIndex = 0;
