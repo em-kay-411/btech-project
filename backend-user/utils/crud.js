@@ -113,8 +113,8 @@ const insertNewBusOnExistingRouteByName = async (id, routeByName) => {
         await busObj.save();
 
         for (let i = 0; i < route.length; i++) {
-            console.log(`Adding bus ${id} to ${route[i].station}`);
-            await Station.findByIdAndUpdate(route[i].station, { $push: { buses: busObj._id } });
+            console.log(`Adding bus ${id} to ${route[i]}`);
+            await Station.findByIdAndUpdate(route[i], { $push: { buses: busObj._id } });
         }
 
         console.log('Route entered succesfully');

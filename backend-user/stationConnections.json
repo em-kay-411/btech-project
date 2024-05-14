@@ -49,7 +49,9 @@
     "Sasoon Hospital",
     "Collector Kacheri",
     "Sasoon Hospital (Collector Kacheri)",
-    "Pune R.T.O.Office"
+    "Pune R.T.O.Office",
+    "Deep Bungalow Chowk",
+    "Pune Station"
   ],
   "Sasoon Hospital": [
     "Gadital Juna Bazar",
@@ -65,7 +67,8 @@
     "Sasoon Hospital (Collector Kacheri)",
     "Pune Station Depot",
     "Ruby Hall",
-    "Pune Station"
+    "Pune Station",
+    "Gadital Juna Bazar"
   ],
   "Swargate": [
     "Swargate",
@@ -5544,7 +5547,9 @@
   ],
   "Deep Bungalow Chowk": [
     "Model Colony",
-    "Dr.Homi Bhabha Hospital"
+    "Dr.Homi Bhabha Hospital",
+    "Gadital Juna Bazar",
+    "Vitthalnagar Ambegaon"
   ],
   "Dr.Homi Bhabha Hospital": [
     "Deep Bungalow Chowk",

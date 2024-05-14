@@ -44,6 +44,7 @@ function BusList({ emergency, setEmergency }) {
     const [mediaRecorder, setMediaRecorder] = useState(null);
     const [onACall, setOnACall] = useState(false);
     const [routes, setRoutes] = useState({});
+    const [markerState, setMarkers] = useState([]);
 
     useEffect(() => {
         function base64ToUint8Array(base64) {
@@ -399,6 +400,7 @@ function BusList({ emergency, setEmergency }) {
                 }
 
                 console.log(markers);
+                setMarkers(markers);
 
                 if (markers.length) {
                     const locations = markers.map(marker => marker.getLngLat());
