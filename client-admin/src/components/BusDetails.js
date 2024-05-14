@@ -12,7 +12,7 @@ function BusDetails(props) {
                     <div className="current-location">
                         Near ({props.latitude}, {props.longitude})
                     </div>
-                    <div className="next">Arriving at {props.nextStation} in {props.eta} mins</div>
+                    <div className="next">Arriving at {props.nextStation} in {props.eta !== 'error' && props.eta} mins</div>
                 </div>
                 <div className="bus-details-route">
                     {props.route.map((station) => {
