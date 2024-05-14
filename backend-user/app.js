@@ -4,7 +4,7 @@ const bodyParser = require('body-parser');
 const dotenv = require('dotenv');
 const cors = require('cors');
 const { findOptionsPOSTReq } = require('./controllers/user');
-const { verifyAdmin, verificationCheck, addBus, getRouteForBus, getStationNameFromID, getStationPositionFromID, getConnectedBuses, markNextStationCrossed } = require('./controllers/admin');
+const { verifyAdmin, verificationCheck, addBus, getRouteForBus, getStationNameFromID, getStationPositionFromID, getConnectedBuses, markNextStationCrossed, getETA } = require('./controllers/admin');
 const mongoose = require('mongoose');
 
 app.use(cors());
@@ -32,6 +32,7 @@ app.post('/stationNameFromID', getStationNameFromID);
 app.post('/stationPosition', getStationPositionFromID);
 app.get('/getConnectedBuses', getConnectedBuses);
 app.post('/markNextStationCrossed', markNextStationCrossed);
+app.get('/getETA', getETA);
 
 app.listen(BACKEND_USER_PORT, () => {
     console.log(`The Backend for user is running on ${BACKEND_USER_PORT}`);

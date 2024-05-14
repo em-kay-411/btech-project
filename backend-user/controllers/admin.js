@@ -2,10 +2,12 @@ const dotenv = require('dotenv');
 dotenv.config();
 const twilio = require('twilio');
 const crypto = require('crypto');
+const axios = require('axios');
 const {insertNewBusOnExistingRouteByName, getBusRoute, getStationNameByID, getStationPositionByID, markNextStationCrossedForBus} = require('../utils/crud')
 const TWILIO_ACCOUNT_AUTH_TOKEN = process.env.TWILIO_ACCOUNT_AUTH_TOKEN;
 const TWILIO_ACCOUNT_SID = process.env.TWILIO_ACCOUNT_SID;
 const TWILIO_SERVICE_ID = process.env.TWILIO_SERVICE_SID;
+const key = process.env.MAPS_API_KEY;
 const client = twilio(TWILIO_ACCOUNT_SID, TWILIO_ACCOUNT_AUTH_TOKEN);
 
 const users = [];
@@ -116,6 +118,19 @@ const markNextStationCrossed = async(req, res) => {
     }
 }
 
+
+const getETA = async (req, res) => {
+    const sourceLatitude = req.query.sourceLat;
+    const sourceLongitude = req.query.sourceLng;
+    const destinationLatitude = req.query.destinationLat;
+    const destinationLongitude = req.query.destinationLng;
+
+    const response = await axios.get(`https://api.tomtom.com/routing/1/calculateRoute/${sourceLatitude},${sourceLongitude}:${destinationLatitude},${destinationLongitude}/json?&vehicleHeading=90&sectionType=traffic&report=effectiveSettings&routeType=eco&traffic=true&avoid=unpavedRoads&travelMode=car&vehicleMaxSpeed=80&vehicleCommercial=false&vehicleEngineType=combustion&key=${key}`)
+
+    const eta = response.data.routes[0].summary.travelTimeInSeconds;
+    res.status(200).json({eta : eta});
+}
+
 // For every new route, send mobile no or hash it to a cookie with every request as it serves authentication
 
 module.exports = {
@@ -126,5 +141,6 @@ module.exports = {
     getRouteForBus,
     getStationNameFromID,
     getConnectedBuses,
-    markNextStationCrossed
+    markNextStationCrossed,
+    getETA
 }
