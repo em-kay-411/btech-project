@@ -24,7 +24,7 @@ JsonArray route;
 int currentStationIndex = 0;
 String busRouteEndpointString = "http://" + String(server) + ":" + String(backendPort) + "/busRoute";
 String reverseGeocodeEndpoint = "https://api.tomtom.com/search/2/reverseGeocode/";
-String etaEndpoint = "https://api.tomtom.com/routing/1/calculateRoute/";
+String etaEndpoint = "http://" + String(server) + ":" + String(backendPort) + "/getETA";
 String locationTopic = "location/" + busIDString;
 String adminToBusTopic = "adminToBus/" + busIDString;
 String markNextStationCrossedEndpoint = "http://" + String(server) + ":" + String(backendPort) + "/markNextStationCrossed";
@@ -131,10 +131,10 @@ String convertSecondsToTime(String time) {
 
 String getETA(String latitude, String longitude, String nextStationLatitude, String nextStationLongitude) {
   HTTPClient http;
-  String endpoint = etaEndpoint + latitude + "," + longitude + ":" + nextStationLatitude + "," + nextStationLongitude + "/json?&sectionType=traffic&report=effectiveSettings&routeType=eco&traffic=true&avoid=unpavedRoads&travelMode=bus&vehicleMaxSpeed=80&vehicleCommercial=true&vehicleEngineType=combustion&key=" + MAPS_API_KEY;
+  String endpoint = etaEndpoint + "?sourceLat=" + latitude + "&sourceLng=" + longitude + "&destinationLat=" + nextStationLatitude + "&destinationLng=" + nextStationLongitude;
   // Serial.print("Htting on ");
-  Serial.println(endpoint);
-  http.begin(wifiClientSecure, endpoint);
+  // Serial.println(endpoint);
+  http.begin(wifiClient, endpoint);
   int responseCode = http.GET();
   // Serial.print("response code");
   // Serial.println(responseCode);
@@ -143,12 +143,9 @@ String getETA(String latitude, String longitude, String nextStationLatitude, Str
     String jsonString = http.getString();
     DynamicJsonDocument jsonDoc(jsonString.length());
     deserializeJson(jsonDoc, jsonString);
-    JsonArray routes = jsonDoc["routes"].as<JsonArray>();
-    JsonObject requiredRoute = routes[0].as<JsonObject>();
-    JsonObject summary = requiredRoute["summary"].as<JsonObject>();
     // Serial.print("Travel time");
     // Serial.println(summary["travelTimeInSeconds"].as<String>());
-    String eta = convertSecondsToTime(String(summary["travelTimeInSeconds"]));
+    String eta = convertSecondsToTime(String(jsonDoc["eta"]));
     jsonDoc.clear();
     return eta;
   }
