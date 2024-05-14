@@ -6,17 +6,18 @@
 #include "PubSubClient.h"
 
 WiFiClient wifiClient;
-const char  * busID = "12345";
-const char * clientID = busID;
+const char *busID = "12345";
+const char *clientID = "12345TX";
 String busIDString = "12345";
 String busToAdminTopic = "busToAdmin/" + busIDString;
+String adminToBusTopic = "adminToBus/" + busIDString;
 bool flag = false;
 
 
 // Replace with your network credentials
-const char *ssid = "M.A.S_Sheel_2.4ghZ";
-const char *password = "masyamatlal";
-const char *server = "192.168.0.118";
+const char *ssid = "Galaxy M3194C2";
+const char *password = "eeyy6643";
+const char *server = "192.168.199.186";
 
 PubSubClient client(server, 1883, wifiClient);
 
@@ -37,6 +38,18 @@ WebSocketsServer webSocket = WebSocketsServer(81);  // WebSocket server on port 
 const int sampleRate = 8000;          // Sample rate for PCM encoding
 const int numSamplesPerPacket = 256;  // Number of samples to send per WebSocket packet
 
+void callback(char *topic, byte *payload, unsigned int length) {
+  payload[length] = '\0';
+  Serial.println("Message Receoved");
+
+  if (strcmp((char *)payload, "Route Changed") == 0) {
+    ESP.restart();
+  } else {
+    Serial.print("Message received from control centre - ");
+    Serial.println((char *)payload);
+  }
+}
+
 void setup() {
   Serial.begin(115200);
 
@@ -50,10 +63,20 @@ void setup() {
   Serial.println("WiFi connected");
   Serial.println(WiFi.localIP());
 
-  while (!client.connect(clientID)) {    
-    delay(500); 
-    Serial.println("Connection to MQTT Broker failed…");       
+  while (!client.connect(clientID)) {
+    delay(500);
+    Serial.println("Connection to MQTT Broker failed…");
   }
+
+  client.setCallback(callback);
+
+  if (client.subscribe(adminToBusTopic.c_str())) {
+    Serial.print("Subscribed to topic");
+    Serial.println(adminToBusTopic);
+  } else {
+    Serial.println("Subscrbe failed");
+  }
+
 
   delay(5000);
   pinMode(microphonePin, INPUT);
@@ -69,20 +92,19 @@ void setup() {
 
   String ipAddress = "";
 
-  for(int i=0; i<4; i++){
+  for (int i = 0; i < 4; i++) {
     ipAddress += String(localIP[i]);
-    if(i < 3){
+    if (i < 3) {
       ipAddress += ".";
     }
   }
 
-  
+
   String command = "connect-ip/" + busIDString + "/" + ipAddress;
-  while(!client.publish("universal", command.c_str())){
+  while (!client.publish("universal", command.c_str())) {
     Serial.println(client.state());
     Serial.println("unable to publish");
   }
-  
 }
 
 void convertIntArrayToBinary(int *intArray, uint8_t *binaryData, size_t arrayLength) {
@@ -92,12 +114,20 @@ void convertIntArrayToBinary(int *intArray, uint8_t *binaryData, size_t arrayLen
 
 void loop() {
   webSocket.loop();  // Handle WebSocket events
-  if(!client.connected()){
-    while (!client.connect(clientID)) {    
-      delay(500); 
-      Serial.println("Connection to MQTT Broker failed…");       
+  if (!client.connected()) {
+    while (!client.connect(clientID)) {
+      delay(500);
+      Serial.println("Connection to MQTT Broker failed…");
+    }
+
+    if (client.subscribe(adminToBusTopic.c_str())) {
+      Serial.print("Subscribed to topic");
+      Serial.println(adminToBusTopic);
+    } else {
+      Serial.println("Subscrbe failed");
     }
   }
+
 
   present_condition = previous_condition;
 
@@ -105,17 +135,15 @@ void loop() {
   int fire = digitalRead(fireSensor);
   present_condition = digitalRead(vibrationSensor);
 
-  if(previous_condition != present_condition && fire == 0){
+  if (previous_condition != present_condition && fire == 0) {
     Serial.println("Accident and fire detected");
     String message = "emergency/FireAndAccident";
     client.publish(busToAdminTopic.c_str(), message.c_str());
-  }
-  else if(previous_condition != present_condition){
+  } else if (previous_condition != present_condition) {
     Serial.println("Accident detected");
     String message = "emergency/accident";
     client.publish(busToAdminTopic.c_str(), message.c_str());
-  }
-  else if(fire == 0){
+  } else if (fire == 0) {
     Serial.println("FIre detected");
     String message = "emergency/fire";
     client.publish(busToAdminTopic.c_str(), message.c_str());
@@ -125,7 +153,7 @@ void loop() {
 
   if (prev_button_state == HIGH && button_state == LOW) {
     Serial.println("button pressed");
-    if(!flag){
+    if (!flag) {
       String IPString = "connect-voice/" + busIDString;
       client.publish(busToAdminTopic.c_str(), IPString.c_str());
       flag = true;
@@ -138,7 +166,7 @@ void loop() {
   }
   delay(5);  // Adjust delay as needed
 
-  if(flag){   
+  if (flag) {
     int16_t analogValues[numSamplesPerPacket];
 
     for (int i = 0; i < numSamplesPerPacket; i++) {
@@ -146,15 +174,15 @@ void loop() {
       analogValues[i] = sensorValue;
       Serial.println(sensorValue);
     }
-    webSocket.broadcastBIN((uint8_t*)(analogValues), numSamplesPerPacket * sizeof(int16_t));
+    webSocket.broadcastBIN((uint8_t *)(analogValues), numSamplesPerPacket * sizeof(int16_t));
   }
   prev_button_state = button_state;
 }
 
 void webSocketEvent(uint8_t num, WStype_t type, uint8_t *payload, size_t length) {
-  switch(type){
+  switch (type) {
     case WStype_BIN:
-      for(size_t i=0; i<length; i++){
+      for (size_t i = 0; i < length; i++) {
         Serial.println(payload[i]);
       }
       break;

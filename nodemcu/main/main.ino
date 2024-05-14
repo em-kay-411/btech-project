@@ -14,9 +14,9 @@ SoftwareSerial ss(4, 5);  // The serial connection to the GPS device
 const char *busID = "12345";
 String busIDString = "12345";
 const char *clientID = "12345";
-const char *ssid = "M.A.S_Sheel_2.4ghZ";
-const char *password = "masyamatlal";
-const char *server = "192.168.0.102";
+const char *ssid = "Galaxy M3194C2";
+const char *password = "eeyy6643";
+const char *server = "192.168.199.186";
 const char *backendPort = "3050";
 const char *MAPS_API_KEY = "YwnGgYME2e9Yhc5cENrbjM5NyRibrscM";
 DynamicJsonDocument routeDoc(64);
@@ -41,7 +41,7 @@ String date_str, time_str, lat_str, lng_str;
 int pm;
 JsonObject nextStation;
 
-float calculateHaversineDistance(String lat1_string, String long1_string, String lat2_string, String long2_string){
+float calculateHaversineDistance(String lat1_string, String long1_string, String lat2_string, String long2_string) {
   float lat1 = atof(lat1_string.c_str());
   float long1 = atof(long1_string.c_str());
   float lat2 = atof(lat2_string.c_str());
@@ -55,8 +55,8 @@ float calculateHaversineDistance(String lat1_string, String long1_string, String
   float dLat = x2 - x1;
   float dLon = y2 - y1;
 
-  float a = sin(dLat/2) * sin(dLat/2) + cos(x1) * cos(x2) * sin(dLon/2) * sin(dLon/2);
-  float c = 2 * atan2(sqrt(a), sqrt(1-a));
+  float a = sin(dLat / 2) * sin(dLat / 2) + cos(x1) * cos(x2) * sin(dLon / 2) * sin(dLon / 2);
+  float c = 2 * atan2(sqrt(a), sqrt(1 - a));
 
   float distance = EARTH_RADIUS * c;
   Serial.println(distance);
@@ -156,16 +156,15 @@ void callback(char *topic, byte *payload, unsigned int length) {
   payload[length] = '\0';
   Serial.println("Message Receoved");
 
-  if(strcmp((char*)payload, "Route Changed") == 0){
+  if (strcmp((char *)payload, "Route Changed") == 0) {
     ESP.restart();
-  }
-  else{
+  } else {
     Serial.print("Message received from control centre - ");
-    Serial.println((char*)payload);
+    Serial.println((char *)payload);
   }
 }
 
-void markCrossed(){
+void markCrossed() {
   HTTPClient http;
   String requestBody = "{\"busID\" : \"" + String(busID) + "\"}";
   http.begin(wifiClient, markNextStationCrossedEndpoint);
@@ -173,7 +172,7 @@ void markCrossed(){
   int responseCode = http.POST(requestBody);
   Serial.println(responseCode);
 
-  if(responseCode > 0){
+  if (responseCode > 0) {
     Serial.println("Marked Crossed");
     currentStationIndex++;
   }
@@ -181,17 +180,28 @@ void markCrossed(){
   http.end();
 }
 
-void reverseArray(){
+void reverseArray() {
   int i = 0;
   int j = route.size() - 1;
 
-  while(i < j){
+  while (i < j) {
     JsonObject temp = route[i].as<JsonObject>();
     route[i] = route[j];
     route[j] = temp;
 
     i++;
     j--;
+  }
+}
+
+void reconnect() {
+  if (client.connect(clientID)) {
+    if (client.subscribe(adminToBusTopic.c_str())) {
+      Serial.print("Subscribed to topic");
+      Serial.println(adminToBusTopic);
+    } else {
+      Serial.println("Subscrbe failed");
+    }
   }
 }
 
@@ -213,15 +223,15 @@ void setup() {
   Serial.println(WiFi.localIP());
 
   wifiClientSecure.setInsecure();
-  while (!client.connect(clientID)) {    
-    delay(500); 
-    Serial.println("Connection to MQTT Broker failed…");     
-    Serial.println(client.state());  
+  while (!client.connect(clientID)) {
+    delay(500);
+    Serial.println("Connection to MQTT Broker failed…");
+    Serial.println(client.state());
   }
-  
+
   Serial.println("Connected to MQTT Broker !");
 
-  
+
   String command = "connect/" + busIDString;
   client.publish("universal", command.c_str());
 
@@ -239,11 +249,12 @@ void setup() {
     route = routeDoc["route"].as<JsonArray>();
   }
   client.setBufferSize(512);
+  client.setCallback(callback);
   http.end();
 
-  while(currentStationIndex < route.size()){
+  while (currentStationIndex < route.size()) {
     JsonObject temp = route[currentStationIndex].as<JsonObject>();
-    if(!temp["crossed"]){
+    if (!temp["crossed"]) {
       break;
     }
     currentStationIndex++;
@@ -254,6 +265,10 @@ void setup() {
 }
 
 void loop() {
+  if (!client.connected()) {
+    Serial.println("conecting to cilnet");
+    reconnect();
+  }
   client.loop();
   DynamicJsonDocument jsonDoc(128);
   latitude = 18.5350;
@@ -266,6 +281,12 @@ void loop() {
   jsonDoc["nextStation"] = getStationInfo(currentStationIndex);
   jsonDoc["previousStation"] = getStationInfo(currentStationIndex - 1);
 
+  // if (!client.connected()) {
+  //   Serial.println("conecting to cilnet");
+  //   reconnect();
+  // }
+
+  Serial.println(client.connected());
   // for(int i=0; i<route.size(); i++){
   //   JsonObject iter = route[i].as<JsonObject>();
   //   Serial.println(String(iter["name"]));
@@ -274,10 +295,10 @@ void loop() {
   if (currentStationIndex < route.size() - 1) {
     nextStation = route[currentStationIndex].as<JsonObject>();
     // Serial.println(String(nextStation["name"]));
-    if(calculateHaversineDistance(latitude_string, longitude_string, nextStation["latitude"], nextStation["longitude"]) < 100){
+    if (calculateHaversineDistance(latitude_string, longitude_string, nextStation["latitude"], nextStation["longitude"]) < 100) {
       markCrossed();
 
-      if(currentStationIndex == route.size() - 1){
+      if (currentStationIndex == route.size() - 1) {
         reverseArray();
       }
     }
@@ -286,7 +307,10 @@ void loop() {
     jsonDoc["eta"] = "Last station reached";
   }
 
-  
+  // if (!client.connected()) {
+  //   Serial.println("conecting to cilnet");
+  //   reconnect();
+  // }
 
   // Convert JSON object to a string
   String jsonString;
@@ -299,29 +323,11 @@ void loop() {
     Serial.println("Location sent!");
   } else {
     Serial.println("Location failed to send.Reconnecting to MQTT Broker and trying again");
-    if (client.connect(clientID)) {
-      delay(50);  // This delay ensures that client.publish doesn’t clash with the client.connect call
-      // Serial.print("SIze");
-      // Serial.println(jsonString.length());
-      client.setBufferSize(512);
-      delay(50);
-      if(client.subscribe(adminToBusTopic.c_str())){
-        Serial.print("Subscribed to topic");
-        Serial.println(adminToBusTopic);
-      }
-      else{
-        Serial.println("Subscrbe failed");
-      }      
-      delay(50);
-      client.setCallback(callback);
-      delay(50);
-      if (client.publish(locationTopic.c_str(), jsonString.c_str())) {
-        Serial.println("connected and sent");
-      } else {
-        Serial.println("unable to send");
-      }
+    reconnect();
+    if (client.publish(locationTopic.c_str(), jsonString.c_str())) {
+      Serial.println("connected and sent");
     } else {
-      Serial.println("unable to connect");
+      Serial.println("unable to send");
     }
   }
 
