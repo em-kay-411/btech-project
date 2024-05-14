@@ -68,8 +68,8 @@ window.env = {
   "npm_node_execpath": "/Users/emkay/.nvm/versions/node/v19.8.1/bin/node",
   "npm_config_prefix": "/Users/emkay/.nvm/versions/node/v19.8.1",
   "COLORTERM": "truecolor",
-  "BACKEND_API_URL": "http://192.168.0.102:3050",
-  "MQTT_BROKER_URL": "ws://192.168.0.102:9001",
+  "BACKEND_API_URL": "http://192.168.199.186:3050",
+  "MQTT_BROKER_URL": "ws://192.168.199.186:9001",
   "MAPS_API_KEY": "YwnGgYME2e9Yhc5cENrbjM5NyRibrscM",
-  "SOCKET_URL": "http://192.168.0.102:5000"
+  "SOCKET_URL": "http://192.168.199.186:5000"
 };
