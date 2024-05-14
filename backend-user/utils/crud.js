@@ -98,6 +98,7 @@ const insertNewBusOnExistingRouteByName = async (id, routeByName) => {
     console.log(route);
 
     const routeArray = route.map((element) => {
+        console.log(element);
         return ({
             station : element,
             crossed : false

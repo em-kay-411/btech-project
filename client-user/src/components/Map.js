@@ -190,6 +190,10 @@ function Map() {
       }
     }
 
+    for(let layer of layers){
+      map.removeLayer({id : layer});
+    }
+
     for (const [key] of Object.entries(routes)) {
       console.log('checking', routes);
       if (routes[key]) {
