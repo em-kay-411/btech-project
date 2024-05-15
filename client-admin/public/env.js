@@ -70,6 +70,6 @@ window.env = {
   "COLORTERM": "truecolor",
   "BACKEND_API_URL": "http://192.168.199.186:3050",
   "MQTT_BROKER_URL": "ws://192.168.199.186:9001",
-  "MAPS_API_KEY": "YwnGgYME2e9Yhc5cENrbjM5NyRibrscM",
+  "MAPS_API_KEY": "RmzArsSVUBU4VK33WQDGQJWo2m2IDRwb",
   "SOCKET_URL": "http://192.168.199.186:5000"
 };
