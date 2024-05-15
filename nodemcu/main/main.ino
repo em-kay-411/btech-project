@@ -31,6 +31,7 @@ String markNextStationCrossedEndpoint = "http://" + String(server) + ":" + Strin
 const char *busRouteEndpoint = busRouteEndpointString.c_str();
 WiFiClient wifiClient;
 WiFiClientSecure wifiClientSecure;
+WiFiClient wifiClientHTTP;
 
 // 1883 is the listener port for the Broker
 PubSubClient client(server, 1883, wifiClient);
@@ -125,10 +126,10 @@ String convertSecondsToTime(String time) {
 
 String getETA(String latitude, String longitude, String nextStationLatitude, String nextStationLongitude) {
   HTTPClient http;
-  String endpoint = etaEndpoint + latitude + "," + longitude + ":" + nextStationLatitude + "," + nextStationLongitude + "/json?&sectionType=traffic&report=effectiveSettings&routeType=eco&traffic=true&avoid=unpavedRoads&travelMode=bus&vehicleMaxSpeed=80&vehicleCommercial=true&vehicleEngineType=combustion&key=" + MAPS_API_KEY;
+  String endpoint = etaEndpoint + "?sourceLat=" + latitude + "&sourceLng=" + longitude + "&destinationLat=" + nextStationLatitude + "&destinationLng=" + nextStationLongitude;
   // Serial.print("Htting on ");
   // Serial.println(endpoint);
-  http.begin(wifiClientSecure, endpoint);
+  http.begin(wifiClientHTTP, endpoint);
   int responseCode = http.GET();
   // Serial.print("response code");
   // Serial.println(responseCode);
@@ -137,12 +138,9 @@ String getETA(String latitude, String longitude, String nextStationLatitude, Str
     String jsonString = http.getString();
     DynamicJsonDocument jsonDoc(jsonString.length());
     deserializeJson(jsonDoc, jsonString);
-    JsonArray routes = jsonDoc["routes"].as<JsonArray>();
-    JsonObject requiredRoute = routes[0].as<JsonObject>();
-    JsonObject summary = requiredRoute["summary"].as<JsonObject>();
     // Serial.print("Travel time");
     // Serial.println(summary["travelTimeInSeconds"].as<String>());
-    String eta = convertSecondsToTime(String(summary["travelTimeInSeconds"]));
+    String eta = convertSecondsToTime(String(jsonDoc["eta"]));
     jsonDoc.clear();
     return eta;
   }

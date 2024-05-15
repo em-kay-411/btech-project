@@ -31,6 +31,7 @@ String markNextStationCrossedEndpoint = "http://" + String(server) + ":" + Strin
 const char *busRouteEndpoint = busRouteEndpointString.c_str();
 WiFiClient wifiClient;
 WiFiClientSecure wifiClientSecure;
+WiFiClient wifiClientHTTP;
 
 // 1883 is the listener port for the Broker
 PubSubClient client(server, 1883, wifiClient);
@@ -134,7 +135,7 @@ String getETA(String latitude, String longitude, String nextStationLatitude, Str
   String endpoint = etaEndpoint + "?sourceLat=" + latitude + "&sourceLng=" + longitude + "&destinationLat=" + nextStationLatitude + "&destinationLng=" + nextStationLongitude;
   // Serial.print("Htting on ");
   // Serial.println(endpoint);
-  http.begin(wifiClient, endpoint);
+  http.begin(wifiClientHTTP, endpoint);
   int responseCode = http.GET();
   // Serial.print("response code");
   // Serial.println(responseCode);
@@ -318,6 +319,7 @@ void loop() {
   //   Serial.println("conecting to cilnet");
   //   reconnect();
   // }
+  Serial.println(client.connected());
 
   // Convert JSON object to a string
   String jsonString;
