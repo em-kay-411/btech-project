@@ -8,6 +8,7 @@ import mqtt from 'mqtt';
 import { useBusesToTrack } from './BusesToTrackContext';
 const backendURL = env.BACKEND_API_URL;
 const brokerURL = env.MQTT_BROKER_URL;
+const key = env.MAPS_API_KEY;
 const client = mqtt.connect(brokerURL);
 
 function DetailedOptionCard(props) {
@@ -89,8 +90,24 @@ function DetailedOptionCard(props) {
 
     }, []);
 
+    function convertSecondsToTime(seconds) {
+        var hours = Math.floor(seconds / 3600);
+        var minutes = Math.floor((seconds % 3600) / 60);
+        var remainingSeconds = seconds % 60;
+    
+        var timeString = '';
+        if (hours > 0) {
+            timeString += hours + ' hour(s) ';
+        }
+        if (minutes > 0) {
+            timeString += minutes + ' minute(s) ';
+        }
+    
+        return timeString.trim();
+    }
+
     useEffect(() => {
-        const handleMessage = (topic, message) => {
+        const handleMessage = async (topic, message) => {
             const mqttTopic = topic.split('/')[0];
             const busID = topic.split('/')[1];
             if (mqttTopic === 'location') {
@@ -101,6 +118,9 @@ function DetailedOptionCard(props) {
                 const nextStation = data.nextStation;
                 const previousStation = data.previousStation;
                 const eta = data.eta ? data.eta : busInfo[busID].eta;
+                const response = await axios.get(`https://api.tomtom.com/routing/1/calculateRoute/${latitude},${longitude}:${props.source.latitude},${props.source.longitude}/json?&vehicleHeading=90&sectionType=traffic&report=effectiveSettings&routeType=eco&traffic=true&avoid=unpavedRoads&travelMode=car&vehicleMaxSpeed=80&vehicleCommercial=false&vehicleEngineType=combustion&key=${key}`)
+
+                const expected = convertSecondsToTime(response.data.routes[0].summary.travelTimeInSeconds);
 
                 setBusInfo(prevState => {
                     return {
@@ -111,7 +131,8 @@ function DetailedOptionCard(props) {
                             location: location,
                             nextStation: nextStation,
                             previousStation: previousStation,
-                            eta: eta
+                            eta: eta,
+                            expected : expected
                         }
                     }
                 })
@@ -166,9 +187,10 @@ function DetailedOptionCard(props) {
                             {transit.source} to {transit.destination}
                             <div className="transit-buses">
                                 {buses.map((bus) => {
-                                    const { latitude, longitude, location, nextStation, previousStation, eta } = busInfo[bus.id];
+                                    const { latitude, longitude, location, nextStation, previousStation, eta, expected } = busInfo[bus.id];
                                     try {
                                         return (
+                                            <>
                                             <div className="bus" key={bus.id} onClick={() => handleTransitDetailsClick(bus)}>
                                                 <div className="bus-number-detailed-option-card">{bus.id}</div>
                                                 <div className="prev-station-detailed-option-card">{previousStation !== '' && (previousStation == 'Began journey' ? `Began journey` : `Crossed ${previousStation}`)}</div>
@@ -177,6 +199,9 @@ function DetailedOptionCard(props) {
                                                 </div>
                                                 <div className="next-station-detailed-option-card">{nextStation && `Arriving at ${nextStation}`} {eta && `in ${eta}`}</div>
                                             </div>
+                                            <div className="expected">{`Expected to reach source in ${expected}`}</div>
+                                            </>
+                                            
                                         );
                                     } catch (err) {
                                         return null;

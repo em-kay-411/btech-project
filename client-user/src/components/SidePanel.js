@@ -14,6 +14,7 @@ function SidePanel() {
     const backendURL = env.BACKEND_API_URL;
     const [source, setSource] = useState('');
     const [destination, setDestination] = useState('');
+    const [sourceLocation, setSourceLocation] = useState({latitude : null, longitude : null});
     const [loading, setLoading] = useState(false);
     const [options, setOptions] = useState([]);
     const [detailedOptionCard, setDetailedOptionCard] = useState([]);
@@ -30,6 +31,7 @@ function SidePanel() {
         try {
             const response = await axios.post(backendURL, requestBody);
             setOptions(response.data.options);
+            setSourceLocation(response.data.source);
             setLoading(false);
         }
         catch (error) {
@@ -107,7 +109,7 @@ function SidePanel() {
                     })}
                 </div>
             </div>
-            {(detailedOptionCard.length > 0) && <DetailedOptionCard option={detailedOptionCard} setDetailedOptionCard={setDetailedOptionCard}/>}
+            {(detailedOptionCard.length > 0) && <DetailedOptionCard source={sourceLocation} option={detailedOptionCard} setDetailedOptionCard={setDetailedOptionCard}/>}
         </>
     )
 }
